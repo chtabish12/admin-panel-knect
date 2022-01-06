@@ -1,0 +1,19 @@
+import React from "react";
+
+// styles
+import useStyles from "./styles";
+
+// components
+import { Typography } from "../Wrappers/Wrappers.js";
+
+export default function PageTitle(props) {
+  const classes = useStyles();
+
+  return (
+    <div className={classes.pageTitleContainer}>
+      <Typography className={classes.typo} variant="h1" size="sm">
+        {props.title}
+      </Typography>
+    </div>
+  );
+}

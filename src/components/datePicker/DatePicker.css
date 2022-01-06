@@ -1,0 +1,9 @@
+.date-button{
+    padding: 11px;
+    cursor: pointer;
+    outline: none;
+    border: 1px solid #8080808f;
+    border-radius: 5px;
+    background-color: white;
+    float: left;
+}
