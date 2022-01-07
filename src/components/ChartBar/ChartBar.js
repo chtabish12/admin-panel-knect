@@ -22,20 +22,20 @@ import { BASE_URL } from "../../../src/Constants";
 
 const legendStyles = () => ({
   root: {
-    // display: "flex",
-    // margin: "0",
-    // padding: "22px",
-    // flexWrap: "wrap !important",
-    // flexDirection: "column !important",
-    // height: "15vh !important",
-    // fontSize: "0.7rem !important",
-    // position: 'absolute'
+    display: "flex",
+    margin: "0",
+    padding: "22px",
+    flexWrap: "wrap !important",
+    flexDirection: "column !important",
+    height: "15vh !important",
+    fontSize: "0.7rem !important",
+    width: "40%",
 
-    display: 'flex',
-    margin: 'auto',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    position : 'absolute'
+    // display: 'flex',
+    // margin: 'auto',
+    // flexDirection: 'row',
+    // flexWrap: 'wrap',
+    // position : 'absolute'
   },
 
 //   "Component-root-98": {
@@ -214,6 +214,7 @@ const ChartBar = () => {
             ))}
             <Animation />
              <Legend
+             size="small"
               position="bottom"
               rootComponent={Root}
               labelComponent={Label}
