@@ -22,22 +22,22 @@ import { BASE_URL } from "../../../src/Constants";
 
 const legendStyles = () => ({
   root: {
-    display: "flex",
-    margin: "0",
-    padding: "22px",
-    flexWrap: "wrap !important",
-    flexDirection: "column !important",
-    height: "15vh !important",
-    fontSize: "0.7rem !important",
-    // // height:" 50vh !important",
-    // margin: "0 !important",
     // display: "flex",
-    // padding: "0px !important",
+    // margin: "0",
+    // padding: "22px",
     // flexWrap: "wrap !important",
-    // fontSize:" 0.4rem !important",
     // flexDirection: "column !important",
-    // width: "21vw",
+    // height: "15vh !important",
+    // fontSize: "0.7rem !important",
+    // position: 'absolute'
+
+    display: 'flex',
+    margin: 'auto',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    position : 'absolute'
   },
+
 //   "Component-root-98": {
 //     height: "100vh !important"
 // },
@@ -106,7 +106,7 @@ const ChartBar = () => {
     fetchData(productArrayValue, serviceArrayValue);
   };
 
-  const fetchData = async (productIds = [5], servicesIds = []) => {
+  const fetchData = async (productIds = [], servicesIds = []) => {
     let startdate = "2021-12-22";
     // let startdate = moment(new Date().getDate() - 15).format('YYYY-MM-DD');
     let enddate = moment(new Date()).format("YYYY-MM-DD");
@@ -205,6 +205,7 @@ const ChartBar = () => {
             <ValueAxis max={2400} />
             {seriesData?.map((s, key) => (
               <BarSeries
+                // style=
                 name={s}
                 valueField={s}
                 key={key}
@@ -212,12 +213,12 @@ const ChartBar = () => {
               />
             ))}
             <Animation />
-            <Legend
+             <Legend
               position="bottom"
               rootComponent={Root}
               labelComponent={Label}
-              className="legend"
-            />
+              orientation="horizontal"
+              />
             <Title text="Revenue Chart" />
             <div className="chartLabel">
               {
