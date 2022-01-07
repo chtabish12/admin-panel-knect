@@ -56,10 +56,19 @@ export default function ReportsPage() {
   }
 
   const fetchData = async () => {
-    let servicesIds = serviceSelect[0].value;
+    let serviceArrayValue = [];
+    let productArrayValue = [];
+    for (let x = 0; x < serviceSelect.length; x++) {
+      serviceArrayValue.push(serviceSelect[x].value);
+    }
+    for (let x = 0; x < productSelect.length; x++) {
+      productArrayValue.push(productSelect[x].value);
+    }
+    
+    let servicesIds = serviceArrayValue.join(",");
     let startdate = moment(startDate).format("YYYY-MM-DD");
     let enddate = moment(endDate).format("YYYY-MM-DD");
-    let productIds = productSelect[0].value;
+    let productIds = productArrayValue.join(",");
 
     const url = `${BASE_URL}services/report?serviceIds=${servicesIds}&startDate='${startdate}'&endDate='${enddate}'&productIds=${productIds}`;
     let fetchCall = await fetch(url, {
@@ -112,7 +121,7 @@ export default function ReportsPage() {
               // hasSelectAll={false}
             />
           </div>
-          <div className="header-right">
+          <div className="header-right-reporting">
             <div>
               Start date
               <DatePicker
@@ -127,16 +136,17 @@ export default function ReportsPage() {
                 onChange={(date) => setEndDate(date)}
               />
             </div>
+            <div className="button-reporting">
             <Button
-              className="button"
               type="submit"
               variant="contained"
               color="primary"
               size="medium"
-              disabled={(!productSelect.length, !serviceSelect.length)}
+              disabled={(!productSelect.length || !serviceSelect.length)}
             >
               Submit
             </Button>
+            </div>
           </div>
         </form>
       </div>
@@ -189,8 +199,8 @@ export default function ReportsPage() {
                                   : 0}
                               </td>
                               <td>
-                                {state.renewalPercentage
-                                  ? state.renewalPercentage
+                                {Math.floor(state.renewalPercentage *100) + '%'
+                                  ? Math.floor(state.renewalPercentage *100) + '%'
                                   : 0}
                               </td>
                               <td>
@@ -203,8 +213,8 @@ export default function ReportsPage() {
                               </td>
                               <td>{state.totalBase ? state.totalBase : 0}</td>
                               <td>
-                                {state.chargingPercentage
-                                  ? state.chargingPercentage
+                                {Math.floor(state.chargingPercentage*100) + '%'
+                                  ? Math.floor(state.chargingPercentage*100) + '%'
                                   : 0}
                               </td>
                             </tr>

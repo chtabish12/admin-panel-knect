@@ -14,11 +14,10 @@ import { toast } from "react-toastify";
 import moment from "moment";
 // import { useForm } from "react-hook-form";
 import { MultiSelect } from "react-multi-select-component";
-import DatePicker from "react-datepicker";
+// import DatePicker from "react-datepicker";
 import { withStyles } from "@material-ui/core/styles";
 import { Stack, Animation } from "@devexpress/dx-react-chart";
 import "./ChartBar.css";
-import "../ChartBar/ChartBar.css";
 import { BASE_URL } from "../../../src/Constants";
 
 const legendStyles = () => ({
@@ -30,8 +29,18 @@ const legendStyles = () => ({
     flexDirection: "column !important",
     height: "15vh !important",
     fontSize: "0.7rem !important",
-    // height: "90vh !important"
+    // // height:" 50vh !important",
+    // margin: "0 !important",
+    // display: "flex",
+    // padding: "0px !important",
+    // flexWrap: "wrap !important",
+    // fontSize:" 0.4rem !important",
+    // flexDirection: "column !important",
+    // width: "21vw",
   },
+//   "Component-root-98": {
+//     height: "100vh !important"
+// },
 });
 const legendRootBase = ({ classes, ...restProps }) => (
   <Legend.Root {...restProps} className={classes.root} />
@@ -39,7 +48,8 @@ const legendRootBase = ({ classes, ...restProps }) => (
 const Root = withStyles(legendStyles, { name: "LegendRoot" })(legendRootBase);
 const legendLabelStyles = () => ({
   label: {
-    whiteSpace: "nowrap",
+    // whiteSpace: "nowrap",
+    fontSize: "0.4rem !important"
   },
 });
 const legendLabelBase = ({ classes, ...restProps }) => (
@@ -54,8 +64,8 @@ const ChartBar = () => {
   // local
   const [productSelect, setProductSelect] = useState([]);
   const [serviceSelect, setServiceSelect] = useState([]);
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
+  // const [startDate, setStartDate] = useState();
+  // const [endDate, setEndDate] = useState();
   // API
   const [mystate, setmyState] = useState([]);
   // const { handleSubmit } = useForm();

@@ -70,3 +70,29 @@
     color: red;
   }
   
+  .form{
+    position: relative;
+    display: flex;
+    width: auto;
+    margin: auto;
+    align-items: center;
+}
+.chartPage{
+    position:sticky;
+}
+.chartLabel{
+    font-size: 0.7rem;
+}
+.multiSelect{
+    width: 200px;
+    margin: 10px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+.header-right-reporting{
+    display: flex;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-left: 12px;
+}
+.button-reporting{
+    margin-top: 14px;
+}
