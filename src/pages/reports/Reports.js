@@ -37,24 +37,26 @@ export default function ReportsPage() {
   // API DATA from login
   let productArray = [];
   const ApiData = JSON.parse(localStorage.getItem("api-data"));
-  for (let x = 0; x < ApiData.length; x++) {
-    productArray.push({
-      value: ApiData[x].product.id,
-      label: ApiData[x].product.name,
-    });
-  }
+
+  console.log("Api Response", ApiData);
+
+  for (let i = 0; i < ApiData.length; i++)
+    for (let x = 0; x < ApiData[i].products.length; x++) {
+      productArray.push({
+        value: ApiData[i].products[x].id,
+        label: ApiData[i].products[x].name,
+      });
+    }
+  console.log("Array", productArray);
   let serviceArray = [];
   for (let x = 0; x < ApiData.length; x++) {
-    for (let i = 0; i < ApiData[x].services.length; i++) {
-      if (ApiData[x].services[i] !== null) {
-        serviceArray.push({
-          value: ApiData[x].services[i].id,
-          label: ApiData[x].services[i].name,
-        });
-      }
+    for (let i = 0; i < ApiData[0].products[0].services.length; i++) {
+      serviceArray.push({
+        value: ApiData[0].products[0].services[i].id,
+        label: ApiData[0].products[0].services[i].name,
+      });
     }
   }
-
   const fetchData = async () => {
     let serviceArrayValue = [];
     let productArrayValue = [];
@@ -64,7 +66,7 @@ export default function ReportsPage() {
     for (let x = 0; x < productSelect.length; x++) {
       productArrayValue.push(productSelect[x].value);
     }
-    
+
     let servicesIds = serviceArrayValue.join(",");
     let startdate = moment(startDate).format("YYYY-MM-DD");
     let enddate = moment(endDate).format("YYYY-MM-DD");
@@ -137,15 +139,15 @@ export default function ReportsPage() {
               />
             </div>
             <div className="button-reporting">
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              size="medium"
-              disabled={(!productSelect.length || !serviceSelect.length)}
-            >
-              Submit
-            </Button>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                size="medium"
+                disabled={!productSelect.length || !serviceSelect.length}
+              >
+                Submit
+              </Button>
             </div>
           </div>
         </form>
@@ -171,7 +173,7 @@ export default function ReportsPage() {
                 </thead>
                 <tbody>
                   {state
-                    ? state.map((state)=> {
+                    ? state.map((state) => {
                         return (
                           <>
                             <tr>
@@ -199,8 +201,9 @@ export default function ReportsPage() {
                                   : 0}
                               </td>
                               <td>
-                                {Math.floor(state.renewalPercentage *100) + '%'
-                                  ? Math.floor(state.renewalPercentage *100) + '%'
+                                {Math.floor(state.renewalPercentage * 100) + "%"
+                                  ? Math.floor(state.renewalPercentage * 100) +
+                                    "%"
                                   : 0}
                               </td>
                               <td>
@@ -213,8 +216,10 @@ export default function ReportsPage() {
                               </td>
                               <td>{state.totalBase ? state.totalBase : 0}</td>
                               <td>
-                                {Math.floor(state.chargingPercentage*100) + '%'
-                                  ? Math.floor(state.chargingPercentage*100) + '%'
+                                {Math.floor(state.chargingPercentage * 100) +
+                                "%"
+                                  ? Math.floor(state.chargingPercentage * 100) +
+                                    "%"
                                   : 0}
                               </td>
                             </tr>

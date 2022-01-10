@@ -19,38 +19,41 @@ import { withStyles } from "@material-ui/core/styles";
 import { Stack, Animation } from "@devexpress/dx-react-chart";
 import "./ChartBar.css";
 import { BASE_URL } from "../../../src/Constants";
-import '../../styles.css'
+import "../../styles.css";
+import _ from "lodash";
 
 const legendStyles = () => ({
   root: {
     display: "flex",
     margin: "0",
     padding: "22px",
-    // flexWrap: "wrap !important",
-    // flexDirection: "column !important",
-    // height: "15vh !important",
     fontSize: "0.7rem !important",
-    // width: "40%",
-
-    // display: 'flex',
-    // margin: 'auto',
-    // flexDirection: 'row',
-    // flexWrap: 'wrap',
-    // position : 'absolute'
   },
-
-//   "Component-root-98": {
-//     height: "100vh !important"
-// },
+  // "Component-root-98": {
+  //   height: "120vh !important",
+  // },
+  // "LegendRoot-root-105": {
+  //   flexWrap: "wrap !important",
+  //   flexDirection: "column !important",
+  //   width: "100% !important",
+  //   height: "60vh !important",
+  // },
+  // "LegendItem-root-109": {
+  //   width: "154px !important",
+  // },
 });
 const legendRootBase = ({ classes, ...restProps }) => (
-  <Legend.Root {...restProps} className={classes.root} />
+  // console.log(classes) ||
+  <Legend.Root
+    {...restProps}
+    className={`${classes.root} ${classes["Component-root-98"]} ${classes["LegendRoot-root-105"]} ${classes["LegendItem-root-109"]}`}
+  />
 );
 const Root = withStyles(legendStyles, { name: "LegendRoot" })(legendRootBase);
 const legendLabelStyles = () => ({
   label: {
-    // whiteSpace: "nowrap",
-    fontSize: "0.4rem !important"
+    whiteSpace: "nowrap",
+    fontSize: "0.4rem !important",
   },
 });
 const legendLabelBase = ({ classes, ...restProps }) => (
@@ -61,39 +64,15 @@ const Label = withStyles(legendLabelStyles, { name: "LegendLabel" })(
 );
 
 ///////////////component
-const ChartBar = () => {
+const ChartBar = ({ productSelectList, ServiceSelectList, region, label }) => {
   // local
   const [productSelect, setProductSelect] = useState([]);
   const [serviceSelect, setServiceSelect] = useState([]);
-  // const [startDate, setStartDate] = useState();
-  // const [endDate, setEndDate] = useState();
-  // API
   const [mystate, setmyState] = useState([]);
-  // const { handleSubmit } = useForm();
   const [seriesData, setSeriesData] = useState([]);
   const [loadingData, setLoadingData] = useState(false);
 
-  // API DATA from login
-  let productArray = [];
-  const ApiData = JSON.parse(localStorage.getItem("api-data"));
-  for (let x = 0; x < ApiData.length; x++) {
-    productArray.push({
-      value: ApiData[x].product.id,
-      label: ApiData[x].product.name,
-    });
-  }
-
-  let serviceArray = [];
-  for (let x = 0; x < ApiData.length; x++) {
-    for (let i = 0; i < ApiData[x].services.length; i++) {
-      if (ApiData[x].services[i] !== null) {
-        serviceArray.push({
-          value: ApiData[x].services[i].id,
-          label: ApiData[x].services[i].name,
-        });
-      }
-    }
-  }
+  
 
   const formSubmit = () => {
     let serviceArrayValue = [];
@@ -108,14 +87,14 @@ const ChartBar = () => {
   };
 
   const fetchData = async (productIds = [], servicesIds = []) => {
-    let startdate = "2021-12-22";
+    let startdate = "2021-12-27";
     // let startdate = moment(new Date().getDate() - 15).format('YYYY-MM-DD');
     let enddate = moment(new Date()).format("YYYY-MM-DD");
     let productId = productIds.join(",");
     let servicesId = servicesIds.join(",");
 
     let series = [];
-    const url = `${BASE_URL}user/revenue?startDate=${startdate}&endDate=${enddate}&productIds=${productId}&serviceIds=${servicesId}`;
+    const url = `${BASE_URL}user/revenue?startDate=${startdate}&endDate=${enddate}&productIds=${productId}&serviceIds=${servicesId}&region=${region}`;
 
     let fetchCall = await fetch(url, {
       method: "GET",
@@ -126,12 +105,13 @@ const ChartBar = () => {
     setLoadingData(false);
     if (fetchCall.status === 200) {
       let resp = await fetchCall.json();
+      // console.log(resp[0].report)
       if (resp.length) {
-        setmyState(resp);
+        setmyState(resp[0].report);
         // console.log("my state: ", mystate);
-        series = Object.keys(resp[0]);
-        series = series.filter((s) => s !== "date");
-        // console.log("before Series", typeof series);
+        series = Object.keys(resp[0].report[0]);
+        series = series.filter((s) => s !== "date" && s !== "region");
+        // console.log("before Series", series);
         setSeriesData([]);
         setSeriesData(series);
         // console.log("After Series", seriesData);
@@ -149,11 +129,12 @@ const ChartBar = () => {
 
   return (
     <>
+    <div>{label}</div>
       <form className="form" onSubmit={formSubmit}>
         <div className="multiSelect">
           Products:
           <MultiSelect
-            options={productArray}
+            options={productSelectList}
             value={productSelect}
             onChange={setProductSelect}
             labelledBy="Products"
@@ -164,7 +145,7 @@ const ChartBar = () => {
         <div className="multiSelect">
           Services:
           <MultiSelect
-            options={serviceArray}
+            options={ServiceSelectList}
             value={serviceSelect}
             onChange={setServiceSelect}
             labelledBy="Services"
@@ -206,7 +187,6 @@ const ChartBar = () => {
             <ValueAxis max={2400} />
             {seriesData?.map((s, key) => (
               <BarSeries
-                // style=
                 name={s}
                 valueField={s}
                 key={key}
@@ -214,19 +194,18 @@ const ChartBar = () => {
               />
             ))}
             <Animation />
-             <Legend
-             size="small"
+            <Legend
+              size="small"
               position="bottom"
               rootComponent={Root}
               labelComponent={Label}
               orientation="horizontal"
-              />
-            <Title text="Revenue Chart" />
+            />
+            <Title text={`${label} Revenue Chart`} />
             <div className="chartLabel">
               {
                 <Stack
                   stacks={[
-                    // { series: ["Fight Club", "Gago Zain KW Daily", "Gago Telenor Weekly", "Gago Mobily KSA Daily", "Gago Mobily KSA Weekly"] },
                     {
                       series: seriesData,
                     },
