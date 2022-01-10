@@ -55,7 +55,7 @@
   },
   "scripts": {
     "start": "PORT=4000 react-scripts start",
-    "start-prod": "pm2 start knect-admin-panel -- start",
+    "start-prod": "pm2 start npm --name knect_admin_panel -- start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -78,6 +78,7 @@
   "devDependencies": {
     "@babel/helper-call-delegate": "^7.11.4",
     "prettier": "^2.1.1",
-    "react-hot-loader": "^4.13.0"
+    "react-hot-loader": "^4.13.0",
+    "pm2": "^5.1.2"
   }
 }
