@@ -12,7 +12,7 @@ export default function ServicesPage() {
   const [state, setState] = useState("");
 
   const fetchData = () => {
-    fetch(`${BASE_URL}services`, {
+    fetch(`${BASE_URL}user/services`, {
       method: "GET",
       headers: {
         token: sessionStorage.getItem("token-user"),
@@ -46,7 +46,7 @@ export default function ServicesPage() {
               </thead>
               <tbody>
                 {state
-                  ? state.map(function (state, key) {
+                  ? state.map((state, key)=> {
                       return (
                         <>
                           <tr>

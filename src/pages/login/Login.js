@@ -66,7 +66,7 @@ const Login = (props) => {
       password: data.passwordValue,
     };
     const response = await fetch(
-      `${BASE_URL}login`,
+      `${BASE_URL}user/login`,
       {
         method: "POST",
         headers: {

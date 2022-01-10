@@ -19,17 +19,18 @@ import { withStyles } from "@material-ui/core/styles";
 import { Stack, Animation } from "@devexpress/dx-react-chart";
 import "./ChartBar.css";
 import { BASE_URL } from "../../../src/Constants";
+import '../../styles.css'
 
 const legendStyles = () => ({
   root: {
     display: "flex",
     margin: "0",
     padding: "22px",
-    flexWrap: "wrap !important",
-    flexDirection: "column !important",
-    height: "15vh !important",
+    // flexWrap: "wrap !important",
+    // flexDirection: "column !important",
+    // height: "15vh !important",
     fontSize: "0.7rem !important",
-    width: "40%",
+    // width: "40%",
 
     // display: 'flex',
     // margin: 'auto',
@@ -114,7 +115,7 @@ const ChartBar = () => {
     let servicesId = servicesIds.join(",");
 
     let series = [];
-    const url = `${BASE_URL}revenue?startDate=${startdate}&endDate=${enddate}&productIds=${productId}&serviceIds=${servicesId}`;
+    const url = `${BASE_URL}user/revenue?startDate=${startdate}&endDate=${enddate}&productIds=${productId}&serviceIds=${servicesId}`;
 
     let fetchCall = await fetch(url, {
       method: "GET",

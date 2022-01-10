@@ -1,9 +1,9 @@
 .LegendRoot-root-102 {
-    margin: 0 !important;
+    /* margin: 0 !important; */
     display: flex ;
     padding: 22px !important;
-    flex-wrap: wrap !important;
-    height:15vh !important;
+    /* flex-wrap: wrap !important; */
+    /* height:15vh !important; */
     
 }
 
@@ -19,4 +19,15 @@ height: 95vh !important;
 }
 /* .Component-root-98 {
     height: 100vh !important;
+} */
+
+/* .LegendRoot-root-105 {
+    height: 15vh !important;
+    margin: 0;
+    display: flex;
+    padding: 22px;
+    flex-wrap: wrap !important;
+    height: 15vh !important;
+    font-size: 0.7rem !important;
+    flex-direction: row !important;
 } */
