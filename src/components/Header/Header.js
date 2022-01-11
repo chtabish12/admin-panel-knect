@@ -3,14 +3,14 @@ import {
   AppBar,
   Toolbar,
   IconButton,
-  InputBase,
+  // InputBase,
   Menu,
-  MenuItem,
+  // MenuItem,
 } from "@material-ui/core";
 import {
   Menu as MenuIcon,
   Person as AccountIcon,
-  Search as SearchIcon,
+  // Search as SearchIcon,
   ArrowBack as ArrowBackIcon,
 } from "@material-ui/icons";
 import classNames from "classnames";
@@ -39,7 +39,9 @@ export default function Header(props) {
 
   // local
   const [profileMenu, setProfileMenu] = useState(null);
-  const [isSearchOpen, setSearchOpen] = useState(false);
+  // const [isSearchOpen, setSearchOpen] = useState(false);
+  var username = sessionStorage.getItem('user-name').toUpperCase().replaceAll('"', '');
+  var userid = sessionStorage.getItem('user-id');
 
   return (
     <AppBar position="fixed" className={classes.appBar}>
@@ -77,25 +79,25 @@ export default function Header(props) {
         </Typography>
         <div className={classes.grow} />
         <div
-          className={classNames(classes.search, {
-            [classes.searchFocused]: isSearchOpen,
-          })}
+          // className={classNames(classes.search, {
+          //   [classes.searchFocused]: isSearchOpen,
+          // })}
         >
-          <div
+          {/* <div
             className={classNames(classes.searchIcon, {
               [classes.searchIconOpened]: isSearchOpen,
             })}
             onClick={() => setSearchOpen(!isSearchOpen)}
           >
             <SearchIcon classes={{ root: classes.headerIcon }} />
-          </div>
-          <InputBase
+          </div> */}
+          {/* <InputBase
             placeholder="Search…"
             classes={{
               root: classes.inputRoot,
               input: classes.inputInput,
             }}
-          />
+          /> */}
         </div>
         <IconButton
           aria-haspopup="true"
@@ -117,20 +119,20 @@ export default function Header(props) {
         >
           <div className={classes.profileMenuUser}>
             <Typography variant="h4" weight="medium">
-              Muhammad Tabish Nadeem
+              {username}
             </Typography>
             <Typography variant="h6" weight="light">
-              KTP-1161
+             KTP- {userid}
             </Typography>
           </div>
-          <MenuItem
+          {/* <MenuItem
             className={classNames(
               classes.profileMenuItem,
               classes.headerMenuItem,
             )}
           >
             <AccountIcon className={classes.profileMenuIcon}/> Profile
-          </MenuItem> 
+          </MenuItem>  */}
           <div className={classes.profileMenuUser}>
             <Typography
               className={classes.profileMenuLink}
