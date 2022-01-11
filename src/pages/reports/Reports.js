@@ -38,7 +38,7 @@ export default function ReportsPage() {
   let productArray = [];
   const ApiData = JSON.parse(localStorage.getItem("api-data"));
 
-  console.log("Api Response", ApiData);
+  // console.log("Api Response", ApiData);
 
   for (let i = 0; i < ApiData.length; i++)
     for (let x = 0; x < ApiData[i].products.length; x++) {
@@ -47,26 +47,39 @@ export default function ReportsPage() {
         label: ApiData[i].products[x].name,
       });
     }
-  console.log("Array", productArray);
+  
+    
+    productArray = productArray.filter((value, index, self) =>
+  index === self.findIndex((t) => (
+    t.label === value.label && t.value === value.value
+  )))
+
   let serviceArray = [];
   for (let x = 0; x < ApiData.length; x++) {
-    for (let i = 0; i < ApiData[0].products[0].services.length; i++) {
-      serviceArray.push({
-        value: ApiData[0].products[0].services[i].id,
-        label: ApiData[0].products[0].services[i].name,
-      });
-    }
+    for (let y = 0; y < ApiData[x].products.length; y++)
+      for (let i = 0; i < ApiData[x].products[y].services.length; i++) {
+        if (
+          productSelect.length &&
+          ApiData[x].products[y].services[i].productId ===
+            productSelect[0].value
+        ) {
+          serviceArray.push({
+            value: ApiData[x].products[y].services[i].id,
+            label: ApiData[x].products[y].services[i].name,
+          });
+        }
+      }
   }
+
   const fetchData = async () => {
-    let serviceArrayValue = [];
     let productArrayValue = [];
-    for (let x = 0; x < serviceSelect.length; x++) {
-      serviceArrayValue.push(serviceSelect[x].value);
-    }
+    let serviceArrayValue = [];
     for (let x = 0; x < productSelect.length; x++) {
       productArrayValue.push(productSelect[x].value);
     }
-
+    for (let x = 0; x < serviceSelect.length; x++) {
+      serviceArrayValue.push(serviceSelect[x].value);
+    }
     let servicesIds = serviceArrayValue.join(",");
     let startdate = moment(startDate).format("YYYY-MM-DD");
     let enddate = moment(endDate).format("YYYY-MM-DD");
@@ -95,7 +108,7 @@ export default function ReportsPage() {
   const formSubmit = async () => {
     fetchData();
   };
-  useEffect(() => {}, []);
+  useEffect(() => {}, [productSelect]);
   return (
     <>
       <PageTitle title="Reports" />

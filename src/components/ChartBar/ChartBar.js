@@ -64,7 +64,7 @@ const Label = withStyles(legendLabelStyles, { name: "LegendLabel" })(
 );
 
 ///////////////component
-const ChartBar = ({ productSelectList, ServiceSelectList, region, label }) => {
+const ChartBar = ({  region, label, y, z }) => {
   // local
   const [productSelect, setProductSelect] = useState([]);
   const [serviceSelect, setServiceSelect] = useState([]);
@@ -72,8 +72,27 @@ const ChartBar = ({ productSelectList, ServiceSelectList, region, label }) => {
   const [seriesData, setSeriesData] = useState([]);
   const [loadingData, setLoadingData] = useState(false);
 
-  
-
+  let productArray = [];
+  const ApiData = JSON.parse(localStorage.getItem("api-data"));
+    // for (let i = 0; i < ApiData.length; i++)
+    for (let x = 0; x < ApiData[y].products.length; x++) {
+      productArray.push({
+        value: ApiData[y].products[x].id,
+        label: ApiData[y].products[x].name,
+      });
+  }
+    // console.log("Array", productArray)
+  let serviceArray = [];
+  // for (let x = 0; x < ApiData.length; x++) {
+  for (let i = 0; i < ApiData[z].products[0].services.length; i++) {
+    serviceArray.push({
+      value: ApiData[z].products[0].services[i].id,
+      label: ApiData[z].products[0].services[i].name,
+    });
+  }
+  // console.log(ApiData[1].products[0].services[0].id)
+  // }
+// y++;
   const formSubmit = () => {
     let serviceArrayValue = [];
     let productArrayValue = [];
@@ -134,7 +153,8 @@ const ChartBar = ({ productSelectList, ServiceSelectList, region, label }) => {
         <div className="multiSelect">
           Products:
           <MultiSelect
-            options={productSelectList}
+            // options={productSelectList}
+            options={productArray}
             value={productSelect}
             onChange={setProductSelect}
             labelledBy="Products"
@@ -145,7 +165,8 @@ const ChartBar = ({ productSelectList, ServiceSelectList, region, label }) => {
         <div className="multiSelect">
           Services:
           <MultiSelect
-            options={ServiceSelectList}
+            options={serviceArray}
+            // options={ServiceSelectList}
             value={serviceSelect}
             onChange={setServiceSelect}
             labelledBy="Services"
@@ -201,7 +222,7 @@ const ChartBar = ({ productSelectList, ServiceSelectList, region, label }) => {
               labelComponent={Label}
               orientation="horizontal"
             />
-            <Title text={`${label} Revenue Chart`} />
+            <Title text={`${region} Revenue Chart`} />
             <div className="chartLabel">
               {
                 <Stack
