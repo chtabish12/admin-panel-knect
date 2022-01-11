@@ -37,23 +37,20 @@ export default function ReportsPage() {
   // API DATA from login
   let productArray = [];
   const ApiData = JSON.parse(localStorage.getItem("api-data"));
-
-  // console.log("Api Response", ApiData);
-
+ // Product array data for displaying dropdown
   for (let i = 0; i < ApiData.length; i++)
     for (let x = 0; x < ApiData[i].products.length; x++) {
       productArray.push({
         value: ApiData[i].products[x].id,
         label: ApiData[i].products[x].name,
       });
-    }
-  
-    
-    productArray = productArray.filter((value, index, self) =>
-  index === self.findIndex((t) => (
-    t.label === value.label && t.value === value.value
-  )))
-
+    }// removing duplicates
+  productArray = productArray.filter(
+    (value, index, self) =>
+      index ===
+      self.findIndex((t) => t.label === value.label && t.value === value.value)
+  );
+ // Service array data for displaying dropdown
   let serviceArray = [];
   for (let x = 0; x < ApiData.length; x++) {
     for (let y = 0; y < ApiData[x].products.length; y++)
@@ -70,6 +67,11 @@ export default function ReportsPage() {
         }
       }
   }
+  serviceArray = serviceArray.filter(
+    (value, index, self) =>
+      index ===
+      self.findIndex((t) => t.label === value.label && t.value === value.value)
+  );
 
   const fetchData = async () => {
     let productArrayValue = [];
