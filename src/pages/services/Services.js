@@ -46,7 +46,7 @@ export default function ServicesPage() {
               </thead>
               <tbody>
                 {state
-                  ? state.map((state, key)=> {
+                  ? state.map((state, key) => {
                       return (
                         <>
                           <tr>
@@ -56,7 +56,17 @@ export default function ServicesPage() {
                             <td>{state.taxRate ? state.taxRate : 0}</td>
                             <td>{state.keyword ? state.keyword : 0}</td>
                             <td>{state.shortcode ? state.shortcode : 0}</td>
-                            <td>{state.status ? state.status : 0}</td>
+                            <td>
+                              {state.status === 1
+                                ? "Active"
+                                : state.status === 2
+                                ? "Inactive"
+                                : state.status === 3
+                                ? "Suspended Subscription"
+                                : state.status === 4
+                                ? "Suspended Billing"
+                                : "N/A"}
+                            </td>
                           </tr>
                         </>
                       );
