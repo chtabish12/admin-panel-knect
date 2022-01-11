@@ -20,7 +20,7 @@ import { Stack, Animation } from "@devexpress/dx-react-chart";
 import "./ChartBar.css";
 import { BASE_URL } from "../../../src/Constants";
 import "../../styles.css";
-import _ from "lodash";
+// import _ from "lodash";
 
 const legendStyles = () => ({
   root: {
@@ -29,21 +29,8 @@ const legendStyles = () => ({
     padding: "22px",
     fontSize: "0.7rem !important",
   },
-  // "Component-root-98": {
-  //   height: "120vh !important",
-  // },
-  // "LegendRoot-root-105": {
-  //   flexWrap: "wrap !important",
-  //   flexDirection: "column !important",
-  //   width: "100% !important",
-  //   height: "60vh !important",
-  // },
-  // "LegendItem-root-109": {
-  //   width: "154px !important",
-  // },
 });
 const legendRootBase = ({ classes, ...restProps }) => (
-  // console.log(classes) ||
   <Legend.Root
     {...restProps}
     className={`${classes.root} ${classes["Component-root-98"]} ${classes["LegendRoot-root-105"]} ${classes["LegendItem-root-109"]}`}
@@ -64,7 +51,7 @@ const Label = withStyles(legendLabelStyles, { name: "LegendLabel" })(
 );
 
 ///////////////component
-const ChartBar = ({  region, label, y, z }) => {
+const ChartBar = ({ region, label, y, z }) => {
   // local
   const [productSelect, setProductSelect] = useState([]);
   const [serviceSelect, setServiceSelect] = useState([]);
@@ -74,26 +61,21 @@ const ChartBar = ({  region, label, y, z }) => {
 
   let productArray = [];
   const ApiData = JSON.parse(localStorage.getItem("api-data"));
-    // for (let i = 0; i < ApiData.length; i++)
-    for (let x = 0; x < ApiData[y].products.length; x++) {
-      productArray.push({
-        value: ApiData[y].products[x].id,
-        label: ApiData[y].products[x].name,
-      });
+  for (let x = 0; x < ApiData[y].products.length; x++) {
+    productArray.push({
+      value: ApiData[y].products[x].id,
+      label: ApiData[y].products[x].name,
+    });
   }
-    // console.log("Array", productArray)
   let serviceArray = [];
-  // for (let x = 0; x < ApiData.length; x++) {
   for (let i = 0; i < ApiData[z].products[0].services.length; i++) {
     serviceArray.push({
       value: ApiData[z].products[0].services[i].id,
       label: ApiData[z].products[0].services[i].name,
     });
   }
-  // console.log(ApiData[1].products[0].services[0].id)
-  // }
-// y++;
-  const formSubmit = () => {
+  const formSubmit = (evt) => {
+    evt.preventDefault();
     let serviceArrayValue = [];
     let productArrayValue = [];
     for (let x = 0; x < serviceSelect.length; x++) {
@@ -106,15 +88,16 @@ const ChartBar = ({  region, label, y, z }) => {
   };
 
   const fetchData = async (productIds = [], servicesIds = []) => {
-    let startdate = "2021-12-27";
-    // let startdate = moment(new Date().getDate() - 15).format('YYYY-MM-DD');
+    var date = new Date();
+    date.setDate(date.getDate() - 15);
+    console.log(date);
+    let startdate = moment(date).format("YYYY-MM-DD");
     let enddate = moment(new Date()).format("YYYY-MM-DD");
     let productId = productIds.join(",");
     let servicesId = servicesIds.join(",");
 
     let series = [];
     const url = `${BASE_URL}user/revenue?startDate=${startdate}&endDate=${enddate}&productIds=${productId}&serviceIds=${servicesId}&region=${region}`;
-
     let fetchCall = await fetch(url, {
       method: "GET",
       headers: {
@@ -124,16 +107,12 @@ const ChartBar = ({  region, label, y, z }) => {
     setLoadingData(false);
     if (fetchCall.status === 200) {
       let resp = await fetchCall.json();
-      // console.log(resp[0].report)
       if (resp.length) {
         setmyState(resp[0].report);
-        // console.log("my state: ", mystate);
         series = Object.keys(resp[0].report[0]);
         series = series.filter((s) => s !== "date" && s !== "region");
-        // console.log("before Series", series);
         setSeriesData([]);
         setSeriesData(series);
-        // console.log("After Series", seriesData);
       } else {
         return toast("No Record Found!!");
       }
@@ -148,7 +127,7 @@ const ChartBar = ({  region, label, y, z }) => {
 
   return (
     <>
-    <div>{label}</div>
+      <div>{label}</div>
       <form className="form" onSubmit={formSubmit}>
         <div className="multiSelect">
           Products:
