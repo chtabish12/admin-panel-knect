@@ -4,16 +4,11 @@
   "private": true,
   "homepage": "./",
   "husky": {
-
     "hooks": {
-    
-    "post-merge": "./after-merge.sh || true",
-    
-    "pre-commit": "tsc -p src/tsconfig.json --noEmit && lint-staged"
-    
+      "post-merge": "./after-merge.sh || true",
+      "pre-commit": "tsc -p src/tsconfig.json --noEmit && lint-staged"
     }
-    
-    },
+  },
   "resolutions": {
     "websocket-extensions": "^0.1.4",
     "node-forge": "^0.10.0",
