@@ -87,6 +87,8 @@ const Login = (props) => {
     }
     sessionStorage.setItem("token-user", resp.token);
     localStorage.setItem("api-data", JSON.stringify(resp.regions));
+    sessionStorage.setItem("user-name", resp.user.name);
+    sessionStorage.setItem("user-id", resp.user.id);
     // setIsLoading(true);
     loginUser(userDispatch, props.history, setIsLoading, response.status);
   };
