@@ -7,8 +7,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import PageTitle from "../../components/PageTitle/PageTitle.js";
 import Widget from "../../components/Widget/Widget.js";
 import { BASE_URL } from "../../Constants";
+import useStyles from "./styles";
 
 export default function ServicesPage() {
+  const classes = useStyles();
   const [state, setState] = useState("");
 
   const fetchData = () => {
@@ -41,12 +43,22 @@ export default function ServicesPage() {
                   <th>Tax Rate</th>
                   <th>Keyword</th>
                   <th>Shortcode</th>
-                  <th>Status</th>
+                  <th style={{ textAlign: "center" }}>Status</th>
                 </tr>
               </thead>
               <tbody>
                 {state
-                  ? state.map((state, key) => {
+                  ? state.map((state) => {
+                      let color =
+                        state.status === 1
+                          ? "#5cb85c"
+                          : state.status === 2
+                          ? "#d9534f"
+                          : state.status === 3
+                          ? "#337ab7"
+                          : state.status === 4
+                          ? "#f0ad4e"
+                          : "";
                       return (
                         <>
                           <tr>
@@ -55,17 +67,23 @@ export default function ServicesPage() {
                             <td>{state.pricePoint ? state.pricePoint : 0}</td>
                             <td>{state.taxRate ? state.taxRate : 0}</td>
                             <td>{state.keyword ? state.keyword : 0}</td>
-                            <td>{state.shortcode ? state.shortcode : 0}</td>
-                            <td>
-                              {state.status === 1
-                                ? "Active"
-                                : state.status === 2
-                                ? "Inactive"
-                                : state.status === 3
-                                ? "Suspended Subscription"
-                                : state.status === 4
-                                ? "Suspended Billing"
-                                : "N/A"}
+                            <td>{state.shortCode ? state.shortCode : "N/A"}</td>
+                            <td style={{ textAlign: "center" }}>
+                              {" "}
+                              <span
+                                style={{ backgroundColor: color }}
+                                className={classes.tableStatusCode}
+                              >
+                                {state.status === 1
+                                  ? "Active"
+                                  : state.status === 2
+                                  ? "Inactive"
+                                  : state.status === 3
+                                  ? "Suspended Subscription"
+                                  : state.status === 4
+                                  ? "Suspended Billing"
+                                  : "N/A"}
+                              </span>
                             </td>
                           </tr>
                         </>

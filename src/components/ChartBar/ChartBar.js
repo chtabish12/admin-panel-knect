@@ -201,7 +201,7 @@ const ChartBar = ({ region, label, y, z }) => {
               labelComponent={Label}
               orientation="horizontal"
             />
-            <Title text={`${region} Revenue Chart`} />
+            <Title text={`${region} Revenue`} />
             <div className="chartLabel">
               {
                 <Stack
