@@ -12,4 +12,10 @@ export default makeStyles(theme => ({
   text: {
     marginBottom: theme.spacing(2),
   },
+  tableStatusCode: {
+    color: "white", 
+    textAlign: "center", 
+    padding: "2px 15px", 
+    fontWeight: "700"
+  }
 }));

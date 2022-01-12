@@ -26,7 +26,7 @@ import { BASE_URL } from "../../Constants";
 const Login = (props) => {
   const validationSchema = Yup.object().shape({
     loginValue: Yup.string().required(
-      "Email is required (Example: me@example.com.au)",
+      "Email is required (Example: me@example.com.au)"
     ),
     passwordValue: Yup.string().required("Please enter your password"),
     // .matches(
@@ -65,25 +65,20 @@ const Login = (props) => {
       email: data.loginValue,
       password: data.passwordValue,
     };
-    const response = await fetch(
-      `${BASE_URL}user/login`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(request),
+    const response = await fetch(`${BASE_URL}user/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
       },
-      );
-      let resp = await response.json();
-    
-//  console.log(response)
+      body: JSON.stringify(request),
+    });
+    let resp = await response.json();
+
+    //  console.log(response)
     // setMessageApi(response.status);
-    if(response.status!==200){
-      return(
-        toast("Please Check your User Name or Password and then retry!!")
-      )
+    if (response.status !== 200) {
+      return toast("Please Check your User Name or Password and then retry!!");
     }
     sessionStorage.setItem("token-user", resp.token);
     localStorage.setItem("api-data", JSON.stringify(resp.regions));
@@ -112,27 +107,34 @@ const Login = (props) => {
           </Tabs>
           {activeTabId === 0 && (
             <React.Fragment>
-              <form onSubmit={handleSubmit(formSubmit)} className={classes.formControlField}>
-                <input
-                  placeholder="Enter Email"
-                  {...register("loginValue")}
-                  className={`form-control ${
-                    errors.loginValue ? "is-invalid" : ""
-                  }`}
-                />
-                <div className="invalid-feedback">
-                  {errors.loginValue?.message}
+              <form
+                onSubmit={handleSubmit(formSubmit)}
+                className={classes.formControlField}
+              >
+                <div className={classes.inputFieldSpace}>
+                  <input
+                    placeholder="Enter Email"
+                    {...register("loginValue")}
+                    className={`form-control ${
+                      errors.loginValue ? "is-invalid" : ""
+                    }`}
+                  />
+                  <div className="invalid-feedback">
+                    {errors.loginValue?.message}
+                  </div>
                 </div>
-                <input
-                  placeholder="Enter Password"
-                  {...register("passwordValue")}
-                  type="password"
-                  className={`form-control ${
-                    errors.passwordValue ? "is-invalid" : ""
-                  }`}
-                />
-                <div className="invalid-feedback">
-                  {errors.passwordValue?.message}
+                <div>
+                  <input
+                    placeholder="Enter Password"
+                    {...register("passwordValue")}
+                    type="password"
+                    className={`form-control ${
+                      errors.passwordValue ? "is-invalid" : ""
+                    }`}
+                  />
+                  <div className="invalid-feedback">
+                    {errors.passwordValue?.message}
+                  </div>
                 </div>
                 <div className={classes.formButtons}>
                   {isLoading ? (
@@ -143,14 +145,6 @@ const Login = (props) => {
                   ) : (
                     <Button
                       type="submit"
-                      // onClick={() =>
-                      //   loginUser(
-                      //     userDispatch,
-                      //     props.history,
-                      //     setIsLoading,
-                      //     messageApi,
-                      //   )
-                      // }
                       variant="contained"
                       color="primary"
                       size="large"

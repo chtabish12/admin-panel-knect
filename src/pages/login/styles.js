@@ -148,16 +148,7 @@ export default makeStyles(theme => ({
       bottom: theme.spacing(2),
     },
   },
+  inputFieldSpace: {
+    marginBottom: "15px",
+  }
 }));
-
-// copyright: {
-//   // marginTop: theme.spacing("auto"),
-//   // whiteSpace: "nowrap",
-//   [theme.breakpoints.up("md")]: {
-//     position: "absolute",
-//     // bottom: theme.spacing(2),
-//   },
-//   width: "90vw",
-//   marginTop: "33vh",
-//   fontSize: "0.8rem",
-// },
