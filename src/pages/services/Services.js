@@ -37,6 +37,7 @@ export default function ServicesPage() {
             <Table striped bordered hover size="sm">
               <thead>
                 <tr>
+                  <th>ID</th>
                   <th>Name</th>
                   <th>Product</th>
                   <th>Price</th>
@@ -62,6 +63,7 @@ export default function ServicesPage() {
                       return (
                         <>
                           <tr>
+                            <td>{state.id ? state.id : 0}</td>
                             <td>{state.name ? state.name : "N/A"}</td>
                             <td>{state.productName ? state.productName : 0}</td>
                             <td>{state.pricePoint ? state.pricePoint : 0}</td>

@@ -90,7 +90,6 @@ const ChartBar = ({ region, label, y, z }) => {
   const fetchData = async (productIds = [], servicesIds = []) => {
     var date = new Date();
     date.setDate(date.getDate() - 15);
-    console.log(date);
     let startdate = moment(date).format("YYYY-MM-DD");
     let enddate = moment(new Date()).format("YYYY-MM-DD");
     let productId = productIds.join(",");
