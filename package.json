@@ -23,6 +23,7 @@
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/styles": "^4.11.3",
+    "axios": "^0.24.0",
     "bootstrap": "^5.1.3",
     "classnames": "^2.2.6",
     "datetime-moment": "^1.0.0",
@@ -37,10 +38,12 @@
     "react-day-picker": "^8.0.0-beta.36",
     "react-dom": "^16.14.0",
     "react-hook-form": "^7.22.4",
+    "react-icons": "^4.3.1",
     "react-input-calendar": "^0.5.4",
     "react-multi-select-component": "^4.1.14",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
+    "react-select": "^5.2.1",
     "react-toastify": "^8.1.0",
     "recharts": "^2.0.4",
     "tinycolor2": "^1.4.2",
@@ -49,8 +52,9 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "PORT=4000 react-scripts start",
-    "start-prod": "pm2 start npm --name knect_admin_panel -- start",
+    "start": "react-scripts start",
+    "start-prod": " npm run stop-prod && pm2 start npm --name knect_admin_panel -- start",
+    "stop-prod": "pm2 delete knect_admin_panel",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -72,8 +76,8 @@
   },
   "devDependencies": {
     "@babel/helper-call-delegate": "^7.11.4",
+    "pm2": "^5.1.2",
     "prettier": "^2.1.1",
-    "react-hot-loader": "^4.13.0",
-    "pm2": "^5.1.2"
+    "react-hot-loader": "^4.13.0"
   }
 }
