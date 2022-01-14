@@ -87,7 +87,7 @@ export default function ReportsPage() {
     let enddate = moment(endDate).format("YYYY-MM-DD");
     let productIds = productArrayValue.join(",");
 
-    const url = `${BASE_URL}user/services/report?serviceIds=${servicesIds}&startDate='${startdate}'&endDate='${enddate}'&productIds=${productIds}`;
+    const url = `${BASE_URL}report/services?serviceIds=${servicesIds}&startDate='${startdate}'&endDate='${enddate}'&productIds=${productIds}`;
     let fetchCall = await fetch(url, {
       method: "GET",
       headers: {

@@ -16,6 +16,7 @@ import Sidebar from "../Sidebar/Sidebar.js";
 // pages
 import Dashboard from "../../pages/dashboard/Dashboard.js";
 import Services from "../../pages/services/Services.js";
+import HeatMap from "../../pages/heatMap/HeatMap.js"
 import Reports from "../../pages/reports/Reports.js";
 
 // context
@@ -42,6 +43,7 @@ function Layout(props) {
               <Route path="/app/dashboard" component={Dashboard} />
               <Route path="/app/services" component={Services} />
               <Route path="/app/reports" component={Reports} />
+              <Route path="/app/heatmap" component={HeatMap} />
             </Switch>
           </div>
         </>

@@ -4,6 +4,7 @@ import {
   Home as HomeIcon,
   FormatSize as TypographyIcon,
   ArrowBack as ArrowBackIcon,
+  // MapIcon
 } from "@material-ui/icons";
 import { useTheme } from "@material-ui/styles";
 import { withRouter } from "react-router-dom";
@@ -36,8 +37,14 @@ const structure = [
     id: 3,
     label: "Service wise",
     link: "/app/reports",
-    icon: <Dot size="medium" color="warning" />,
-  }
+    icon: <Dot size="large" color="warning" />,
+  },
+  {
+    id: 4,
+    label: "Services HeatMap",
+    link: "/app/heatmap",
+    icon: <Dot size="large" color="success" />,
+  },
 ];
 
 const Sidebar = ({ location }) => {
