@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
-// import { ResponsiveContainer } from "recharts";
 
 // styles
 import useStyles from "./styles";
@@ -26,7 +25,6 @@ export default function Dashboard() {
       <PageTitle title="Dashboard" />
       <Grid item xs={12}>
         <Widget bodyClass={classes.mainChartBody}>
-          {/* <ResponsiveContainer width="100%" minWidth={500}> */}
           {response.length > 0 &&
             response.map((region, key) => (
               <ChartBar
@@ -38,8 +36,6 @@ export default function Dashboard() {
                 z= {z++}
               />
             ))}
-
-          {/* </ResponsiveContainer> */}
         </Widget>
       </Grid>
     </>

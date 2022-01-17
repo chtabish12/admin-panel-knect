@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Grid } from "@material-ui/core";
+import { Grid, Button } from "@material-ui/core";
 import { Table } from "react-bootstrap";
 import "./styles.css";
+import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { BASE_URL } from "../../Constants";
 import axios from "axios";
 import moment from "moment";
 // components
+import useStyles from "../../pages/heatMap/styles";
+
 import Widget from "../Widget/Widget.js";
 
 const HeatMapTable = ({
@@ -14,11 +17,14 @@ const HeatMapTable = ({
   serviceSelect,
   startDate,
   endDate,
-  tableShow,
 }) => {
   // API
   const [state, setState] = useState("");
+  const [tableShow, setTableShow] = useState(false);
+  const { handleSubmit } = useForm();
   let heatMapArray = [];
+  const classes = useStyles();
+
   const fetchData = () => {
     let startdate = moment(startDate).format("YYYY-MM-DD");
     let enddate = moment(endDate).format("YYYY-MM-DD");
@@ -80,12 +86,32 @@ const HeatMapTable = ({
               heatMap,
             });
           });
+
+          heatMapArray.forEach((data, index) => {
+            const dumyObject = {
+              Unsub: "-",
+              chargeCount: "-",
+              charged: "-",
+              churn: "-",
+              netbase: "-",
+              reportDate: "-",
+              reportOf: "-",
+              unsubCount: "-",
+            };
+            for (let i = 1; i <= index; i++) {
+              data.heatMap.unshift(dumyObject);
+            }
+          });
           setState(heatMapArray);
           // console.log("check    ..", heatMapArray);
-        } else if (resp.status === 400 && resp.status === 404) {
+        } else {
           return toast("Wrong attempt, Please retry!!");
         }
       });
+  };
+  const formSubmit = () => {
+    fetchData();
+    setTableShow(true);
   };
 
   useEffect(() => {
@@ -95,6 +121,20 @@ const HeatMapTable = ({
   }, [tableShow]);
   return (
     <>
+      <form onSubmit={handleSubmit(formSubmit)}>
+        <div className="button-Heat">
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            size="medium"
+            // disabled={!serviceSelectValue.length || !affiliateValue.length}
+          >
+            Submit
+          </Button>
+        </div>
+      </form>
+      {/* </div> */}
       <Grid container spacing={1}>
         <Grid item xs={12} md={20}>
           <Widget disableWidgetMenu>
@@ -135,7 +175,7 @@ const HeatMapTable = ({
                 </thead>
                 <>
                   {state
-                    ? state.map((state) => {
+                    ? state.map((state, index) => {
                         return (
                           <>
                             <tbody>
@@ -143,84 +183,70 @@ const HeatMapTable = ({
                                 <td>
                                   {moment(state.date).format("YYYY-MM-DD")
                                     ? moment(state.date).format("YYYY-MM-DD")
-                                    : "N/A"}
+                                    : "-"}
                                 </td>
                                 <td>
                                   {state.subscriptions
                                     ? state.subscriptions
                                     : 0}
                                 </td>
-                                {/* {state.date == state.heatMap[0].reportOf ? state.date == state.heatMap[0].reportOf &&
-                                (<div> */}
                                 {state.heatMap
-                                  ? state.heatMap.map((heat) => {
+                                  ? state.heatMap.map((heat, i) => {
                                       return (
                                         <>
-                                          {/* {state.date == heat.reportOf ? state.date == heat.reportOf && 
-                                          (<div> */}
                                           <td>
                                             <thead>
                                               <tr>
                                                 <td>
                                                   {heat.chargeCount
                                                     ? heat.chargeCount
-                                                    : "0"}
+                                                    : "-"}
                                                 </td>
                                                 <td>
-                                                  {Math.floor(
-                                                    heat.charged * 1000
-                                                  ) /
-                                                    1000 +
-                                                  "%"
+                                                  {typeof heat.charged !==
+                                                  "string"
                                                     ? Math.floor(
                                                         heat.charged * 1000
                                                       ) /
                                                         1000 +
                                                       "%"
-                                                    : "0"}
+                                                    : "-"}
                                                 </td>
                                                 <td>
-                                                  {heat?.unsubCount
+                                                  {heat.unsubCount
                                                     ? heat.unsubCount
                                                     : "0"}
                                                 </td>
                                                 <td>
-                                                  {Math.floor(
-                                                    heat?.unsubCount * 1000
-                                                  ) /
-                                                    1000 +
-                                                  "%"
+                                                  {typeof heat.charged !==
+                                                  "string"
                                                     ? Math.floor(
-                                                        heat?.unsubCount * 1000
+                                                        heat.Unsub * 1000
                                                       ) /
                                                         1000 +
                                                       "%"
-                                                    : "0"}
+                                                    : "-"}
                                                 </td>
                                                 <td>
                                                   {heat.netbase
                                                     ? heat.netbase
-                                                    : "0"}
+                                                    : "-"}
                                                 </td>
                                                 <td>
-                                                  {Math.floor(
-                                                    heat.churn * 1000
-                                                  ) / 1000
+                                                  {typeof heat.charged !==
+                                                  "string"
                                                     ? Math.floor(
                                                         heat.churn * 1000
                                                       ) / 1000
-                                                    : "0"}
+                                                    : "-"}
                                                 </td>
                                               </tr>
                                             </thead>
                                           </td>
-                                          {/* </div>):"-"} */}
                                         </>
                                       );
                                     })
                                   : ""}
-                                {/* </div>)
-                                   : "---"} */}
                               </tr>
                             </tbody>
                           </>
