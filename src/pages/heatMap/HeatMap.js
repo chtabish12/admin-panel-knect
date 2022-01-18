@@ -1,25 +1,28 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "@material-ui/core";
-import Select from "react-select";
-import { useForm } from "react-hook-form";
-import "../../components/HeatMapTable/styles.css";
 import { toast } from "react-toastify";
 import { Grid } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { BASE_URL } from "../../Constants";
+import { useForm } from "react-hook-form";
 import axios from "axios";
+import moment from "moment";
+import Select from "react-select";
 import PageTitle from "../../components/PageTitle/PageTitle.js";
+import HeatMapTable from "../../components/HeatMapTable/HeatMapTable";
 //date picker
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 // styles
 import useStyles from "./styles";
-import HeatMapTable from "../../components/HeatMapTable/HeatMapTable";
+import "../../components/HeatMapTable/styles.css";
+import "react-datepicker/dist/react-datepicker.css";
 
 const HeatMap = () => {
   // local
   const classes = useStyles();
   const [affiliateValue, setAffiliateValue] = useState([]);
   const [serviceSelectValue, setServiceSelectValue] = useState([]);
+  const [response, setResponse] = useState();
+  const { handleSubmit } = useForm();
   var ApiData = [];
   let affiliatesArray = [];
   let serviceArray = [];
@@ -32,9 +35,8 @@ const HeatMap = () => {
   const [affiliatesList, setAffiliatesList] = useState("");
   const [serviceList, setServiceList] = useState("");
   const [tableShow, setTableShow] = useState(false);
-  const { handleSubmit } = useForm();
 
-  const fetchData = async () => {
+  const fetchFiltersData = async () => {
     const url = `${BASE_URL}report/affiliates`;
     axios
       .get(url, {
@@ -60,7 +62,6 @@ const HeatMap = () => {
               )
           );
           setAffiliatesList(affiliatesArray);
-
           // Service array data for displaying dropdown
           const LoginApiResp = JSON.parse(localStorage.getItem("api-data"));
           for (let x = 0; x < LoginApiResp.length; x++) {
@@ -84,23 +85,55 @@ const HeatMap = () => {
             );
           }
           setServiceList(serviceArray);
-        } else if (resp.status === 400 && resp.status === 404) {
-          return toast("Wrong attempt, Please retry!!");
+        } else {
+          return toast("No Data Found!!, Please come later!!");
         }
       });
   };
 
-  const formSubmit = async () => {
+  const fetchData = () => {
+    let startdate = moment(startDate).format("YYYY-MM-DD");
+    let enddate = moment(endDate).format("YYYY-MM-DD");
+    const url = `${BASE_URL}report/heatMapReport?`;
+    axios
+      .get(url, {
+        headers: {
+          token: sessionStorage.getItem("token-user"),
+        },
+        params: {
+          // serviceId: 8,
+          // startDate: "2021-11-01",
+          // endDate: "2021-12-30",
+          // affiliateId: 1,
+          serviceId: `${serviceSelectValue.value}`,
+          startDate: `${startdate}`,
+          endDate: `${enddate}`,
+          affiliateId: `${affiliateValue.value}`,
+        },
+      })
+      .then((resp) => {
+        if (resp.status === 200 && resp.data.length) {
+          let data = JSON.stringify(resp.data);
+          data = JSON.parse(data);
+          setResponse(data);
+        } else {
+          return toast("Wrong attempt, Please retry!!");
+        }
+      });
+  };
+  const formSubmit = () => {
+    fetchData();
     setTableShow(true);
   };
+
   useEffect(() => {
-    fetchData();
+    fetchFiltersData();
   }, []);
   return (
     <>
       <PageTitle title="Services HeatMap" />
-      <div className={classes.dashedBorder}>
-        <form className="form" onSubmit={handleSubmit(formSubmit)}>
+      <form onSubmit={handleSubmit(formSubmit)}>
+        <div className={classes.dashedBorder}>
           <div className="multiSelect">
             Services
             <Select
@@ -119,22 +152,25 @@ const HeatMap = () => {
               labelledBy="Products"
             />
           </div>
-          <div className="header-right-reporting">
-            <div>
+          <div className="header-right-heat">
+            <div className="start-date">
               Start date
               <DatePicker
+                className="date-input"
                 selected={startDate}
                 onChange={(date) => setStartDate(date)}
               />
             </div>
-            <div>
+            <div className="start-date">
               End date
               <DatePicker
+                className="date-input"
                 selected={endDate}
                 onChange={(date) => setEndDate(date)}
               />
             </div>
-            <div className="button-reporting">
+
+            <div className="button-Heat">
               <Button
                 type="submit"
                 variant="contained"
@@ -146,18 +182,12 @@ const HeatMap = () => {
               </Button>
             </div>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
       <Grid container spacing={1}>
         <Grid item xs={12} md={20}>
           <div className={classes.dashedBorder}>
-            <HeatMapTable
-              affiliatesSelect={affiliateValue}
-              serviceSelect={serviceSelectValue}
-              startDate={startDate}
-              endDate={endDate}
-              tableShow={tableShow}
-            />
+            <HeatMapTable dataShow={tableShow} data={response} />
           </div>
         </Grid>
       </Grid>

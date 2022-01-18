@@ -5,6 +5,7 @@ export default makeStyles(theme => ({
     padding: theme.spacing(2),
     display: "flex",
     flexDirection: "row",
+    flexWrap: "wrap",
 
   },
   text: {

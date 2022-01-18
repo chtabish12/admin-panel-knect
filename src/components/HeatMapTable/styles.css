@@ -1,124 +1,146 @@
 .App {
-    font-family: sans-serif;
-  }
-  .header {
-    padding: 20px;
-    position: relative;
-    color: #fff;
-    text-align: center;
-    background-color: #159957;
-    background-image: linear-gradient(120deg, #155799, #159957);
-  }
-  .sourceLink {
-    left: 20px;
-    bottom: 25px;
-    position: absolute;
-    color: #fff;
-  }
-  .header small {
-    text-align: right;
-    display: block;
-    margin-bottom: 5px;
-  }
-  .header a {
-    color: white;
-    text-decoration: underline;
-  }
-  #multiselectContainerReact {
-    margin-bottom: 20px;
-    float: none;
-  }
-  code {
-    padding: 10px;
-    background: #f1f1f1;
-  }
-  .mt10 {
-    margin-top: 10px;
-  }
-  .mt20 {
-    margin-top: 20px;
-  }
-  .mb20 {
-    margin-bottom: 20px;
-  }
-  .mt40 {
-    margin-top: 40px;
-  }
-  .displayBlock {
-    display: block;
-  }
-  .contents a {
-    display: block;
-    margin-bottom: 10px;
-    color: #45576b;
-    text-decoration: underline;
-  }
-  .otheroptions {
-    font-size: 14px;
-  }
-  
-  /* Overriding element hover */
-  .optionContainer li:hover,
-  .optionContainer .highlight {
-    background: red;
-    color: #fff;
-  }
-  /* Ends overriding */
-  
-  /* Placehoolder Color Change */
-  .searchBox#css_custom_input::placeholder {
-    color: red;
-  }
-  
-  .form{
-    position: relative;
-    display: flex;
-    margin: 0 0 !important;
-    /* align-items: center; */
+  font-family: sans-serif;
 }
-.chartPage{
-    position:sticky;
+.header {
+  padding: 20px;
+  position: relative;
+  color: #fff;
+  text-align: center;
+  background-color: #159957;
+  background-image: linear-gradient(120deg, #155799, #159957);
 }
-.chartLabel{
-    font-size: 0.7rem;
+.sourceLink {
+  left: 20px;
+  bottom: 25px;
+  position: absolute;
+  color: #fff;
 }
-.multiSelect{
-    width: 200px;
-    margin: 10px;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+.header small {
+  text-align: right;
+  display: block;
+  margin-bottom: 5px;
 }
-.header-right-reporting{
-    display: flex;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    margin-left: 12px;
+.header a {
+  color: white;
+  text-decoration: underline;
 }
-.button-reporting{
-    margin-top: 14px;
+#multiselectContainerReact {
+  margin-bottom: 20px;
+  float: none;
 }
-tbody, td, tfoot, thead, tr {
+code {
+  padding: 10px;
+  background: #f1f1f1;
+}
+.mt10 {
+  margin-top: 10px;
+}
+.mt20 {
+  margin-top: 20px;
+}
+.mb20 {
+  margin-bottom: 20px;
+}
+.mt40 {
+  margin-top: 40px;
+}
+.displayBlock {
+  display: block;
+}
+.contents a {
+  display: block;
+  margin-bottom: 10px;
+  color: #45576b;
+  text-decoration: underline;
+}
+.otheroptions {
+  font-size: 14px;
+}
+
+/* Overriding element hover */
+.optionContainer li:hover,
+.optionContainer .highlight {
+  background: red;
+  color: #fff;
+}
+/* Ends overriding */
+
+/* Placehoolder Color Change */
+.searchBox#css_custom_input::placeholder {
+  color: red;
+}
+
+.form {
+  position: relative;
+  display: flex;
+  margin: 0 0 !important;
+  /* align-items: center; */
+}
+.chartPage {
+  position: sticky;
+}
+.chartLabel {
+  font-size: 0.7rem;
+}
+.multiSelect {
+  width: 200px;
+  margin: 10px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+.header-right-reporting {
+  display: flex;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  margin-left: 12px;
+}
+.header-right-heat {
+  display: flex;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  margin-left: 12px;
+  margin-top: 10px;
+}
+.button-Heat {
+  margin-top: 20px !important;
+}
+tbody,
+td,
+tfoot,
+thead,
+tr {
   border-color: inherit;
   border-style: solid;
   border-width: 0;
   width: 92px !important;
 }
-.date-header{
+.date-header {
   width: 85px;
   margin: auto;
   border-bottom: 2px solid rgba(81, 69, 250, 0.815);
   padding-left: 5px;
 }
-.header-subHeadings{
+.header-subHeadings {
   width: 550px;
   margin: auto;
 }
-.header-subHeadings th{
+.header-subHeadings th {
   width: 90px;
   margin: auto;
 }
-.date-body{
+.date-body {
   width: 100px !important;
   margin: auto !important;
 }
-.table-bordered>:not(caption)>*>* {
+.table-bordered > :not(caption) > * > * {
   border-width: 0 4px !important;
+}
+.start-date {
+  width: 166px;
+}
+.date-input {
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  height: 38px !important;
+  border: 1px solid darkgray;
+  border-radius: 3px;
 }
