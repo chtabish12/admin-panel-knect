@@ -1,33 +1,22 @@
 .LegendRoot-root-102 {
-    /* margin: 0 !important; */
     display: flex ;
     padding: 22px !important;
-    /* flex-wrap: wrap !important; */
-    /* height:15vh !important; */
-    
 }
-
-
 .makeStyles-widgetBody-93 {
     padding-left: 24px;
     padding-right: 24px;
     padding-bottom: 24px;
     height: 100vh !important;
 }
-/* .Component-root-134 {
-height: 95vh !important;
-} */
-/* .Component-root-98 {
-    height: 100vh !important;
-} */
+css-6j8wv5-Input {
+    margin: 0px !important;
+}
+DatePicker input{
+height: 33px !important;
+}
 
-/* .LegendRoot-root-105 {
-    height: 15vh !important;
-    margin: 0;
-    display: flex;
-    padding: 22px;
-    flex-wrap: wrap !important;
-    height: 15vh !important;
-    font-size: 0.7rem !important;
-    flex-direction: row !important;
+/* element.style {
+    height: 36px;
+    border: 1px solid darkgray;
+    border-radius: 3px;
 } */

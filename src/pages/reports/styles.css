@@ -1,98 +1,109 @@
 .App {
-    font-family: sans-serif;
-  }
-  .header {
-    padding: 20px;
-    position: relative;
-    color: #fff;
-    text-align: center;
-    background-color: #159957;
-    background-image: linear-gradient(120deg, #155799, #159957);
-  }
-  .sourceLink {
-    left: 20px;
-    bottom: 25px;
-    position: absolute;
-    color: #fff;
-  }
-  .header small {
-    text-align: right;
-    display: block;
-    margin-bottom: 5px;
-  }
-  .header a {
-    color: white;
-    text-decoration: underline;
-  }
-  #multiselectContainerReact {
-    margin-bottom: 20px;
-    float: none;
-  }
-  code {
-    padding: 10px;
-    background: #f1f1f1;
-  }
-  .mt10 {
-    margin-top: 10px;
-  }
-  .mt20 {
-    margin-top: 20px;
-  }
-  .mb20 {
-    margin-bottom: 20px;
-  }
-  .mt40 {
-    margin-top: 40px;
-  }
-  .displayBlock {
-    display: block;
-  }
-  .contents a {
-    display: block;
-    margin-bottom: 10px;
-    color: #45576b;
-    text-decoration: underline;
-  }
-  .otheroptions {
-    font-size: 14px;
-  }
-  
-  /* Overriding element hover */
-  .optionContainer li:hover,
-  .optionContainer .highlight {
-    background: red;
-    color: #fff;
-  }
-  /* Ends overriding */
-  
-  /* Placehoolder Color Change */
-  .searchBox#css_custom_input::placeholder {
-    color: red;
-  }
-  
-  .form{
-    position: relative;
-    display: flex;
-    width: auto;
-    margin: auto;
-    align-items: center;
+  font-family: sans-serif;
 }
-.chartPage{
-    position:sticky;
+.header {
+  padding: 20px;
+  position: relative;
+  color: #fff;
+  text-align: center;
+  background-color: #159957;
+  background-image: linear-gradient(120deg, #155799, #159957);
 }
-.chartLabel{
-    font-size: 0.7rem;
+.sourceLink {
+  left: 20px;
+  bottom: 25px;
+  position: absolute;
+  color: #fff;
 }
-.multiSelect{
-    width: 200px;
-    margin: 10px;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+.header small {
+  text-align: right;
+  display: block;
+  margin-bottom: 5px;
 }
-.header-right-reporting{
-    display: flex;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    margin-left: 12px;
+.header a {
+  color: white;
+  text-decoration: underline;
 }
-.button-reporting{
-    margin-top: 14px;
+#multiselectContainerReact {
+  margin-bottom: 20px;
+  float: none;
+}
+code {
+  padding: 10px;
+  background: #f1f1f1;
+}
+.mt10 {
+  margin-top: 10px;
+}
+.mt20 {
+  margin-top: 20px;
+}
+.mb20 {
+  margin-bottom: 20px;
+}
+.mt40 {
+  margin-top: 40px;
+}
+.displayBlock {
+  display: block;
+}
+.contents a {
+  display: block;
+  margin-bottom: 10px;
+  color: #45576b;
+  text-decoration: underline;
+}
+.otheroptions {
+  font-size: 14px;
+}
+
+/* Overriding element hover */
+.optionContainer li:hover,
+.optionContainer .highlight {
+  background: red;
+  color: #fff;
+}
+/* Ends overriding */
+
+/* Placehoolder Color Change */
+.searchBox#css_custom_input::placeholder {
+  color: red;
+}
+
+.form {
+  position: relative;
+  display: flex;
+  width: auto;
+  margin: auto;
+  align-items: center;
+}
+.chartPage {
+  position: sticky;
+}
+.chartLabel {
+  font-size: 0.7rem;
+}
+.multiSelect {
+  width: 220px;
+  margin: 10px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+.header-right-reporting {
+  display: flex;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  margin-left: 18px;
+  /* width: 28vw; */
+}
+.button-reporting {
+  margin-top: 20px;
+}
+.date-input {
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  height: 38px !important;
+  border: 1px solid darkgray;
+  border-radius: 3px;
+  margin-right: 15px;
 }
