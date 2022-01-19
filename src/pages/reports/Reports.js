@@ -3,9 +3,9 @@ import { Grid, Button } from "@material-ui/core";
 import { Table } from "react-bootstrap";
 import { MultiSelect } from "react-multi-select-component";
 import { useForm } from "react-hook-form";
-import "./styles.css";
-import { toast } from "react-toastify";
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { BASE_URL } from "../../Constants";
+import { toast } from "react-toastify";
 
 //date picker
 import DatePicker from "react-datepicker";
@@ -13,7 +13,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 
 // styles
+import "bootstrap/dist/css/bootstrap.min.css";
 import useStyles from "./styles";
+import "./styles.css";
 
 // components
 import PageTitle from "../../components/PageTitle/PageTitle.js";
@@ -169,83 +171,111 @@ export default function ReportsPage() {
           </div>
         </form>
       </div>
+      {tableShow && (
+        <div className="CSV-button-div">
+          <ReactHTMLTableToExcel
+            className="btn btn-info csv-button"
+            table="emp"
+            filename="ServiceReporting"
+            sheet="Sheet"
+            buttonText="Export CSV"
+          />
+        </div>
+      )}
       <Grid container spacing={1}>
         <Grid item xs={12} md={20}>
           <Widget disableWidgetMenu>
             {tableShow && (
-              <Table striped bordered hover size="sm">
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Revenue</th>
-                    <th>Charged Users</th>
-                    <th>New Subs</th>
-                    <th>New Subs Charging</th>
-                    <th>Renewals</th>
-                    <th>Same Day UnSubs</th>
-                    <th>Total UnSubs</th>
-                    <th>New User Base</th>
-                    <th>Net Charging</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {state
-                    ? state.map((state) => {
-                        return (
-                          <>
-                            <tr>
-                              <td>
-                                {moment(state.createdAt).format("YYYY-MM-DD")
-                                  ? moment(state.createdAt).format("YYYY-MM-DD")
-                                  : "N/A"}
-                              </td>
-                              <td>
-                                {state.totalRevenue ? state.totalRevenue : 0}
-                              </td>
-                              <td>
-                                {state.chargedCustomers
-                                  ? state.chargedCustomers
-                                  : 0}
-                              </td>
-                              <td>
-                                {state.newSubsChargingCount
-                                  ? state.newSubsChargingCount
-                                  : 0}
-                              </td>
-                              <td>
-                                {state.newSubsChargingPercentage
-                                  ? state.newSubsChargingPercentage
-                                  : 0}
-                              </td>
-                              <td>
-                                {Math.floor(state.renewalPercentage * 100) + "%"
-                                  ? Math.floor(state.renewalPercentage * 100) +
-                                    "%"
-                                  : 0}
-                              </td>
-                              <td>
-                                {state.sameDayUnsub ? state.sameDayUnsub : 0}
-                              </td>
-                              <td>
-                                {state.Unsubscriptions
-                                  ? state.Unsubscriptions
-                                  : 0}
-                              </td>
-                              <td>{state.totalBase ? state.totalBase : 0}</td>
-                              <td>
-                                {Math.floor(state.chargingPercentage * 100) +
-                                "%"
-                                  ? Math.floor(state.chargingPercentage * 100) +
-                                    "%"
-                                  : 0}
-                              </td>
-                            </tr>
-                          </>
-                        );
-                      })
-                    : ""}
-                </tbody>
-              </Table>
+              <>
+                <Table striped bordered hover size="sm" id="emp" class="table">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Revenue</th>
+                      <th>Charged Users</th>
+                      <th>New Subs #</th>
+                      <th>New Subs Charging #</th>
+                      <th>New Subs Charging %</th>
+                      <th>Renewals #</th>
+                      <th>Renewals %</th>
+                      <th>Same Day UnSubs</th>
+                      <th>Total UnSubs</th>
+                      <th>New User Base</th>
+                      <th>Net Charging</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {state
+                      ? state.map((state) => {
+                          return (
+                            <>
+                              <tr>
+                                <td>
+                                  {moment(state.createdAt).format("YYYY-MM-DD")
+                                    ? moment(state.createdAt).format(
+                                        "YYYY-MM-DD"
+                                      )
+                                    : "N/A"}
+                                </td>
+                                <td>
+                                  {state.totalRevenue ? state.totalRevenue : 0}
+                                </td>
+                                <td>
+                                  {state.chargedCustomers
+                                    ? state.chargedCustomers
+                                    : 0}
+                                </td>
+                                <td>
+                                  {state.Subscriptions
+                                    ? state.Subscriptions
+                                    : 0}
+                                </td>
+                                <td>
+                                  {state.newSubsChargingCount
+                                    ? state.newSubsChargingCount
+                                    : 0}
+                                </td>
+                                <td>
+                                  {state.newSubsChargingPercentage
+                                    ? state.newSubsChargingPercentage
+                                    : 0}
+                                </td>
+                                <td>
+                                  {state.renewalCount ? state.renewalCount : 0}
+                                </td>
+                                <td>
+                                  {Math.floor(state.renewalPercentage * 100) +
+                                  "%"
+                                    ? Math.floor(
+                                        state.renewalPercentage * 100
+                                      ) + "%"
+                                    : 0}
+                                </td>
+                                <td>
+                                  {state.sameDayUnsub ? state.sameDayUnsub : 0}
+                                </td>
+                                <td>
+                                  {state.Unsubscriptions
+                                    ? state.Unsubscriptions
+                                    : 0}
+                                </td>
+                                <td>{state.totalBase ? state.totalBase : 0}</td>
+                                <td>
+                                  {Math.floor(state.chargingPercentage * 100) +
+                                  "%"
+                                    ? Math.floor(
+                                        state.chargingPercentage * 100
+                                      ) + "%"
+                                    : 0}
+                                </td>
+                              </tr>
+                            </>
+                          );
+                        })
+                      : ""}
+                  </tbody>
+                </Table>
+              </>
             )}
             <>{!tableShow && <p>No Record!!</p>}</>
           </Widget>

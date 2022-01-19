@@ -34,10 +34,12 @@
     "multiselect-react-dropdown": "^2.0.17",
     "react": "^16.14.0",
     "react-bootstrap": "^2.0.4",
+    "react-csv": "^2.2.2",
     "react-datepicker": "^4.5.0",
     "react-day-picker": "^8.0.0-beta.36",
     "react-dom": "^16.14.0",
     "react-hook-form": "^7.22.4",
+    "react-html-table-to-excel": "^2.0.0",
     "react-icons": "^4.3.1",
     "react-input-calendar": "^0.5.4",
     "react-multi-select-component": "^4.1.14",
@@ -52,7 +54,7 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "PORT=4000 react-scripts start",
+    "start": "react-scripts start",
     "start-prod": " npm run stop-prod && pm2 start npm --name knect_admin_panel -- start",
     "stop-prod": "pm2 delete knect_admin_panel",
     "build": "react-scripts build",

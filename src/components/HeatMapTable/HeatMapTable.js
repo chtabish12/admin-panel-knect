@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import { Table } from "react-bootstrap";
 import moment from "moment";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles.css";
 
 // components
@@ -51,7 +52,6 @@ const HeatMapTable = ({ dataShow, data }) => {
         heatMap,
       });
     });
-
     heatMapArray.forEach((data, index) => {
       const dumyObject = {
         Unsub: "-",
@@ -67,8 +67,12 @@ const HeatMapTable = ({ dataShow, data }) => {
         data.heatMap.unshift(dumyObject);
       }
     });
+    // heatMapArray = heatMapArray.filter(function (n) {
+    //   return n || n === 0;
+    // });
     setState(heatMapArray);
     setTableShow(true);
+    console.log(heatMapArray);
   };
 
   useEffect(() => {
@@ -82,122 +86,125 @@ const HeatMapTable = ({ dataShow, data }) => {
         <Grid item xs={12} md={20}>
           <Widget disableWidgetMenu>
             {tableShow && (
-              <Table striped bordered hover size="sm">
-                <thead>
-                  <tr>
-                    <div className="date-body">
-                      <th>Date</th>
-                    </div>
-                    <th>Total Subscriptions</th>
+              <>
+                <Table striped bordered hover size="sm" id="emp" class="table">
+                  <thead>
+                    <tr>
+                      <div className="date-body">
+                        <th>Date</th>
+                      </div>
+                      <th>Total Subscriptions</th>
+                      {state
+                        ? state.map((state) => {
+                            return (
+                              <th>
+                                <div className="date-header">
+                                  {moment(state.date).format("YYYY-MM-DD")
+                                    ? moment(state.date).format("YYYY-MM-DD")
+                                    : "N/A"}
+                                </div>
+                                <thead>
+                                  <tr>
+                                    <div className="header-subHeadings">
+                                      <th>Charged</th>
+                                      <th>Charged %</th>
+                                      <th>Unsub</th>
+                                      <th>Unsub %</th>
+                                      <th>Netbase</th>
+                                      <th>Churn %</th>
+                                    </div>
+                                  </tr>
+                                </thead>
+                              </th>
+                            );
+                          })
+                        : ""}
+                    </tr>
+                  </thead>
+                  <>
                     {state
                       ? state.map((state) => {
                           return (
-                            <th>
-                              <div className="date-header">
-                                {moment(state.date).format("YYYY-MM-DD")
-                                  ? moment(state.date).format("YYYY-MM-DD")
-                                  : "N/A"}
-                              </div>
-                              <thead>
+                            <>
+                              <tbody>
                                 <tr>
-                                  <div className="header-subHeadings">
-                                    <th>Charged</th>
-                                    <th>Charged %</th>
-                                    <th>Unsub</th>
-                                    <th>Unsub %</th>
-                                    <th>Netbase</th>
-                                    <th>Churn %</th>
-                                  </div>
+                                  <td>
+                                    {moment(state.date).format("YYYY-MM-DD")
+                                      ? moment(state.date).format("YYYY-MM-DD")
+                                      : "-"}
+                                  </td>
+                                  <td>
+                                    {state.subscriptions
+                                      ? state.subscriptions
+                                      : 0}
+                                  </td>
+                                  {state.heatMap
+                                    ? state.heatMap.map((heat, i) => {
+                                        return (
+                                          <>
+                                            <td>
+                                              <thead>
+                                                <tr>
+                                                  <td>
+                                                    {heat.chargeCount
+                                                      ? heat.chargeCount
+                                                      : "-"}
+                                                  </td>
+                                                  <td>
+                                                    {typeof heat.charged !==
+                                                    "string"
+                                                      ? //  && typeof heat.charged !== undefined && typeof heat.charged !== null && typeof heat.charged !== false  && isNaN()!= NaN
+                                                        Math.floor(
+                                                          heat.charged * 100
+                                                        ) /
+                                                          100 +
+                                                        "%"
+                                                      : "-"}
+                                                  </td>
+                                                  <td>
+                                                    {heat.unsubCount
+                                                      ? heat.unsubCount
+                                                      : "0"}
+                                                  </td>
+                                                  <td>
+                                                    {typeof heat.charged !==
+                                                    "string"
+                                                      ? Math.floor(
+                                                          heat.Unsub * 100
+                                                        ) /
+                                                          100 +
+                                                        "%"
+                                                      : "-"}
+                                                  </td>
+                                                  <td>
+                                                    {heat.netbase
+                                                      ? heat.netbase
+                                                      : "-"}
+                                                  </td>
+                                                  <td>
+                                                    {typeof heat.charged !==
+                                                    "string"
+                                                      ? Math.floor(
+                                                          heat.churn * 100
+                                                        ) / 100
+                                                      : "-"}
+                                                  </td>
+                                                </tr>
+                                              </thead>
+                                            </td>
+                                          </>
+                                        );
+                                      })
+                                    : ""}
                                 </tr>
-                              </thead>
-                            </th>
+                              </tbody>
+                            </>
                           );
                         })
                       : ""}
-                  </tr>
-                </thead>
-                <>
-                  {state
-                    ? state.map((state, index) => {
-                        return (
-                          <>
-                            <tbody>
-                              <tr>
-                                <td>
-                                  {moment(state.date).format("YYYY-MM-DD")
-                                    ? moment(state.date).format("YYYY-MM-DD")
-                                    : "-"}
-                                </td>
-                                <td>
-                                  {state.subscriptions
-                                    ? state.subscriptions
-                                    : 0}
-                                </td>
-                                {state.heatMap
-                                  ? state.heatMap.map((heat, i) => {
-                                      return (
-                                        <>
-                                          <td>
-                                            <thead>
-                                              <tr>
-                                                <td>
-                                                  {heat.chargeCount
-                                                    ? heat.chargeCount
-                                                    : "-"}
-                                                </td>
-                                                <td>
-                                                  {typeof heat.charged !==
-                                                  "string"
-                                                    ? Math.floor(
-                                                        heat.charged * 1000
-                                                      ) /
-                                                        1000 +
-                                                      "%"
-                                                    : "-"}
-                                                </td>
-                                                <td>
-                                                  {heat.unsubCount
-                                                    ? heat.unsubCount
-                                                    : "0"}
-                                                </td>
-                                                <td>
-                                                  {typeof heat.charged !==
-                                                  "string"
-                                                    ? Math.floor(
-                                                        heat.Unsub * 1000
-                                                      ) /
-                                                        1000 +
-                                                      "%"
-                                                    : "-"}
-                                                </td>
-                                                <td>
-                                                  {heat.netbase
-                                                    ? heat.netbase
-                                                    : "-"}
-                                                </td>
-                                                <td>
-                                                  {typeof heat.charged !==
-                                                  "string"
-                                                    ? Math.floor(
-                                                        heat.churn * 1000
-                                                      ) / 1000
-                                                    : "-"}
-                                                </td>
-                                              </tr>
-                                            </thead>
-                                          </td>
-                                        </>
-                                      );
-                                    })
-                                  : ""}
-                              </tr>
-                            </tbody>
-                          </>
-                        );
-                      })
-                    : ""}
-                </>
-              </Table>
+                  </>
+                </Table>
+              </>
             )}
             <>{!tableShow && <p>No Record!!</p>}</>
           </Widget>
