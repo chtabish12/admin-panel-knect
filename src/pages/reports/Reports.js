@@ -198,7 +198,8 @@ export default function ReportsPage() {
                       <th>New Subs Charging %</th>
                       <th>Renewals #</th>
                       <th>Renewals %</th>
-                      <th>Same Day UnSubs</th>
+                      <th>Same Day UnSubs #</th>
+                      <th>Same Day UnSubs %</th>
                       <th>Total UnSubs</th>
                       <th>New User Base</th>
                       <th>Net Charging</th>
@@ -218,53 +219,110 @@ export default function ReportsPage() {
                                     : "N/A"}
                                 </td>
                                 <td>
-                                  {state.totalRevenue ? state.totalRevenue : 0}
-                                </td>
-                                <td>
-                                  {state.chargedCustomers
-                                    ? state.chargedCustomers
+                                  {new Intl.NumberFormat().format(
+                                    state.totalRevenue
+                                  )
+                                    ? new Intl.NumberFormat().format(
+                                        state.totalRevenue
+                                      )
                                     : 0}
                                 </td>
                                 <td>
-                                  {state.Subscriptions
-                                    ? state.Subscriptions
+                                  {new Intl.NumberFormat().format(
+                                    state.chargedCustomers
+                                  )
+                                    ? new Intl.NumberFormat().format(
+                                        state.chargedCustomers
+                                      )
                                     : 0}
                                 </td>
                                 <td>
-                                  {state.newSubsChargingCount
-                                    ? state.newSubsChargingCount
+                                  {new Intl.NumberFormat().format(
+                                    state.Subscriptions
+                                  )
+                                    ? new Intl.NumberFormat().format(
+                                        state.Subscriptions
+                                      )
                                     : 0}
                                 </td>
                                 <td>
-                                  {state.newSubsChargingPercentage
-                                    ? state.newSubsChargingPercentage
+                                  {new Intl.NumberFormat().format(
+                                    state.newSubsChargingCount
+                                  )
+                                    ? new Intl.NumberFormat().format(
+                                        state.newSubsChargingCount
+                                      )
                                     : 0}
                                 </td>
                                 <td>
-                                  {state.renewalCount ? state.renewalCount : 0}
+                                  {(
+                                    state.newSubsChargingPercentage * 100
+                                  ).toFixed(2) + "%"
+                                    ? (
+                                        state.newSubsChargingPercentage * 100
+                                      ).toFixed(2) + "%"
+                                    : 0}
                                 </td>
                                 <td>
-                                  {Math.floor(state.renewalPercentage * 100) +
+                                  {new Intl.NumberFormat().format(
+                                    state.renewalCount
+                                  )
+                                    ? new Intl.NumberFormat().format(
+                                        state.renewalCount
+                                      )
+                                    : 0}
+                                </td>
+                                <td>
+                                  {(state.renewalPercentage * 100).toFixed(2) +
                                   "%"
-                                    ? Math.floor(
-                                        state.renewalPercentage * 100
+                                    ? (state.renewalPercentage * 100).toFixed(
+                                        2
                                       ) + "%"
                                     : 0}
                                 </td>
                                 <td>
-                                  {state.sameDayUnsub ? state.sameDayUnsub : 0}
-                                </td>
-                                <td>
-                                  {state.Unsubscriptions
-                                    ? state.Unsubscriptions
+                                  {new Intl.NumberFormat().format(
+                                    state.sameDayUnsub
+                                  )
+                                    ? new Intl.NumberFormat().format(
+                                        state.sameDayUnsub
+                                      )
                                     : 0}
                                 </td>
-                                <td>{state.totalBase ? state.totalBase : 0}</td>
                                 <td>
-                                  {Math.floor(state.chargingPercentage * 100) +
+                                  {(
+                                    (state.sameDayUnsub * 100) /
+                                    state.Subscriptions
+                                  ).toFixed(2) + "%"
+                                    ? (
+                                        (state.sameDayUnsub * 100) /
+                                        state.Subscriptions
+                                      ).toFixed(2) + "%"
+                                    : 0}
+                                </td>
+                                <td>
+                                  {new Intl.NumberFormat().format(
+                                    state.Unsubscriptions
+                                  )
+                                    ? new Intl.NumberFormat().format(
+                                        state.Unsubscriptions
+                                      )
+                                    : 0}
+                                </td>
+                                <td>
+                                  {new Intl.NumberFormat().format(
+                                    state.totalBase
+                                  )
+                                    ? new Intl.NumberFormat().format(
+                                        state.totalBase
+                                      )
+                                    : 0}
+                                </td>
+                                <td>
+                                  {(state.chargingPercentage * 100).toFixed(2) +
                                   "%"
-                                    ? Math.floor(
-                                        state.chargingPercentage * 100
+                                    ? (state.chargingPercentage * 100).toFixed(
+                                        2
                                       ) + "%"
                                     : 0}
                                 </td>
