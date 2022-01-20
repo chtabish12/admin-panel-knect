@@ -21,21 +21,26 @@ const HeatMap = () => {
   const classes = useStyles();
   const [affiliateValue, setAffiliateValue] = useState([]);
   const [serviceSelectValue, setServiceSelectValue] = useState([]);
+  const [productSelect, setProductSelect] = useState([]);
   const [response, setResponse] = useState();
-  const { handleSubmit } = useForm();
-  var ApiData = [];
-  let affiliatesArray = [];
-  let serviceArray = [];
+  // API
+  const [affiliatesList, setAffiliatesList] = useState("");
+  const [serviceList, setServiceList] = useState("");
+  const [productList, setProductList] = useState("");
+  const [tableShow, setTableShow] = useState(false);
   // date picker
   const [startDate, setStartDate] = useState(
     new Date(new Date().setDate(new Date().getDate() - 30))
   );
   const [endDate, setEndDate] = useState(new Date());
-  // API
-  const [affiliatesList, setAffiliatesList] = useState("");
-  const [serviceList, setServiceList] = useState("");
-  const [tableShow, setTableShow] = useState(false);
-
+  const { handleSubmit } = useForm();
+  var ApiData = [];
+  let affiliatesArray = [];
+  let serviceArray = [];
+  let productArray = [];
+  const LoginApiResp = JSON.parse(localStorage.getItem("api-data"));
+console.log("test", productSelect)
+let dummyProduct = productSelect;
   const fetchFiltersData = async () => {
     const url = `${BASE_URL}report/affiliates`;
     axios
@@ -62,8 +67,25 @@ const HeatMap = () => {
               )
           );
           setAffiliatesList(affiliatesArray);
+          // Product array data for displaying dropdown
+          for (let i = 0; i < LoginApiResp.length; i++)
+            for (let x = 0; x < LoginApiResp[i].products.length; x++) {
+              productArray.push({
+                value: LoginApiResp[i].products[x].id,
+                label: LoginApiResp[i].products[x].name,
+              });
+            } // removing duplicates
+          productArray = productArray.filter(
+            (value, index, self) =>
+              index ===
+              self.findIndex(
+                (t) => t.label === value.label && t.value === value.value
+              )
+          );
+          setProductList(productArray);
+       
           // Service array data for displaying dropdown
-          const LoginApiResp = JSON.parse(localStorage.getItem("api-data"));
+          // if(productSelect.length){
           for (let x = 0; x < LoginApiResp.length; x++) {
             for (let y = 0; y < LoginApiResp[x].products.length; y++)
               for (
@@ -71,19 +93,27 @@ const HeatMap = () => {
                 i < LoginApiResp[x].products[y].services.length;
                 i++
               ) {
+                // if (
+                //   LoginApiResp[x].products[y].services[i].productId ===
+                //     productSelect[0].value
+                // ) {
                 serviceArray.push({
                   value: LoginApiResp[x].products[y].services[i].id,
                   label: LoginApiResp[x].products[y].services[i].name,
                 });
               }
-            serviceArray = serviceArray.filter(
-              (value, index, self) =>
-                index ===
-                self.findIndex(
-                  (t) => t.label === value.label && t.value === value.value
-                )
-            );
-          }
+            }
+          // }
+          // }
+          console.log("productSelect", productSelect);
+          serviceArray = serviceArray.filter(
+            (value, index, self) =>
+              index ===
+              self.findIndex(
+                (t) => t.label === value.label && t.value === value.value
+              )
+          );
+
           setServiceList(serviceArray);
         } else {
           return toast("No Data Found!!, Please come later!!");
@@ -128,12 +158,22 @@ const HeatMap = () => {
 
   useEffect(() => {
     fetchFiltersData();
-  }, []);
+  }, [productSelect]);
+
   return (
     <>
       <PageTitle title="Services HeatMap" />
       <form onSubmit={handleSubmit(formSubmit)}>
         <div className={classes.dashedBorder}>
+          <div className="multiSelect">
+            Products
+            <Select
+              options={productList}
+              value={productSelect}
+              onChange={setProductSelect}
+              labelledBy="Services"
+            />
+          </div>
           <div className="multiSelect">
             Services
             <Select

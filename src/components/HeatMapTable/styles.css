@@ -110,19 +110,19 @@ tr {
   border-style: solid;
   border-width: 0;
   width: 92px !important;
+  text-align: center;
 }
 .date-header {
   width: 85px;
   margin: auto;
   border-bottom: 2px solid rgba(81, 69, 250, 0.815);
-  padding-left: 5px;
 }
 .header-subHeadings {
-  width: 550px;
+  width: 462px;
   margin: auto;
 }
 .header-subHeadings th {
-  width: 90px;
+  width: 77px;
   margin: auto;
 }
 .date-body {
