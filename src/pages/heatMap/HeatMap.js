@@ -210,7 +210,7 @@ const HeatMap = () => {
                 variant="contained"
                 color="primary"
                 size="medium"
-                // disabled={!serviceSelectValue.length || !affiliateValue.length}
+                disabled={!productSelect.value || !serviceSelectValue.value || !affiliateValue.value}
               >
                 Submit
               </Button>
