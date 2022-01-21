@@ -23,10 +23,10 @@ const HeatMap = () => {
   const [serviceSelectValue, setServiceSelectValue] = useState([]);
   const [productSelect, setProductSelect] = useState([]);
   const [response, setResponse] = useState();
+  const [isLoading, setIsLoading] = useState(false);
   // API
   const [affiliatesList, setAffiliatesList] = useState("");
   const [serviceList, setServiceList] = useState("");
-  const [productList, setProductList] = useState("");
   const [tableShow, setTableShow] = useState(false);
   // date picker
   const [startDate, setStartDate] = useState(
@@ -39,8 +39,38 @@ const HeatMap = () => {
   let serviceArray = [];
   let productArray = [];
   const LoginApiResp = JSON.parse(localStorage.getItem("api-data"));
-console.log("test", productSelect)
-let dummyProduct = productSelect;
+  // Product array data for displaying dropdown
+  for (let i = 0; i < LoginApiResp.length; i++)
+    for (let x = 0; x < LoginApiResp[i].products.length; x++) {
+      productArray.push({
+        value: LoginApiResp[i].products[x].id,
+        label: LoginApiResp[i].products[x].name,
+      });
+    } // removing duplicates
+  productArray = productArray.filter(
+    (value, index, self) =>
+      index ===
+      self.findIndex((t) => t.label === value.label && t.value === value.value)
+  );
+
+  // Service array data for displaying dropdown
+  if (productSelect) {
+    for (let x = 0; x < LoginApiResp.length; x++) {
+      for (let y = 0; y < LoginApiResp[x].products.length; y++)
+        for (let i = 0; i < LoginApiResp[x].products[y].services.length; i++) {
+          if (
+            LoginApiResp[x].products[y].services[i].productId ===
+            productSelect.value
+          ) {
+            serviceArray.push({
+              value: LoginApiResp[x].products[y].services[i].id,
+              label: LoginApiResp[x].products[y].services[i].name,
+            });
+          }
+        }
+    }
+  }
+
   const fetchFiltersData = async () => {
     const url = `${BASE_URL}report/affiliates`;
     axios
@@ -67,45 +97,6 @@ let dummyProduct = productSelect;
               )
           );
           setAffiliatesList(affiliatesArray);
-          // Product array data for displaying dropdown
-          for (let i = 0; i < LoginApiResp.length; i++)
-            for (let x = 0; x < LoginApiResp[i].products.length; x++) {
-              productArray.push({
-                value: LoginApiResp[i].products[x].id,
-                label: LoginApiResp[i].products[x].name,
-              });
-            } // removing duplicates
-          productArray = productArray.filter(
-            (value, index, self) =>
-              index ===
-              self.findIndex(
-                (t) => t.label === value.label && t.value === value.value
-              )
-          );
-          setProductList(productArray);
-       
-          // Service array data for displaying dropdown
-          // if(productSelect.length){
-          for (let x = 0; x < LoginApiResp.length; x++) {
-            for (let y = 0; y < LoginApiResp[x].products.length; y++)
-              for (
-                let i = 0;
-                i < LoginApiResp[x].products[y].services.length;
-                i++
-              ) {
-                // if (
-                //   LoginApiResp[x].products[y].services[i].productId ===
-                //     productSelect[0].value
-                // ) {
-                serviceArray.push({
-                  value: LoginApiResp[x].products[y].services[i].id,
-                  label: LoginApiResp[x].products[y].services[i].name,
-                });
-              }
-            }
-          // }
-          // }
-          console.log("productSelect", productSelect);
           serviceArray = serviceArray.filter(
             (value, index, self) =>
               index ===
@@ -142,6 +133,7 @@ let dummyProduct = productSelect;
         },
       })
       .then((resp) => {
+        setIsLoading(false);
         if (resp.status === 200 && resp.data.length) {
           let data = JSON.stringify(resp.data);
           data = JSON.parse(data);
@@ -157,8 +149,10 @@ let dummyProduct = productSelect;
   };
 
   useEffect(() => {
-    fetchFiltersData();
-  }, [productSelect]);
+    if (!isLoading) {
+      fetchFiltersData();
+    }
+  }, [isLoading, productSelect]);
 
   return (
     <>
@@ -168,7 +162,7 @@ let dummyProduct = productSelect;
           <div className="multiSelect">
             Products
             <Select
-              options={productList}
+              options={productArray}
               value={productSelect}
               onChange={setProductSelect}
               labelledBy="Services"

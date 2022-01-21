@@ -30,8 +30,6 @@ export default function Dashboard() {
               <ChartBar
                 region={region.name}
                 key={key}
-                // productSelectList={productArray}
-                // ServiceSelectList={serviceArray}
                 y= {x++}
                 z= {z++}
               />
