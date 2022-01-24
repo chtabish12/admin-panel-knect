@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import { Grid, Button } from "@material-ui/core";
 import { Table } from "react-bootstrap";
 import { MultiSelect } from "react-multi-select-component";
 import { useForm } from "react-hook-form";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import { BASE_URL } from "../../Constants";
 import { toast } from "react-toastify";
-
 //date picker
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -17,9 +15,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import useStyles from "./styles";
 import "./styles.css";
 
+import { AdminPanelService } from "../../Service/AdminPanelService";
 // components
-import PageTitle from "../../components/PageTitle/PageTitle.js";
 import Widget from "../../components/Widget/Widget.js";
+const PageTitle = lazy(() => import("../../components/PageTitle/PageTitle.js"));
 
 export default function ReportsPage() {
   // local
@@ -88,25 +87,24 @@ export default function ReportsPage() {
     let startdate = moment(startDate).format("YYYY-MM-DD");
     let enddate = moment(endDate).format("YYYY-MM-DD");
     let productIds = productArrayValue.join(",");
-
-    const url = `${BASE_URL}report/services?serviceIds=${servicesIds}&startDate='${startdate}'&endDate='${enddate}'&productIds=${productIds}`;
-    let fetchCall = await fetch(url, {
-      method: "GET",
-      headers: {
-        token: sessionStorage.getItem("token-user"),
-      },
-    });
-    if (fetchCall.status !== 200) {
-      return toast("Wrong attempt, Please retry!!");
-    } else {
-      let resp = await fetchCall.json();
-      if (resp.length) {
-        setState(resp);
-        setTableShow(true);
-      } else {
+    AdminPanelService.Reporting(
+      servicesIds,
+      startdate,
+      enddate,
+      productIds
+    )
+    .then((resp) => {
+      if (resp.status !== 200) {
         return toast("Wrong attempt, Please retry!!");
+      } else {
+        if (resp.data.length) {
+          setState(resp.data);
+          setTableShow(true);
+        } else {
+          return toast("No Record, Please retry!!");
+        }
       }
-    }
+    });
   };
 
   const formSubmit = async () => {
@@ -115,7 +113,9 @@ export default function ReportsPage() {
   useEffect(() => {}, [productSelect]);
   return (
     <>
-      <PageTitle title="Reports" />
+      <Suspense fallback={<></>}>
+        <PageTitle title="Reports" />
+      </Suspense>
       <div className={classes.dashedBorder}>
         <form className="form" onSubmit={handleSubmit(formSubmit)}>
           <div className="multiSelect">
@@ -125,6 +125,7 @@ export default function ReportsPage() {
               value={productSelect}
               onChange={setProductSelect}
               labelledBy="Products"
+              // shouldToggleOnHover={true}
               // disableSearch={true}
               // hasSelectAll={false}
             />
@@ -136,6 +137,7 @@ export default function ReportsPage() {
               value={serviceSelect}
               onChange={setServiceSelect}
               labelledBy="Services"
+              // shouldToggleOnHover={true}
               // disableSearch={true}
               // hasSelectAll={false}
             />

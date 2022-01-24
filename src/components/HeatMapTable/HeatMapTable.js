@@ -72,7 +72,6 @@ const HeatMapTable = ({ dataShow, data }) => {
     // });
     setState(heatMapArray);
     setTableShow(true);
-    console.log(heatMapArray);
   };
 
   useEffect(() => {

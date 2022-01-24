@@ -52,7 +52,7 @@ const loginUser = (dispatch, history, setIsLoading, message) => {
     dispatch({ type: "LOGIN_SUCCESS" });
     history.push("/app/dashboard");
   } else if (message === 400) {
-    console.log(" error !!!!!!");
+    // console.log(" error !!!!!!");
     setIsLoading(false);
   }
 };
@@ -62,5 +62,8 @@ const signOut = (dispatch, history) => {
   sessionStorage.removeItem("token-user");
   dispatch({ type: "SIGN_OUT_SUCCESS" });
   history.push("/login");
+  sessionStorage.clear();
+  localStorage.clear();
 };
+
 export { UserProvider, useUserState, useUserDispatch, loginUser, signOut };

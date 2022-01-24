@@ -12,15 +12,12 @@ import {
 } from "@devexpress/dx-react-chart-material-ui";
 import { toast } from "react-toastify";
 import moment from "moment";
-// import { useForm } from "react-hook-form";
 import { MultiSelect } from "react-multi-select-component";
-// import DatePicker from "react-datepicker";
 import { withStyles } from "@material-ui/core/styles";
 import { Stack, Animation } from "@devexpress/dx-react-chart";
 import "./ChartBar.css";
-import { BASE_URL } from "../../../src/Constants";
+import { AdminPanelService } from "../../Service/AdminPanelService";
 import "../../styles.css";
-// import _ from "lodash";
 
 const legendStyles = () => ({
   root: {
@@ -96,26 +93,24 @@ const ChartBar = ({ region, label, y, z }) => {
     let servicesId = servicesIds.join(",");
 
     let series = [];
-    const url = `${BASE_URL}user/revenue?startDate=${startdate}&endDate=${enddate}&productIds=${productId}&serviceIds=${servicesId}&region=${region}`;
-    let fetchCall = await fetch(url, {
-      method: "GET",
-      headers: {
-        token: sessionStorage.getItem("token-user"),
-      },
-    });
-    setLoadingData(false);
-    if (fetchCall.status === 200) {
-      let resp = await fetchCall.json();
-      if (resp.length) {
-        setmyState(resp[0].report);
-        series = Object.keys(resp[0].report[0]);
+    AdminPanelService.DashBoard(
+      startdate,
+      enddate,
+      productId,
+      servicesId,
+      region
+    ).then((resp) => {
+      setLoadingData(false);
+      if (resp.status === 200) {
+        setmyState(resp.data[0].report);
+        series = Object.keys(resp.data[0].report[0]);
         series = series.filter((s) => s !== "date" && s !== "region");
         setSeriesData([]);
         setSeriesData(series);
       } else {
         return toast("No Record Found!!");
       }
-    }
+    });
   };
 
   useEffect(() => {
@@ -131,7 +126,6 @@ const ChartBar = ({ region, label, y, z }) => {
         <div className="multiSelect">
           Products:
           <MultiSelect
-            // options={productSelectList}
             options={productArray}
             value={productSelect}
             onChange={setProductSelect}
@@ -144,7 +138,6 @@ const ChartBar = ({ region, label, y, z }) => {
           Services:
           <MultiSelect
             options={serviceArray}
-            // options={ServiceSelectList}
             value={serviceSelect}
             onChange={setServiceSelect}
             labelledBy="Services"
