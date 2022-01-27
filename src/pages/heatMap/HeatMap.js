@@ -38,7 +38,6 @@ const HeatMap = () => {
   let affiliatesArray = [];
   const FiltersDisplay = true;
   const serviceSelectValue = localStorage.getItem("service-data");
-  console.log(localStorage.getItem("service-data"))
 
   const fetchFiltersData = () => {
     AdminPanelService.HeatMapAffiliates().then((resp) => {
