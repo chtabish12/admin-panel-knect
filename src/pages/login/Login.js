@@ -12,6 +12,13 @@ import { withRouter } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { AdminPanelService } from "../../Service/AdminPanelService";
+import {
+  USERNAME_VALID,
+  USERPASSWORD_VALID,
+  LOGIN_VALIDATION,
+  FOOTER_NAME,
+  FOOTER_RIGHTS,
+} from "../../helper/Helper";
 import { useForm } from "react-hook-form";
 // styles
 import useStyles from "./styles";
@@ -23,10 +30,8 @@ import { toast } from "react-toastify";
 
 const Login = (props) => {
   const validationSchema = Yup.object().shape({
-    loginValue: Yup.string().required(
-      "Email is required (Example: me@example.com)"
-    ),
-    passwordValue: Yup.string().required("Please enter your password"),
+    loginValue: Yup.string().required(USERNAME_VALID),
+    passwordValue: Yup.string().required(USERPASSWORD_VALID),
   });
 
   const classes = useStyles();
@@ -49,18 +54,18 @@ const Login = (props) => {
       email: data.loginValue,
       password: data.passwordValue,
     };
-    AdminPanelService.Login(request).then((resp) => {
-      if (resp.status !== 200) {
-        return toast(
-          "Please Check your User Name or Password and then retry!!"
-        );
-      }
-      sessionStorage.setItem("token-user", resp.data.token);
-      localStorage.setItem("api-data", JSON.stringify(resp.data.regions));
-      sessionStorage.setItem("user-name", resp.data.user.name);
-      sessionStorage.setItem("user-id", resp.data.user.id);
-      loginUser(userDispatch, props.history, setIsLoading, resp.status);
-    });
+    AdminPanelService.Login(request)
+      .then((resp) => {
+        if (resp.status !== 200) {
+          return toast(LOGIN_VALIDATION);
+        }
+        sessionStorage.setItem("token-user", resp.data.token);
+        localStorage.setItem("api-data", JSON.stringify(resp.data.regions));
+        sessionStorage.setItem("user-name", resp.data.user.name);
+        sessionStorage.setItem("user-id", resp.data.user.id);
+        loginUser(userDispatch, props.history, setIsLoading, resp.status);
+      })
+      .catch(() => toast(LOGIN_VALIDATION));
   };
 
   return (
@@ -140,9 +145,9 @@ const Login = (props) => {
             rel="noopener noreferrer"
             target="_blank"
           >
-            Khaleef Technologies
+            {FOOTER_NAME}
           </a>
-          , LLC. All rights reserved.
+          {FOOTER_RIGHTS}
         </Typography>
       </div>
     </Grid>

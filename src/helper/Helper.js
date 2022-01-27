@@ -1,0 +1,9 @@
+export const USERNAME_VALID = "Email is required (Example: me@example.com)";
+export const USERPASSWORD_VALID = "Please enter your password";
+export const LOGIN_VALIDATION = "Please Check your User Name or Password and then retry!!";
+export const FOOTER_NAME = "Khaleef Technologies";
+export const FOOTER_RIGHTS = ", LLC. All rights reserved.";
+export const NO_DATA = "No Data Found!!, Please come later!!";
+export const WRONG_ATTEMPT = "Wrong attempt, Please retry!!";
+export const WRONG_SELECTION = "Wrong Selection, Please retry!!";
+export const HEADER_ADMIN = "Knect Admin";

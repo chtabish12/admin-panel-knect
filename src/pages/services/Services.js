@@ -9,18 +9,21 @@ import Widget from "../../components/Widget/Widget.js";
 import useStyles from "./styles";
 import { toast } from "react-toastify";
 import { AdminPanelService } from "../../Service/AdminPanelService.js";
+import { NO_DATA } from "../../helper/Helper.js";
 
 export default function ServicesPage() {
   const classes = useStyles();
   const [state, setState] = useState("");
 
   const fetchData = () => {
-    AdminPanelService.Service().then((resp) => {
-      if (resp.data.length) setState(resp.data);
-      else {
-        return toast("No Record, Please come later!!");
-      }
-    });
+    AdminPanelService.Service()
+      .then((resp) => {
+        if (resp.data.length) setState(resp.data);
+        else {
+          return toast(NO_DATA);
+        }
+      })
+      .catch(() => toast(NO_DATA));
   };
 
   useEffect(() => {

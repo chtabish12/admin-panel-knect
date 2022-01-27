@@ -18,6 +18,7 @@ import { AdminPanelService } from "../../Service/AdminPanelService";
 // components
 import Widget from "../../components/Widget/Widget.js";
 import Filters from "../../components/filters/Filters";
+import { NO_DATA, WRONG_ATTEMPT, WRONG_SELECTION } from "../../helper/Helper";
 const PageTitle = lazy(() => import("../../components/PageTitle/PageTitle.js"));
 
 const Reports = () => {
@@ -44,17 +45,18 @@ const Reports = () => {
       startdate,
       enddate,
       localStorage.getItem("product-data")
-    ).then((resp) => {
-      if (resp.status !== 200) {
-        return toast("Wrong attempt, Please retry!!");
-      } else 
-        if (resp.data.length && resp.status === 200) {
+    )
+      .then((resp) => {
+        if (resp.status !== 200) {
+          return toast(WRONG_ATTEMPT);
+        } else if (resp.data.length && resp.status === 200) {
           setState(resp.data);
           setTableShow(true);
         } else {
-          return toast("No Record, Please retry!!");
+          return toast(NO_DATA);
         }
-    }).catch(()=> toast("Wrong Selection, Please retry!!"))
+      })
+      .catch(() => toast(WRONG_SELECTION));
   };
 
   const formSubmit = async () => {

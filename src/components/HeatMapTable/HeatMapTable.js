@@ -19,6 +19,7 @@ const HeatMapTable = ({ dataShow, data }) => {
     let churn = 0;
     let charged = 0;
     let Unsub = 0;
+    //eslint-disable-next-line
     data.map((element) => {
       const heatMap = [];
       element.heat.map((ele, i) => {
@@ -78,15 +79,24 @@ const HeatMapTable = ({ dataShow, data }) => {
     if (dataShow) {
       fetchData();
     }
+    //eslint-disable-next-line
   }, [data]);
   return (
+    //eslint-disable-next-line
     <>
       <Grid container spacing={1}>
         <Grid item xs={12} md={12}>
           <Widget disableWidgetMenu>
             {tableShow && (
               <>
-                <Table striped bordered hover size="sm" id="emp" className="table">
+                <Table
+                  striped
+                  bordered
+                  hover
+                  size="sm"
+                  id="emp"
+                  className="table"
+                >
                   <thead>
                     <tr>
                       <div className="date-body">

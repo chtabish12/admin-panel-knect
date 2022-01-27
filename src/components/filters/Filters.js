@@ -43,7 +43,7 @@ const Filters = ({ FiltersDisplay, ReportFlag }) => {
           } else if (productSelect.length && ReportFlag)
             for (let j = 0; j < productSelect.length; j++)
               if (
-                LoginApiResp[x].products[y].services[i].productId ==
+                LoginApiResp[x].products[y].services[i].productId ===
                 productSelect[j].value
               ) {
                 serviceArray.push({

@@ -13,6 +13,7 @@ import "../../components/HeatMapTable/styles.css";
 import "react-datepicker/dist/react-datepicker.css";
 // components
 import { AdminPanelService } from "../../Service/AdminPanelService";
+import { NO_DATA, WRONG_ATTEMPT } from "../../helper/Helper";
 const PageTitle = lazy(() => import("../../components/PageTitle/PageTitle.js"));
 const HeatMapTable = lazy(() =>
   import("../../components/HeatMapTable/HeatMapTable")
@@ -59,7 +60,7 @@ const HeatMap = () => {
         );
         setAffiliatesList(affiliatesArray);
       } else {
-        return toast("No Data Found!!, Please come later!!");
+        return toast(NO_DATA);
       }
     });
   };
@@ -79,9 +80,9 @@ const HeatMap = () => {
         data = JSON.parse(data);
         setResponse(data);
       } else {
-        return toast("Wrong attempt, Please retry!!");
+        return toast(WRONG_ATTEMPT);
       }
-    });
+    }).catch(()=>toast(WRONG_ATTEMPT))
   };
   const formSubmit = () => {
     fetchData();
@@ -92,7 +93,8 @@ const HeatMap = () => {
     if (!isLoading) {
       fetchFiltersData();
     }
-  },[]);
+   // eslint-disable-next-line
+  }, []);
 
   return (
     <>

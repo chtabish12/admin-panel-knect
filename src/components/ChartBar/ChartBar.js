@@ -18,6 +18,7 @@ import { Stack, Animation } from "@devexpress/dx-react-chart";
 import "./ChartBar.css";
 import { AdminPanelService } from "../../Service/AdminPanelService";
 import "../../styles.css";
+import { NO_DATA } from "../../helper/Helper";
 
 const legendStyles = () => ({
   root: {
@@ -99,24 +100,27 @@ const ChartBar = ({ region, label, y, z }) => {
       productId,
       servicesId,
       region
-    ).then((resp) => {
-      setLoadingData(false);
-      if (resp.status === 200 && resp.data.length) {
-        setmyState(resp.data[0].report);
-        series = Object.keys(resp.data[0].report[0]);
-        series = series.filter((s) => s !== "date" && s !== "region");
-        setSeriesData([]);
-        setSeriesData(series);
-      } else {
-        return toast("No Record Found!!");
-      }
-    });
+    )
+      .then((resp) => {
+        setLoadingData(false);
+        if (resp.status === 200 && resp.data.length) {
+          setmyState(resp.data[0].report);
+          series = Object.keys(resp.data[0].report[0]);
+          series = series.filter((s) => s !== "date" && s !== "region");
+          setSeriesData([]);
+          setSeriesData(series);
+        } else {
+          return toast(NO_DATA);
+        }
+      })
+      .catch(() => toast(NO_DATA));
   };
 
   useEffect(() => {
     if (!loadingData) {
       fetchData();
     }
+    //eslint-disable-next-line
   }, [loadingData]);
 
   return (
