@@ -101,7 +101,7 @@ const ChartBar = ({ region, label, y, z }) => {
       region
     ).then((resp) => {
       setLoadingData(false);
-      if (resp.status === 200) {
+      if (resp.status === 200 && resp.data.length) {
         setmyState(resp.data[0].report);
         series = Object.keys(resp.data[0].report[0]);
         series = series.filter((s) => s !== "date" && s !== "region");

@@ -31,7 +31,7 @@ export default function ServicesPage() {
     <>
       <PageTitle title="My Services" />
       <Grid container spacing={1}>
-        <Grid item xs={12} md={20}>
+        <Grid item xs={12} md={12}>
           <Widget disableWidgetMenu>
             <Table striped bordered hover size="sm">
               <thead>

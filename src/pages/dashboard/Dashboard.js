@@ -29,7 +29,7 @@ export default function Dashboard() {
         <Widget bodyClass={classes.mainChartBody}>
           {response.length > 0 &&
             response.map((region, key) => (
-              <Suspense fallback={<></>}>
+              <Suspense key={key} fallback={<></>}>
                 <ChartBar
                   region={region.name}
                   key={key}

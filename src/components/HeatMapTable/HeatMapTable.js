@@ -82,11 +82,11 @@ const HeatMapTable = ({ dataShow, data }) => {
   return (
     <>
       <Grid container spacing={1}>
-        <Grid item xs={12} md={20}>
+        <Grid item xs={12} md={12}>
           <Widget disableWidgetMenu>
             {tableShow && (
               <>
-                <Table striped bordered hover size="sm" id="emp" class="table">
+                <Table striped bordered hover size="sm" id="emp" className="table">
                   <thead>
                     <tr>
                       <div className="date-body">

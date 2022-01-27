@@ -38,6 +38,7 @@ const HeatMap = () => {
   let affiliatesArray = [];
   const FiltersDisplay = true;
   const serviceSelectValue = localStorage.getItem("service-data");
+  console.log(localStorage.getItem("service-data"))
 
   const fetchFiltersData = () => {
     AdminPanelService.HeatMapAffiliates().then((resp) => {
@@ -92,7 +93,7 @@ const HeatMap = () => {
     if (!isLoading) {
       fetchFiltersData();
     }
-  });
+  },[]);
 
   return (
     <>
@@ -145,8 +146,8 @@ const HeatMap = () => {
           </div>
         </div>
       </form>
-      <Grid container spacing={1}>
-        <Grid item xs={12} md={20}>
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={12}>
           <div className={classes.dashedBorder}>
             <Suspense fallback={<></>}>
               <HeatMapTable dataShow={tableShow} data={response} />
