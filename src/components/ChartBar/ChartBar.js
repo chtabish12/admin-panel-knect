@@ -170,7 +170,6 @@ const ChartBar = ({ region, label, y, z }) => {
             variant="contained"
             color="primary"
             size="medium"
-            // disabled={tableShow}
           >
             Submit
           </Button>
