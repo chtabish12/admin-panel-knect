@@ -1,12 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import { Grid, Button } from "@material-ui/core";
 import { Table } from "react-bootstrap";
-import { MultiSelect } from "react-multi-select-component";
 import { useForm } from "react-hook-form";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import { BASE_URL } from "../../Constants";
 import { toast } from "react-toastify";
-
 //date picker
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -17,16 +14,19 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import useStyles from "./styles";
 import "./styles.css";
 
+import { AdminPanelService } from "../../Service/AdminPanelService";
 // components
-import PageTitle from "../../components/PageTitle/PageTitle.js";
 import Widget from "../../components/Widget/Widget.js";
+import Filters from "../../components/filters/Filters";
+import { NO_DATA, WRONG_ATTEMPT, WRONG_SELECTION } from "../../helper/Helper";
+const PageTitle = lazy(() => import("../../components/PageTitle/PageTitle.js"));
 
-export default function ReportsPage() {
+const Reports = () => {
   // local
   const classes = useStyles();
-  const [productSelect, setProductSelect] = useState([]);
-  const [serviceSelect, setServiceSelect] = useState([]);
+  const ReportFlag = true;
   const [tableShow, setTableShow] = useState(false);
+
   // date picker
   const [startDate, setStartDate] = useState(
     new Date(new Date().setDate(new Date().getDate() - 30))
@@ -36,110 +36,41 @@ export default function ReportsPage() {
   const [state, setState] = useState("");
   const { handleSubmit } = useForm();
 
-  // API DATA from login
-  let productArray = [];
-  const ApiData = JSON.parse(localStorage.getItem("api-data"));
-  // Product array data for displaying dropdown
-  for (let i = 0; i < ApiData.length; i++)
-    for (let x = 0; x < ApiData[i].products.length; x++) {
-      productArray.push({
-        value: ApiData[i].products[x].id,
-        label: ApiData[i].products[x].name,
-      });
-    } // removing duplicates
-  productArray = productArray.filter(
-    (value, index, self) =>
-      index ===
-      self.findIndex((t) => t.label === value.label && t.value === value.value)
-  );
-  // Service array data for displaying dropdown
-  let serviceArray = [];
-  for (let x = 0; x < ApiData.length; x++) {
-    for (let y = 0; y < ApiData[x].products.length; y++)
-      for (let i = 0; i < ApiData[x].products[y].services.length; i++) {
-        if (
-          productSelect.length &&
-          ApiData[x].products[y].services[i].productId ===
-            productSelect[0].value
-        ) {
-          serviceArray.push({
-            value: ApiData[x].products[y].services[i].id,
-            label: ApiData[x].products[y].services[i].name,
-          });
-        }
-      }
-  }
-  serviceArray = serviceArray.filter(
-    (value, index, self) =>
-      index ===
-      self.findIndex((t) => t.label === value.label && t.value === value.value)
-  );
-
   const fetchData = async () => {
-    let productArrayValue = [];
-    let serviceArrayValue = [];
-    for (let x = 0; x < productSelect.length; x++) {
-      productArrayValue.push(productSelect[x].value);
-    }
-    for (let x = 0; x < serviceSelect.length; x++) {
-      serviceArrayValue.push(serviceSelect[x].value);
-    }
-    let servicesIds = serviceArrayValue.join(",");
     let startdate = moment(startDate).format("YYYY-MM-DD");
     let enddate = moment(endDate).format("YYYY-MM-DD");
-    let productIds = productArrayValue.join(",");
 
-    const url = `${BASE_URL}report/services?serviceIds=${servicesIds}&startDate='${startdate}'&endDate='${enddate}'&productIds=${productIds}`;
-    let fetchCall = await fetch(url, {
-      method: "GET",
-      headers: {
-        token: sessionStorage.getItem("token-user"),
-      },
-    });
-    if (fetchCall.status !== 200) {
-      return toast("Wrong attempt, Please retry!!");
-    } else {
-      let resp = await fetchCall.json();
-      if (resp.length) {
-        setState(resp);
-        setTableShow(true);
-      } else {
-        return toast("Wrong attempt, Please retry!!");
-      }
-    }
+    AdminPanelService.Reporting(
+      localStorage.getItem("service-data"),
+      startdate,
+      enddate,
+      localStorage.getItem("product-data")
+    )
+      .then((resp) => {
+        if (resp.status !== 200) {
+          return toast(WRONG_ATTEMPT);
+        } else if (resp.data.length && resp.status === 200) {
+          setState(resp.data);
+          setTableShow(true);
+        } else {
+          return toast(NO_DATA);
+        }
+      })
+      .catch(() => toast(WRONG_SELECTION));
   };
 
   const formSubmit = async () => {
     fetchData();
   };
-  useEffect(() => {}, [productSelect]);
+  useEffect(() => {}, []);
   return (
     <>
-      <PageTitle title="Reports" />
+      <Suspense fallback={<></>}>
+        <PageTitle title="Reports" />
+      </Suspense>
       <div className={classes.dashedBorder}>
         <form className="form" onSubmit={handleSubmit(formSubmit)}>
-          <div className="multiSelect">
-            Products
-            <MultiSelect
-              options={productArray}
-              value={productSelect}
-              onChange={setProductSelect}
-              labelledBy="Products"
-              // disableSearch={true}
-              // hasSelectAll={false}
-            />
-          </div>
-          <div className="multiSelect">
-            Services
-            <MultiSelect
-              options={serviceArray}
-              value={serviceSelect}
-              onChange={setServiceSelect}
-              labelledBy="Services"
-              // disableSearch={true}
-              // hasSelectAll={false}
-            />
-          </div>
+          <Filters ReportFlag={ReportFlag} />
           <div className="header-right-reporting">
             <div>
               Start date
@@ -163,7 +94,7 @@ export default function ReportsPage() {
                 variant="contained"
                 color="primary"
                 size="medium"
-                disabled={!productSelect.length || !serviceSelect.length}
+                // disabled={!localStorage.getItem("service-data")}
               >
                 Submit
               </Button>
@@ -183,11 +114,18 @@ export default function ReportsPage() {
         </div>
       )}
       <Grid container spacing={1}>
-        <Grid item xs={12} md={20}>
+        <Grid item xs={12} md={12}>
           <Widget disableWidgetMenu>
             {tableShow && (
               <>
-                <Table striped bordered hover size="sm" id="emp" class="table">
+                <Table
+                  striped
+                  bordered
+                  hover
+                  size="sm"
+                  id="emp"
+                  className="table"
+                >
                   <thead>
                     <tr>
                       <th>Date</th>
@@ -341,4 +279,5 @@ export default function ReportsPage() {
       </Grid>
     </>
   );
-}
+};
+export default Reports;

@@ -4,176 +4,95 @@ import Paper from "@material-ui/core/Paper";
 import { Button } from "@material-ui/core";
 import {
   Chart,
-  ArgumentAxis,
-  ValueAxis,
-  BarSeries,
-  Title,
+  Series,
+  CommonSeriesSettings,
   Legend,
-} from "@devexpress/dx-react-chart-material-ui";
+  ValueAxis,
+  Title,
+  Export,
+  Tooltip,
+} from "devextreme-react/chart";
 import { toast } from "react-toastify";
 import moment from "moment";
-// import { useForm } from "react-hook-form";
-import { MultiSelect } from "react-multi-select-component";
-// import DatePicker from "react-datepicker";
-import { withStyles } from "@material-ui/core/styles";
-import { Stack, Animation } from "@devexpress/dx-react-chart";
+import Filters from "../filters/Filters.js";
 import "./ChartBar.css";
-import { BASE_URL } from "../../../src/Constants";
+import { AdminPanelService } from "../../Service/AdminPanelService";
 import "../../styles.css";
-// import _ from "lodash";
+import { NO_DATA } from "../../helper/Helper";
 
-const legendStyles = () => ({
-  root: {
-    display: "flex",
-    margin: "0",
-    padding: "22px",
-    fontSize: "0.7rem !important",
-  },
-});
-const legendRootBase = ({ classes, ...restProps }) => (
-  <Legend.Root
-    {...restProps}
-    className={`${classes.root} ${classes["Component-root-98"]} ${classes["LegendRoot-root-105"]} ${classes["LegendItem-root-109"]}`}
-  />
-);
-const Root = withStyles(legendStyles, { name: "LegendRoot" })(legendRootBase);
-const legendLabelStyles = () => ({
-  label: {
-    whiteSpace: "nowrap",
-    fontSize: "0.4rem !important",
-  },
-});
-const legendLabelBase = ({ classes, ...restProps }) => (
-  <Legend.Label className={classes.label} {...restProps} />
-);
-const Label = withStyles(legendLabelStyles, { name: "LegendLabel" })(
-  legendLabelBase
-);
+const customizeTooltip = (arg) => {
+  return {
+    text: `${arg.seriesName} revenue: ${arg.valueText}`,
+  };
+};
 
 ///////////////component
 const ChartBar = ({ region, label, y, z }) => {
   // local
-  const [productSelect, setProductSelect] = useState([]);
-  const [serviceSelect, setServiceSelect] = useState([]);
   const [mystate, setmyState] = useState([]);
   const [seriesData, setSeriesData] = useState([]);
   const [loadingData, setLoadingData] = useState(false);
+  const ChartBarShow = true;
 
-  let productArray = [];
-  const ApiData = JSON.parse(localStorage.getItem("api-data"));
-  for (let x = 0; x < ApiData[y].products.length; x++) {
-    productArray.push({
-      value: ApiData[y].products[x].id,
-      label: ApiData[y].products[x].name,
-    });
-  }
-  let serviceArray = [];
-  for (let i = 0; i < ApiData[z].products[0].services.length; i++) {
-    serviceArray.push({
-      value: ApiData[z].products[0].services[i].id,
-      label: ApiData[z].products[0].services[i].name,
-    });
-  }
   const formSubmit = (evt) => {
     evt.preventDefault();
-    let serviceArrayValue = [];
-    let productArrayValue = [];
-    for (let x = 0; x < serviceSelect.length; x++) {
-      serviceArrayValue.push(serviceSelect[x].value);
-    }
-    for (let x = 0; x < productSelect.length; x++) {
-      productArrayValue.push(productSelect[x].value);
-    }
-    fetchData(productArrayValue, serviceArrayValue);
+    fetchData();
   };
 
-  const fetchData = async (productIds = [], servicesIds = []) => {
+  const fetchData = async () => {
     var date = new Date();
     date.setDate(date.getDate() - 15);
     let startdate = moment(date).format("YYYY-MM-DD");
     let enddate = moment(new Date()).format("YYYY-MM-DD");
-    let productId = productIds.join(",");
-    let servicesId = servicesIds.join(",");
+    let productId = localStorage.getItem("product-data")
+      ? localStorage.getItem("product-data")
+      : "";
+    let servicesId = localStorage.getItem("service-data")
+      ? localStorage.getItem("service-data")
+      : "";
 
     let series = [];
-    const url = `${BASE_URL}user/revenue?startDate=${startdate}&endDate=${enddate}&productIds=${productId}&serviceIds=${servicesId}&region=${region}`;
-    let fetchCall = await fetch(url, {
-      method: "GET",
-      headers: {
-        token: sessionStorage.getItem("token-user"),
-      },
-    });
-    setLoadingData(false);
-    if (fetchCall.status === 200) {
-      let resp = await fetchCall.json();
-      if (resp.length) {
-        setmyState(resp[0].report);
-        series = Object.keys(resp[0].report[0]);
-        series = series.filter((s) => s !== "date" && s !== "region");
-        setSeriesData([]);
-        setSeriesData(series);
-      } else {
-        return toast("No Record Found!!");
-      }
-    }
+    AdminPanelService.DashBoard(
+      startdate,
+      enddate,
+      productId,
+      servicesId,
+      region
+    )
+      .then((resp) => {
+        setLoadingData(false);
+        if (resp.status === 200 && resp.data.length) {
+          setmyState(resp.data[0].report);
+          series = Object.keys(resp.data[0].report[0]);
+          series = series.filter((s) => s !== "date" && s !== "region");
+          setSeriesData([]);
+          setSeriesData(series);
+        } else {
+          return toast(NO_DATA);
+        }
+      })
+      .catch(() => toast(NO_DATA));
   };
 
   useEffect(() => {
     if (!loadingData) {
       fetchData();
     }
+    //eslint-disable-next-line
   }, [loadingData]);
 
   return (
     <>
       <div>{label}</div>
       <form className="form" onSubmit={formSubmit}>
-        <div className="multiSelect">
-          Products:
-          <MultiSelect
-            // options={productSelectList}
-            options={productArray}
-            value={productSelect}
-            onChange={setProductSelect}
-            labelledBy="Products"
-            // disableSearch={true}
-            // hasSelectAll={false}
-          />
-        </div>
-        <div className="multiSelect">
-          Services:
-          <MultiSelect
-            options={serviceArray}
-            // options={ServiceSelectList}
-            value={serviceSelect}
-            onChange={setServiceSelect}
-            labelledBy="Services"
-            // disableSearch={true}
-            // hasSelectAll={false}
-          />
-        </div>
+        <Filters ChartBarShow={ChartBarShow} prodIndex={y} servIndex={z} />
         <div className="header-right">
-          {/* <div>
-            Start date:
-            <DatePicker
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
-            />
-          </div>
-          <div>
-            End date:
-            <DatePicker
-              selected={endDate}
-              onChange={(date) => setEndDate(date)}
-            />
-          </div> */}
           <Button
             className="button"
             type="submit"
             variant="contained"
             color="primary"
             size="medium"
-            // disabled={tableShow}
           >
             Submit
           </Button>
@@ -181,37 +100,25 @@ const ChartBar = ({ region, label, y, z }) => {
       </form>
       <Paper className="chartPage">
         {seriesData?.length > 0 && (
-          <Chart data={mystate}>
-            <ArgumentAxis />
-            <ValueAxis max={2400} />
+          <Chart id="chart" title={`${region} Revenue`} dataSource={mystate}>
+            <CommonSeriesSettings argumentField="date" type="stackedBar" />
             {seriesData?.map((s, key) => (
-              <BarSeries
-                name={s}
-                valueField={s}
-                key={key}
-                argumentField="date"
-              />
+              <Series name={s} valueField={s} key={key} />
             ))}
-            <Animation />
+            <ValueAxis position="left">
+              <Title text="Revenue" />
+            </ValueAxis>
             <Legend
-              size="small"
-              position="bottom"
-              rootComponent={Root}
-              labelComponent={Label}
-              orientation="horizontal"
+              verticalAlignment="bottom"
+              horizontalAlignment="center"
+              itemTextPosition="top"
             />
-            <Title text={`${region} Revenue`} />
-            <div className="chartLabel">
-              {
-                <Stack
-                  stacks={[
-                    {
-                      series: seriesData,
-                    },
-                  ]}
-                />
-              }
-            </div>
+            <Export enabled={true} />
+            <Tooltip
+              enabled={true}
+              location="edge"
+              customizeTooltip={customizeTooltip}
+            />
           </Chart>
         )}
       </Paper>

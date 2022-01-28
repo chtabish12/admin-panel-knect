@@ -19,7 +19,7 @@ import classNames from "classnames";
 import useStyles from "./styles";
 
 // components
-import {Typography} from "../Wrappers/Wrappers.js";
+import { Typography } from "../Wrappers/Wrappers.js";
 
 // context
 import {
@@ -28,6 +28,7 @@ import {
   toggleSidebar,
 } from "../../context/LayoutContext";
 import { useUserDispatch, signOut } from "../../context/UserContext";
+import { HEADER_ADMIN } from "../../helper/Helper";
 
 export default function Header(props) {
   const classes = useStyles();
@@ -40,8 +41,11 @@ export default function Header(props) {
   // local
   const [profileMenu, setProfileMenu] = useState(null);
   // const [isSearchOpen, setSearchOpen] = useState(false);
-  var username = sessionStorage.getItem('user-name').toUpperCase().replaceAll('"', '');
-  var userid = sessionStorage.getItem('user-id');
+  var username = sessionStorage
+    .getItem("user-name")
+    .toUpperCase()
+    .replaceAll('"', "");
+  var userid = sessionStorage.getItem("user-id");
 
   return (
     <AppBar position="fixed" className={classes.appBar}>
@@ -51,7 +55,7 @@ export default function Header(props) {
           onClick={() => toggleSidebar(layoutDispatch)}
           className={classNames(
             classes.headerMenuButtonSandwich,
-            classes.headerMenuButtonCollapse,
+            classes.headerMenuButtonCollapse
           )}
         >
           {layoutState.isSidebarOpened ? (
@@ -59,7 +63,7 @@ export default function Header(props) {
               classes={{
                 root: classNames(
                   classes.headerIcon,
-                  classes.headerIconCollapse,
+                  classes.headerIconCollapse
                 ),
               }}
             />
@@ -68,20 +72,20 @@ export default function Header(props) {
               classes={{
                 root: classNames(
                   classes.headerIcon,
-                  classes.headerIconCollapse,
+                  classes.headerIconCollapse
                 ),
               }}
             />
           )}
         </IconButton>
         <Typography variant="h6" weight="medium" className={classes.logotype}>
-          Knect Admin
+          {HEADER_ADMIN}
         </Typography>
         <div className={classes.grow} />
         <div
-          // className={classNames(classes.search, {
-          //   [classes.searchFocused]: isSearchOpen,
-          // })}
+        // className={classNames(classes.search, {
+        //   [classes.searchFocused]: isSearchOpen,
+        // })}
         >
           {/* <div
             className={classNames(classes.searchIcon, {
@@ -104,7 +108,7 @@ export default function Header(props) {
           color="inherit"
           className={classes.headerMenuButton}
           aria-controls="profile-menu"
-          onClick={e => setProfileMenu(e.currentTarget)}
+          onClick={(e) => setProfileMenu(e.currentTarget)}
         >
           <AccountIcon classes={{ root: classes.headerIcon }} />
         </IconButton>
@@ -122,7 +126,7 @@ export default function Header(props) {
               {username}
             </Typography>
             <Typography variant="h6" weight="light">
-             KTP- {userid}
+              KTP- {userid}
             </Typography>
           </div>
           {/* <MenuItem

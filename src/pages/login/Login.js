@@ -8,11 +8,17 @@ import {
   Tab,
 } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
-
 // Yup package for email and password validation
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-
+import { AdminPanelService } from "../../Service/AdminPanelService";
+import {
+  USERNAME_VALID,
+  USERPASSWORD_VALID,
+  LOGIN_VALIDATION,
+  FOOTER_NAME,
+  FOOTER_RIGHTS,
+} from "../../helper/Helper";
 import { useForm } from "react-hook-form";
 // styles
 import useStyles from "./styles";
@@ -21,27 +27,11 @@ import logo from "./logo.svg";
 // context
 import { useUserDispatch, loginUser } from "../../context/UserContext";
 import { toast } from "react-toastify";
-import { BASE_URL } from "../../Constants";
 
 const Login = (props) => {
   const validationSchema = Yup.object().shape({
-    loginValue: Yup.string().required(
-      "Email is required (Example: me@example.com.au)"
-    ),
-    passwordValue: Yup.string().required("Please enter your password"),
-    // .matches(
-    //         /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
-    //         "Password must contain at least 8 characters, one uppercase, one number and one special case character",
-    //       )
-    // .when("firstName", {
-    //   // is: (val) => !id,
-    //   then: Yup.string()
-    //     .required("Please enter your password")
-    //     .matches(
-    //       /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
-    //       "Password must contain at least 8 characters, one uppercase, one number and one special case character",
-    //     )
-    // }),
+    loginValue: Yup.string().required(USERNAME_VALID),
+    passwordValue: Yup.string().required(USERPASSWORD_VALID),
   });
 
   const classes = useStyles();
@@ -50,7 +40,6 @@ const Login = (props) => {
   // local
   const [isLoading, setIsLoading] = useState(false);
   const [activeTabId, setActiveTabId] = useState(0);
-  // const [messageApi, setMessageApi] = useState("");
 
   const formOptions = {
     defaultValues: validationSchema.cast(),
@@ -60,32 +49,23 @@ const Login = (props) => {
   const { errors } = formState;
   // login and password schema validation
 
-  const formSubmit = async (data) => {
+  const formSubmit = (data) => {
     const request = {
       email: data.loginValue,
       password: data.passwordValue,
     };
-    const response = await fetch(`${BASE_URL}user/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(request),
-    });
-    let resp = await response.json();
-
-    //  console.log(response)
-    // setMessageApi(response.status);
-    if (response.status !== 200) {
-      return toast("Please Check your User Name or Password and then retry!!");
-    }
-    sessionStorage.setItem("token-user", resp.token);
-    localStorage.setItem("api-data", JSON.stringify(resp.regions));
-    sessionStorage.setItem("user-name", resp.user.name);
-    sessionStorage.setItem("user-id", resp.user.id);
-    // setIsLoading(true);
-    loginUser(userDispatch, props.history, setIsLoading, response.status);
+    AdminPanelService.Login(request)
+      .then((resp) => {
+        if (resp.status !== 200) {
+          return toast(LOGIN_VALIDATION);
+        }
+        sessionStorage.setItem("token-user", resp.data.token);
+        localStorage.setItem("api-data", JSON.stringify(resp.data.regions));
+        sessionStorage.setItem("user-name", resp.data.user.name);
+        sessionStorage.setItem("user-id", resp.data.user.id);
+        loginUser(userDispatch, props.history, setIsLoading, resp.status);
+      })
+      .catch(() => toast(LOGIN_VALIDATION));
   };
 
   return (
@@ -165,9 +145,9 @@ const Login = (props) => {
             rel="noopener noreferrer"
             target="_blank"
           >
-            Khaleef Technologies
+            {FOOTER_NAME}
           </a>
-          , LLC. All rights reserved.
+          {FOOTER_RIGHTS}
         </Typography>
       </div>
     </Grid>

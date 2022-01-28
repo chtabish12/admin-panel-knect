@@ -6,22 +6,24 @@ import "bootstrap/dist/css/bootstrap.min.css";
 // components
 import PageTitle from "../../components/PageTitle/PageTitle.js";
 import Widget from "../../components/Widget/Widget.js";
-import { BASE_URL } from "../../Constants";
 import useStyles from "./styles";
+import { toast } from "react-toastify";
+import { AdminPanelService } from "../../Service/AdminPanelService.js";
+import { NO_DATA } from "../../helper/Helper.js";
 
 export default function ServicesPage() {
   const classes = useStyles();
   const [state, setState] = useState("");
 
   const fetchData = () => {
-    fetch(`${BASE_URL}user/services`, {
-      method: "GET",
-      headers: {
-        token: sessionStorage.getItem("token-user"),
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => setState(data));
+    AdminPanelService.Service()
+      .then((resp) => {
+        if (resp.data.length) setState(resp.data);
+        else {
+          return toast(NO_DATA);
+        }
+      })
+      .catch(() => toast(NO_DATA));
   };
 
   useEffect(() => {
@@ -32,7 +34,7 @@ export default function ServicesPage() {
     <>
       <PageTitle title="My Services" />
       <Grid container spacing={1}>
-        <Grid item xs={12} md={20}>
+        <Grid item xs={12} md={12}>
           <Widget disableWidgetMenu>
             <Table striped bordered hover size="sm">
               <thead>

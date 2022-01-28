@@ -1,32 +1,33 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import { toast } from "react-toastify";
 import { Grid } from "@material-ui/core";
 import { Button } from "@material-ui/core";
-import { BASE_URL } from "../../Constants";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import moment from "moment";
 import Select from "react-select";
-import PageTitle from "../../components/PageTitle/PageTitle.js";
-import HeatMapTable from "../../components/HeatMapTable/HeatMapTable";
 //date picker
 import DatePicker from "react-datepicker";
 // styles
 import useStyles from "./styles";
 import "../../components/HeatMapTable/styles.css";
 import "react-datepicker/dist/react-datepicker.css";
+// components
+import { AdminPanelService } from "../../Service/AdminPanelService";
+import { NO_DATA, WRONG_ATTEMPT } from "../../helper/Helper";
+const PageTitle = lazy(() => import("../../components/PageTitle/PageTitle.js"));
+const HeatMapTable = lazy(() =>
+  import("../../components/HeatMapTable/HeatMapTable")
+);
+const Filters = lazy(() => import("../../components/filters/Filters.js"));
 
 const HeatMap = () => {
   // local
   const classes = useStyles();
   const [affiliateValue, setAffiliateValue] = useState([]);
-  const [serviceSelectValue, setServiceSelectValue] = useState([]);
-  const [productSelect, setProductSelect] = useState([]);
   const [response, setResponse] = useState();
+  const [isLoading, setIsLoading] = useState(false);
   // API
   const [affiliatesList, setAffiliatesList] = useState("");
-  const [serviceList, setServiceList] = useState("");
-  const [productList, setProductList] = useState("");
   const [tableShow, setTableShow] = useState(false);
   // date picker
   const [startDate, setStartDate] = useState(
@@ -36,120 +37,52 @@ const HeatMap = () => {
   const { handleSubmit } = useForm();
   var ApiData = [];
   let affiliatesArray = [];
-  let serviceArray = [];
-  let productArray = [];
-  const LoginApiResp = JSON.parse(localStorage.getItem("api-data"));
-console.log("test", productSelect)
-let dummyProduct = productSelect;
-  const fetchFiltersData = async () => {
-    const url = `${BASE_URL}report/affiliates`;
-    axios
-      .get(url, {
-        headers: {
-          token: sessionStorage.getItem("token-user"),
-        },
-      })
-      .then((resp) => {
-        ApiData = resp.data;
-        if (resp.status === 200 && resp.data.length) {
-          // affiliates Array array data for displaying dropdown
-          for (let i = 0; i < ApiData.length; i++)
-            affiliatesArray.push({
-              value: ApiData[i].id,
-              label: ApiData[i].sourceName,
-            });
-          // removing duplicates
-          affiliatesArray = affiliatesArray.filter(
-            (value, index, self) =>
-              index ===
-              self.findIndex(
-                (t) => t.label === value.label && t.value === value.value
-              )
-          );
-          setAffiliatesList(affiliatesArray);
-          // Product array data for displaying dropdown
-          for (let i = 0; i < LoginApiResp.length; i++)
-            for (let x = 0; x < LoginApiResp[i].products.length; x++) {
-              productArray.push({
-                value: LoginApiResp[i].products[x].id,
-                label: LoginApiResp[i].products[x].name,
-              });
-            } // removing duplicates
-          productArray = productArray.filter(
-            (value, index, self) =>
-              index ===
-              self.findIndex(
-                (t) => t.label === value.label && t.value === value.value
-              )
-          );
-          setProductList(productArray);
-       
-          // Service array data for displaying dropdown
-          // if(productSelect.length){
-          for (let x = 0; x < LoginApiResp.length; x++) {
-            for (let y = 0; y < LoginApiResp[x].products.length; y++)
-              for (
-                let i = 0;
-                i < LoginApiResp[x].products[y].services.length;
-                i++
-              ) {
-                // if (
-                //   LoginApiResp[x].products[y].services[i].productId ===
-                //     productSelect[0].value
-                // ) {
-                serviceArray.push({
-                  value: LoginApiResp[x].products[y].services[i].id,
-                  label: LoginApiResp[x].products[y].services[i].name,
-                });
-              }
-            }
-          // }
-          // }
-          console.log("productSelect", productSelect);
-          serviceArray = serviceArray.filter(
-            (value, index, self) =>
-              index ===
-              self.findIndex(
-                (t) => t.label === value.label && t.value === value.value
-              )
-          );
+  const FiltersDisplay = true;
+  const serviceSelectValue = localStorage.getItem("service-data");
 
-          setServiceList(serviceArray);
-        } else {
-          return toast("No Data Found!!, Please come later!!");
-        }
-      });
+  const fetchFiltersData = () => {
+    AdminPanelService.HeatMapAffiliates().then((resp) => {
+      ApiData = resp.data;
+      if (resp.status === 200 && resp.data.length) {
+        // affiliates Array array data for displaying dropdown
+        for (let i = 0; i < ApiData.length; i++)
+          affiliatesArray.push({
+            value: ApiData[i].id,
+            label: ApiData[i].sourceName,
+          });
+        // removing duplicates
+        affiliatesArray = affiliatesArray.filter(
+          (value, index, self) =>
+            index ===
+            self.findIndex(
+              (t) => t.label === value.label && t.value === value.value
+            )
+        );
+        setAffiliatesList(affiliatesArray);
+      } else {
+        return toast(NO_DATA);
+      }
+    });
   };
 
   const fetchData = () => {
     let startdate = moment(startDate).format("YYYY-MM-DD");
     let enddate = moment(endDate).format("YYYY-MM-DD");
-    const url = `${BASE_URL}report/heatMapReport?`;
-    axios
-      .get(url, {
-        headers: {
-          token: sessionStorage.getItem("token-user"),
-        },
-        params: {
-          // serviceId: 8,
-          // startDate: "2021-11-01",
-          // endDate: "2021-12-30",
-          // affiliateId: 1,
-          serviceId: `${serviceSelectValue.value}`,
-          startDate: `${startdate}`,
-          endDate: `${enddate}`,
-          affiliateId: `${affiliateValue.value}`,
-        },
-      })
-      .then((resp) => {
-        if (resp.status === 200 && resp.data.length) {
-          let data = JSON.stringify(resp.data);
-          data = JSON.parse(data);
-          setResponse(data);
-        } else {
-          return toast("Wrong attempt, Please retry!!");
-        }
-      });
+    AdminPanelService.HeatMapTable(
+      `${serviceSelectValue}`,
+      `${startdate}`,
+      `${enddate}`,
+      `${affiliateValue.value}`
+    ).then((resp) => {
+      setIsLoading(false);
+      if (resp.status === 200 && resp.data.length) {
+        let data = JSON.stringify(resp.data);
+        data = JSON.parse(data);
+        setResponse(data);
+      } else {
+        return toast(WRONG_ATTEMPT);
+      }
+    }).catch(()=>toast(WRONG_ATTEMPT))
   };
   const formSubmit = () => {
     fetchData();
@@ -157,32 +90,22 @@ let dummyProduct = productSelect;
   };
 
   useEffect(() => {
-    fetchFiltersData();
-  }, [productSelect]);
+    if (!isLoading) {
+      fetchFiltersData();
+    }
+   // eslint-disable-next-line
+  }, []);
 
   return (
     <>
-      <PageTitle title="Services HeatMap" />
+      <Suspense fallback={<></>}>
+        <PageTitle title="Services HeatMap" />
+      </Suspense>
       <form onSubmit={handleSubmit(formSubmit)}>
         <div className={classes.dashedBorder}>
-          <div className="multiSelect">
-            Products
-            <Select
-              options={productList}
-              value={productSelect}
-              onChange={setProductSelect}
-              labelledBy="Services"
-            />
-          </div>
-          <div className="multiSelect">
-            Services
-            <Select
-              options={serviceList}
-              value={serviceSelectValue}
-              onChange={setServiceSelectValue}
-              labelledBy="Services"
-            />
-          </div>
+          <Suspense fallback={<></>}>
+            <Filters FiltersDisplay={FiltersDisplay} />
+          </Suspense>
           <div className="multiSelect">
             Affiliates
             <Select
@@ -216,7 +139,7 @@ let dummyProduct = productSelect;
                 variant="contained"
                 color="primary"
                 size="medium"
-                // disabled={!serviceSelectValue.length || !affiliateValue.length}
+                disabled={!serviceSelectValue || !affiliateValue.value}
               >
                 Submit
               </Button>
@@ -224,10 +147,12 @@ let dummyProduct = productSelect;
           </div>
         </div>
       </form>
-      <Grid container spacing={1}>
-        <Grid item xs={12} md={20}>
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={12}>
           <div className={classes.dashedBorder}>
-            <HeatMapTable dataShow={tableShow} data={response} />
+            <Suspense fallback={<></>}>
+              <HeatMapTable dataShow={tableShow} data={response} />
+            </Suspense>
           </div>
         </Grid>
       </Grid>

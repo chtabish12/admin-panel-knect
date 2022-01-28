@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense} from "react";
 import { Grid } from "@material-ui/core";
 
 // styles
 import useStyles from "./styles";
 // components
 import Widget from "../../components/Widget/Widget.js";
-import PageTitle from "../../components/PageTitle/PageTitle.js";
-import ChartBar from "../../components/ChartBar/ChartBar.js";
+const PageTitle = lazy(()=> import("../../components/PageTitle/PageTitle.js"));
+const ChartBar = lazy(() => import ("../../components/ChartBar/ChartBar.js"));
 
 export default function Dashboard() {
   const classes = useStyles();
@@ -22,19 +22,21 @@ export default function Dashboard() {
 
   return (
     <>
+    <Suspense fallback={<></>}>
       <PageTitle title="Dashboard" />
+    </Suspense>
       <Grid item xs={12}>
         <Widget bodyClass={classes.mainChartBody}>
           {response.length > 0 &&
             response.map((region, key) => (
-              <ChartBar
-                region={region.name}
-                key={key}
-                // productSelectList={productArray}
-                // ServiceSelectList={serviceArray}
-                y= {x++}
-                z= {z++}
-              />
+              <Suspense key={key} fallback={<></>}>
+                <ChartBar
+                  region={region.name}
+                  key={key}
+                  y= {x++}
+                  z= {z++}
+                />
+              </Suspense>
             ))}
         </Widget>
       </Grid>
