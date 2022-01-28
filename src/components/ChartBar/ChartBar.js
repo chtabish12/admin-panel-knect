@@ -4,49 +4,27 @@ import Paper from "@material-ui/core/Paper";
 import { Button } from "@material-ui/core";
 import {
   Chart,
-  ArgumentAxis,
-  ValueAxis,
-  BarSeries,
-  Title,
+  Series,
+  CommonSeriesSettings,
   Legend,
-} from "@devexpress/dx-react-chart-material-ui";
+  ValueAxis,
+  Title,
+  Export,
+  Tooltip,
+} from "devextreme-react/chart";
 import { toast } from "react-toastify";
 import moment from "moment";
-import { withStyles } from "@material-ui/core/styles";
 import Filters from "../filters/Filters.js";
-import { Stack, Animation } from "@devexpress/dx-react-chart";
 import "./ChartBar.css";
 import { AdminPanelService } from "../../Service/AdminPanelService";
 import "../../styles.css";
 import { NO_DATA } from "../../helper/Helper";
 
-const legendStyles = () => ({
-  root: {
-    display: "flex",
-    margin: "0",
-    padding: "22px",
-    fontSize: "0.7rem !important",
-  },
-});
-const legendRootBase = ({ classes, ...restProps }) => (
-  <Legend.Root
-    {...restProps}
-    className={`${classes.root} ${classes["Component-root-98"]} ${classes["LegendRoot-root-105"]} ${classes["LegendItem-root-109"]}`}
-  />
-);
-const Root = withStyles(legendStyles, { name: "LegendRoot" })(legendRootBase);
-const legendLabelStyles = () => ({
-  label: {
-    whiteSpace: "nowrap",
-    fontSize: "0.4rem !important",
-  },
-});
-const legendLabelBase = ({ classes, ...restProps }) => (
-  <Legend.Label className={classes.label} {...restProps} />
-);
-const Label = withStyles(legendLabelStyles, { name: "LegendLabel" })(
-  legendLabelBase
-);
+const customizeTooltip = (arg) => {
+  return {
+    text: `${arg.seriesName} revenue: ${arg.valueText}`,
+  };
+};
 
 ///////////////component
 const ChartBar = ({ region, label, y, z }) => {
@@ -122,36 +100,25 @@ const ChartBar = ({ region, label, y, z }) => {
       </form>
       <Paper className="chartPage">
         {seriesData?.length > 0 && (
-          <Chart data={mystate}>
-            <ArgumentAxis />
-            <ValueAxis max={2400} />
+          <Chart id="chart" title={`${region} Revenue`} dataSource={mystate}>
+            <CommonSeriesSettings argumentField="date" type="stackedBar" />
             {seriesData?.map((s, key) => (
-              <BarSeries
-                name={s}
-                valueField={s}
-                key={key}
-                argumentField="date"
-              />
+              <Series name={s} valueField={s} key={key} />
             ))}
-            <Animation />
+            <ValueAxis position="left">
+              <Title text="Revenue" />
+            </ValueAxis>
             <Legend
-              position="bottom"
-              rootComponent={Root}
-              labelComponent={Label}
-              orientation="horizontal"
+              verticalAlignment="bottom"
+              horizontalAlignment="center"
+              itemTextPosition="top"
             />
-            <Title text={`${region} Revenue`} />
-            <div className="chartLabel">
-              {
-                <Stack
-                  stacks={[
-                    {
-                      series: seriesData,
-                    },
-                  ]}
-                />
-              }
-            </div>
+            <Export enabled={true} />
+            <Tooltip
+              enabled={true}
+              location="edge"
+              customizeTooltip={customizeTooltip}
+            />
           </Chart>
         )}
       </Paper>
