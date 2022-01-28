@@ -12,8 +12,8 @@ import {
 } from "@devexpress/dx-react-chart-material-ui";
 import { toast } from "react-toastify";
 import moment from "moment";
-import { MultiSelect } from "react-multi-select-component";
 import { withStyles } from "@material-ui/core/styles";
+import Filters from "../filters/Filters.js";
 import { Stack, Animation } from "@devexpress/dx-react-chart";
 import "./ChartBar.css";
 import { AdminPanelService } from "../../Service/AdminPanelService";
@@ -51,47 +51,27 @@ const Label = withStyles(legendLabelStyles, { name: "LegendLabel" })(
 ///////////////component
 const ChartBar = ({ region, label, y, z }) => {
   // local
-  const [productSelect, setProductSelect] = useState([]);
-  const [serviceSelect, setServiceSelect] = useState([]);
   const [mystate, setmyState] = useState([]);
   const [seriesData, setSeriesData] = useState([]);
   const [loadingData, setLoadingData] = useState(false);
+  const ChartBarShow = true;
 
-  let productArray = [];
-  const ApiData = JSON.parse(localStorage.getItem("api-data"));
-  for (let x = 0; x < ApiData[y].products.length; x++) {
-    productArray.push({
-      value: ApiData[y].products[x].id,
-      label: ApiData[y].products[x].name,
-    });
-  }
-  let serviceArray = [];
-  for (let i = 0; i < ApiData[z].products[0].services.length; i++) {
-    serviceArray.push({
-      value: ApiData[z].products[0].services[i].id,
-      label: ApiData[z].products[0].services[i].name,
-    });
-  }
   const formSubmit = (evt) => {
     evt.preventDefault();
-    let serviceArrayValue = [];
-    let productArrayValue = [];
-    for (let x = 0; x < serviceSelect.length; x++) {
-      serviceArrayValue.push(serviceSelect[x].value);
-    }
-    for (let x = 0; x < productSelect.length; x++) {
-      productArrayValue.push(productSelect[x].value);
-    }
-    fetchData(productArrayValue, serviceArrayValue);
+    fetchData();
   };
 
-  const fetchData = async (productIds = [], servicesIds = []) => {
+  const fetchData = async () => {
     var date = new Date();
     date.setDate(date.getDate() - 15);
     let startdate = moment(date).format("YYYY-MM-DD");
     let enddate = moment(new Date()).format("YYYY-MM-DD");
-    let productId = productIds.join(",");
-    let servicesId = servicesIds.join(",");
+    let productId = localStorage.getItem("product-data")
+      ? localStorage.getItem("product-data")
+      : "";
+    let servicesId = localStorage.getItem("service-data")
+      ? localStorage.getItem("service-data")
+      : "";
 
     let series = [];
     AdminPanelService.DashBoard(
@@ -127,43 +107,8 @@ const ChartBar = ({ region, label, y, z }) => {
     <>
       <div>{label}</div>
       <form className="form" onSubmit={formSubmit}>
-        <div className="multiSelect">
-          Products:
-          <MultiSelect
-            options={productArray}
-            value={productSelect}
-            onChange={setProductSelect}
-            labelledBy="Products"
-            // disableSearch={true}
-            // hasSelectAll={false}
-          />
-        </div>
-        <div className="multiSelect">
-          Services:
-          <MultiSelect
-            options={serviceArray}
-            value={serviceSelect}
-            onChange={setServiceSelect}
-            labelledBy="Services"
-            // disableSearch={true}
-            // hasSelectAll={false}
-          />
-        </div>
+        <Filters ChartBarShow={ChartBarShow} prodIndex={y} servIndex={z} />
         <div className="header-right">
-          {/* <div>
-            Start date:
-            <DatePicker
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
-            />
-          </div>
-          <div>
-            End date:
-            <DatePicker
-              selected={endDate}
-              onChange={(date) => setEndDate(date)}
-            />
-          </div> */}
           <Button
             className="button"
             type="submit"
@@ -190,7 +135,6 @@ const ChartBar = ({ region, label, y, z }) => {
             ))}
             <Animation />
             <Legend
-              size="small"
               position="bottom"
               rootComponent={Root}
               labelComponent={Label}

@@ -51,19 +51,37 @@ const FilterFunction = (
   serviceArray,
   serviceSelectValue,
   FiltersDisplay,
-  ReportFlag
+  ReportFlag,
+  ChartBarShow,
+  prodIndex,
+  servIndex
 ) => {
   const LoginApiResp = JSON.parse(localStorage.getItem("api-data"));
-
-  // Product array data for displaying dropdown
-  for (let i = 0; i < LoginApiResp.length; i++)
-    for (let x = 0; x < LoginApiResp[i].products.length; x++) {
+  if (ChartBarShow) {
+    const ApiData = JSON.parse(localStorage.getItem("api-data"));
+    for (let x = 0; x < ApiData[prodIndex].products.length; x++) {
       productArray.push({
-        value: LoginApiResp[i].products[x].id,
-        label: LoginApiResp[i].products[x].name,
+        value: ApiData[prodIndex].products[x].id,
+        label: ApiData[prodIndex].products[x].name,
       });
     }
-
+    for (let i = 0; i < ApiData[servIndex].products[0].services.length; i++) {
+      serviceArray.push({
+        value: ApiData[servIndex].products[0].services[i].id,
+        label: ApiData[servIndex].products[0].services[i].name,
+      });
+    }
+  }
+  // Product array data for displaying dropdown
+  else {
+    for (let i = 0; i < LoginApiResp.length; i++)
+      for (let x = 0; x < LoginApiResp[i].products.length; x++) {
+        productArray.push({
+          value: LoginApiResp[i].products[x].id,
+          label: LoginApiResp[i].products[x].name,
+        });
+      }
+  }
   // Service array data for displaying dropdown
   if (productSelect) {
     for (let x = 0; x < LoginApiResp.length; x++) {
@@ -95,7 +113,7 @@ const FilterFunction = (
   }
   if (FiltersDisplay) {
     localStorage.setItem("service-data", serviceSelectValue.value);
-  } else if (ReportFlag) {
+  } else if (ReportFlag || ChartBarShow) {
     let productArrayValue = [];
     let serviceArrayValue = [];
     for (let x = 0; x < productSelect.length; x++) {

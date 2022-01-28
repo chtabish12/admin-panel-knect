@@ -5,7 +5,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import { MultiSelect } from "react-multi-select-component";
 import { FilterFunction } from "../../context/UserContext";
 
-const Filters = ({ FiltersDisplay, ReportFlag }) => {
+const Filters = ({
+  FiltersDisplay,
+  ReportFlag,
+  ChartBarShow,
+  prodIndex,
+  servIndex,
+}) => {
   // local
   const [serviceSelectValue, setServiceSelectValue] = useState([]);
   const [productSelect, setProductSelect] = useState([]);
@@ -17,7 +23,10 @@ const Filters = ({ FiltersDisplay, ReportFlag }) => {
     serviceArray,
     serviceSelectValue,
     FiltersDisplay,
-    ReportFlag
+    ReportFlag,
+    ChartBarShow,
+    prodIndex,
+    servIndex
   );
   // removing duplicates
   productArray = productArray.filter(
@@ -57,7 +66,7 @@ const Filters = ({ FiltersDisplay, ReportFlag }) => {
         </>
       )}
       <>
-        {ReportFlag && (
+        {(ReportFlag || ChartBarShow) && (
           <>
             <div className="multiSelect">
               Products
