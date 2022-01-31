@@ -1,16 +1,135 @@
 .LegendRoot-root-102 {
-    display: flex ;
-    padding: 22px !important;
+  display: flex;
+  padding: 22px !important;
 }
 .makeStyles-widgetBody-93 {
-    padding-left: 24px;
-    padding-right: 24px;
-    padding-bottom: 24px;
-    height: 100vh !important;
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-bottom: 24px;
+  height: 100vh !important;
 }
 css-6j8wv5-Input {
-    margin: 0px !important;
+  margin: 0px !important;
 }
-DatePicker input{
-height: 33px !important;
+DatePicker input {
+  height: 33px !important;
+}
+.makeStyles-dashedBorder-90 {
+    width: auto !important;
+}
+/* ////////////RESPONSIVE STYLING/////////////////// */
+@media only screen and (max-width: 942px) {
+  .MuiTypography-body1 {
+    font-size: 0.6rem !important;
+  }
+  .MuiButton-containedSizeLarge {
+    padding: 3px 20px !important;
+    font-size: 0.7rem !important;
+  }
+}
+
+@media only screen and (max-width: 468px) {
+  .makeStyles-form-6 {
+    width: 255px !important;
+  }
+  .MuiButton-containedSizeLarge {
+    padding: 1px 16px !important;
+    font-size: 0.7rem !important;
+  }
+  .makeStyles-widgetBody-69 {
+    padding-left: 1px !important;
+    padding-right: 1px !important;
+    padding-bottom: 5px !important;
+  }
+  .makeStyles-widgetHeader-67 {
+    padding-bottom: 3px !important;
+  }
+  .makeStyles-content-2 {
+    padding: 10px !important;
+  }
+  .header-right-reporting {
+    margin-left: 0px !important;
+    flex-wrap: wrap !important;
+  }
+  date-input {
+    margin-right: 2px !important;
+  }
+  .start-date {
+    width: 150px !important;
+  }
+  .MuiButton-label {
+    font-size: 0.6rem !important;
+    height: 24px;
+  }
+}
+@media only screen and (max-width: 400px) {
+  .rmsc .dropdown-heading {
+    padding: 4px !important;
+    margin: 0px !important;
+    font-size: 0.6rem !important;
+  }
+  .button {
+    height: 30px !important;
+    width: 15px !important;
+    font-size: 0.6rem !important;
+  }
+  .multiSelect {
+    /* width: 90px !important; */
+    margin: 1px 2px !important;
+  }
+  body {
+    font-size: calc(0.5rem) !important;
+  }
+  .makeStyles-widgetBody-69 {
+    padding-left: 1px !important;
+    padding-right: 1px !important;
+    padding-bottom: 5px !important;
+  }
+  .makeStyles-widgetHeader-67 {
+    padding-bottom: 3px !important;
+  }
+  .react-datepicker__input-container {
+    width: 63px !important;
+  }
+  .button-reporting {
+    margin-top: 12px !important;
+  }
+  .header-right-heat {
+    flex-wrap: wrap !important;
+  }
+  .header-right-heat {
+    margin-left: 0px !important;
+    margin-top: 0px !important;
+  }
+  .header-right-heat {
+    flex-wrap: wrap !important;
+  }
+  .button-Heat {
+    margin-top: 25px !important;
+  }
+}
+@media only screen and (max-width: 340px) {
+  .multiSelect {
+    width: 60px !important;
+    margin: 11px 2px !important;
+  }
+  body {
+    font-size: 0.5rem !important;
+  }
+  .form {
+    flex-wrap: wrap;
+  }
+  .button-Heat {
+    margin-top: 25px !important;
+  }
+}
+@media only screen and (max-width: 375px) {
+  .makeStyles-widgetBody-90 {
+    padding-left: 1px !important;
+    padding-right: 1px !important;
+    padding-bottom: 5px !important;
+  }
+  .button-Heat {
+    margin-top: 25px !important;
+  }
 }

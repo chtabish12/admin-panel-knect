@@ -73,7 +73,6 @@ code {
 .form {
   position: relative;
   display: flex;
-  width: auto;
   margin: auto;
   align-items: center;
 }
@@ -92,7 +91,6 @@ code {
   display: flex;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   margin-left: 18px;
-  /* width: 28vw; */
 }
 .button-reporting {
   margin-top: 20px;
@@ -117,4 +115,17 @@ code {
   margin-bottom: 12px;
   position: right;
   float: right;
+}
+.makeStyles-dashedBorder-60 {
+  width: auto !important;
+  display: flex;
+  padding: 16px;
+  flex-direction: row;
+  padding-bottom: 32px;
+}
+
+@media only screen and (max-width: 1200px) {
+  .form {
+    flex-wrap: wrap;
+  }
 }
