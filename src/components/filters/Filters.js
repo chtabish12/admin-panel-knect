@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import Select from "react-select";
+import { connect } from 'react-redux';
 import "../../components/HeatMapTable/styles.css";
 import "react-datepicker/dist/react-datepicker.css";
 import { MultiSelect } from "react-multi-select-component";
 import { FilterFunction } from "../../context/UserContext";
 
 const Filters = ({
-  FiltersDisplay,
+  HeatmapFilterShow,
   ReportFlag,
   ChartBarShow,
   prodIndex,
@@ -22,7 +23,7 @@ const Filters = ({
     productSelect,
     serviceArray,
     serviceSelectValue,
-    FiltersDisplay,
+    HeatmapFilterShow,
     ReportFlag,
     ChartBarShow,
     prodIndex,
@@ -40,10 +41,9 @@ const Filters = ({
       index ===
       self.findIndex((t) => t.label === value.label && t.value === value.value)
   );
-
   return (
     <>
-      {FiltersDisplay && (
+      {HeatmapFilterShow && (
         <>
           <div className="multiSelect">
             Products
@@ -92,4 +92,5 @@ const Filters = ({
     </>
   );
 };
-export default Filters;
+const mapStateToProps = (state) => ({ productID: state.filtersData.productSet, serviceID: state.filtersData.serviceSet});
+export default connect(mapStateToProps)(Filters);

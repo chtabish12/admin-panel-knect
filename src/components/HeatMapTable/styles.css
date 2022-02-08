@@ -144,3 +144,21 @@ tr {
   border: 1px solid darkgray;
   border-radius: 3px;
 }
+.heatMap-pdf-button{
+  outline: none;
+  cursor: pointer;
+  color: white;
+  background-color: #536DFE;
+  padding: 7px;
+  border-radius: 5px;
+  border: none;
+  margin-bottom: 4px;
+  transition-duration: 0.4s;
+}
+.heatMap-pdf-button:hover{
+  background-color: #0dcaf0; /* Green */
+  color: black;
+}
+.makeStyles-widgetHeader-66 {
+  padding: 5px !important;
+}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, lazy, Suspense } from "react";
+import { useSelector } from "react-redux";
 import { Grid, Button } from "@material-ui/core";
 import { Table } from "react-bootstrap";
 import { useForm } from "react-hook-form";
@@ -15,10 +16,10 @@ import useStyles from "./styles";
 import "./styles.css";
 
 import { AdminPanelService } from "../../Service/AdminPanelService";
+import { NO_DATA, WRONG_ATTEMPT, WRONG_SELECTION } from "../../helper/Helper";
 // components
 import Widget from "../../components/Widget/Widget.js";
 import Filters from "../../components/filters/Filters";
-import { NO_DATA, WRONG_ATTEMPT, WRONG_SELECTION } from "../../helper/Helper";
 const PageTitle = lazy(() => import("../../components/PageTitle/PageTitle.js"));
 
 const Reports = () => {
@@ -35,17 +36,15 @@ const Reports = () => {
   // API
   const [state, setState] = useState("");
   const { handleSubmit } = useForm();
+  // Redux
+  const productID = useSelector((state) => state.filtersData.productSet);
+  const serviceID = useSelector((state) => state.filtersData.serviceSet);
 
   const fetchData = async () => {
     let startdate = moment(startDate).format("YYYY-MM-DD");
     let enddate = moment(endDate).format("YYYY-MM-DD");
 
-    AdminPanelService.Reporting(
-      localStorage.getItem("service-data"),
-      startdate,
-      enddate,
-      localStorage.getItem("product-data")
-    )
+    AdminPanelService.Reporting(serviceID, startdate, enddate, productID)
       .then((resp) => {
         if (resp.status !== 200) {
           return toast(WRONG_ATTEMPT);
@@ -94,7 +93,7 @@ const Reports = () => {
                 variant="contained"
                 color="primary"
                 size="medium"
-                // disabled={!localStorage.getItem("service-data")}
+                disabled={!serviceID}
               >
                 Submit
               </Button>

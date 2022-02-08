@@ -1,5 +1,6 @@
 import React from "react";
-
+import { useDispatch } from "react-redux";
+import { filtersAction } from "../store/filtersData";
 const UserStateContext = React.createContext();
 const UserDispatchContext = React.createContext();
 
@@ -50,25 +51,30 @@ const FilterFunction = (
   productSelect,
   serviceArray,
   serviceSelectValue,
-  FiltersDisplay,
+  HeatmapFilterShow,
   ReportFlag,
   ChartBarShow,
   prodIndex,
   servIndex
 ) => {
+  // console.log('Filters')
+  const dispatch = useDispatch();
   const LoginApiResp = JSON.parse(localStorage.getItem("api-data"));
   if (ChartBarShow) {
-    const ApiData = JSON.parse(localStorage.getItem("api-data"));
-    for (let x = 0; x < ApiData[prodIndex].products.length; x++) {
+    for (let x = 0; x < LoginApiResp[prodIndex].products.length; x++) {
       productArray.push({
-        value: ApiData[prodIndex].products[x].id,
-        label: ApiData[prodIndex].products[x].name,
+        value: LoginApiResp[prodIndex].products[x].id,
+        label: LoginApiResp[prodIndex].products[x].name,
       });
     }
-    for (let i = 0; i < ApiData[servIndex].products[0].services.length; i++) {
+    for (
+      let i = 0;
+      i < LoginApiResp[servIndex].products[0].services.length;
+      i++
+    ) {
       serviceArray.push({
-        value: ApiData[servIndex].products[0].services[i].id,
-        label: ApiData[servIndex].products[0].services[i].name,
+        value: LoginApiResp[servIndex].products[0].services[i].id,
+        label: LoginApiResp[servIndex].products[0].services[i].name,
       });
     }
   }
@@ -90,7 +96,7 @@ const FilterFunction = (
           if (
             LoginApiResp[x].products[y].services[z].productId ===
               productSelect.value &&
-            FiltersDisplay
+            HeatmapFilterShow
           ) {
             serviceArray.push({
               value: LoginApiResp[x].products[y].services[z].id,
@@ -111,11 +117,11 @@ const FilterFunction = (
         }
     }
   }
-  if (FiltersDisplay) {
-    localStorage.setItem("service-data", serviceSelectValue.value);
+  const productArrayValue = [];
+  const serviceArrayValue = [];
+  if (HeatmapFilterShow) {
+    dispatch(filtersAction.serviceSet(serviceSelectValue.value));
   } else if (ReportFlag || ChartBarShow) {
-    let productArrayValue = [];
-    let serviceArrayValue = [];
     for (let x = 0; x < productSelect.length; x++) {
       productArrayValue.push(productSelect[x].value);
     }
@@ -124,6 +130,8 @@ const FilterFunction = (
     }
     localStorage.setItem("product-data", productArrayValue.join(","));
     localStorage.setItem("service-data", serviceArrayValue.join(","));
+    dispatch(filtersAction.productSet(productArrayValue.join(",")));
+    dispatch(filtersAction.serviceSet(serviceArrayValue.join(",")));
   }
 };
 //////////////////////##LOGIN METHOD###/////////////////////
