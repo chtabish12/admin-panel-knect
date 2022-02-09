@@ -57,7 +57,6 @@ const FilterFunction = (
   prodIndex,
   servIndex
 ) => {
-  // console.log('Filters')
   const dispatch = useDispatch();
   const LoginApiResp = JSON.parse(localStorage.getItem("api-data"));
   if (ChartBarShow) {

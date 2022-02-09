@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Select from "react-select";
-import { connect } from 'react-redux';
 import "../../components/HeatMapTable/styles.css";
 import "react-datepicker/dist/react-datepicker.css";
 import { MultiSelect } from "react-multi-select-component";
@@ -92,5 +91,5 @@ const Filters = ({
     </>
   );
 };
-const mapStateToProps = (state) => ({ productID: state.filtersData.productSet, serviceID: state.filtersData.serviceSet});
-export default connect(mapStateToProps)(Filters);
+
+export default Filters;

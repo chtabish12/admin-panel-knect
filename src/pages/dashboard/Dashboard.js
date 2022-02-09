@@ -1,5 +1,4 @@
 import React, { useState, useEffect, lazy, Suspense } from "react";
-import { connect } from "react-redux";
 import { Grid } from "@material-ui/core";
 
 // styles
@@ -9,9 +8,7 @@ import Widget from "../../components/Widget/Widget.js";
 const PageTitle = lazy(() => import("../../components/PageTitle/PageTitle.js"));
 const ChartBar = lazy(() => import("../../components/ChartBar/ChartBar.js"));
 
-const Dashboard = (props) => {
-  // // Redux
-  // console.log("product", props.productID, props.serviceID);
+const Dashboard = () => {
   const classes = useStyles();
   const [response, setResponse] = useState([]);
   var x = 0;
@@ -37,8 +34,6 @@ const Dashboard = (props) => {
                   key={key}
                   y={x++}
                   z={z++}
-                  productID={props.productID}
-                  serviceID={props.serviceID}
                 />
               </Suspense>
             ))}
@@ -48,8 +43,4 @@ const Dashboard = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  productID: state.filtersData.productSet,
-  serviceID: state.filtersData.serviceSet,
-});
-export default connect(mapStateToProps)(Dashboard);
+export default Dashboard;

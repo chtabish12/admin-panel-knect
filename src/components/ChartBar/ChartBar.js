@@ -27,14 +27,12 @@ const customizeTooltip = (arg) => {
 };
 
 ///////////////component
-const ChartBar = ({ region, label, y, z, productID, serviceID}) => {
-    console.log('product', productID, serviceID);
+const ChartBar = ({ region, label, y, z}) => {
   // local
   const [myState, setmyState] = useState([]);
   const [seriesData, setSeriesData] = useState([]);
   const [loadingData, setLoadingData] = useState(false);
   const ChartBarShow = true;
-  // console.log("productID")
 
   const formSubmit = (evt) => {
     evt.preventDefault();
