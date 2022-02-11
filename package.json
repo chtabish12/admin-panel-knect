@@ -46,7 +46,7 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "PORT=4000 react-scripts start",
+    "start": "react-scripts start",
     "start-prod": "pm2 start npm --name knect_admin_panel -- start",
     "stop-prod": "pm2 delete knect_admin_panel",
     "build": "react-scripts build",
