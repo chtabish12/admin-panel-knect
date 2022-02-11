@@ -27,9 +27,9 @@ const customizeTooltip = (arg) => {
 };
 
 ///////////////component
-const ChartBar = ({ region, label, y, z }) => {
+const ChartBar = ({ region, label, y, z}) => {
   // local
-  const [mystate, setmyState] = useState([]);
+  const [myState, setmyState] = useState([]);
   const [seriesData, setSeriesData] = useState([]);
   const [loadingData, setLoadingData] = useState(false);
   const ChartBarShow = true;
@@ -39,7 +39,7 @@ const ChartBar = ({ region, label, y, z }) => {
     fetchData();
   };
 
-  const fetchData = async () => {
+  const fetchData =  () => {
     var date = new Date();
     date.setDate(date.getDate() - 15);
     let startdate = moment(date).format("YYYY-MM-DD");
@@ -100,7 +100,7 @@ const ChartBar = ({ region, label, y, z }) => {
       </form>
       <Paper className="chartPage">
         {seriesData?.length > 0 && (
-          <Chart id="chart" title={`${region} Revenue`} dataSource={mystate}>
+          <Chart id="chart" title={`${region} Revenue`} dataSource={myState}>
             <CommonSeriesSettings argumentField="date" type="stackedBar" />
             {seriesData?.map((s, key) => (
               <Series name={s} valueField={s} key={key} />

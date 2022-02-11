@@ -1,4 +1,5 @@
 import React, { useState, useEffect, lazy, Suspense } from "react";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { Grid } from "@material-ui/core";
 import { Button } from "@material-ui/core";
@@ -21,6 +22,10 @@ const HeatMapTable = lazy(() =>
 const Filters = lazy(() => import("../../components/filters/Filters.js"));
 
 const HeatMap = () => {
+  // Redux
+  const serviceSelectValue = useSelector(
+    (state) => state.filtersData.serviceSet
+  );
   // local
   const classes = useStyles();
   const [affiliateValue, setAffiliateValue] = useState([]);
@@ -37,8 +42,7 @@ const HeatMap = () => {
   const { handleSubmit } = useForm();
   var ApiData = [];
   let affiliatesArray = [];
-  const FiltersDisplay = true;
-  const serviceSelectValue = localStorage.getItem("service-data");
+  const HeatmapFilterShow = true;
 
   const fetchFiltersData = () => {
     AdminPanelService.HeatMapAffiliates().then((resp) => {
@@ -73,16 +77,18 @@ const HeatMap = () => {
       `${startdate}`,
       `${enddate}`,
       `${affiliateValue.value}`
-    ).then((resp) => {
-      setIsLoading(false);
-      if (resp.status === 200 && resp.data.length) {
-        let data = JSON.stringify(resp.data);
-        data = JSON.parse(data);
-        setResponse(data);
-      } else {
-        return toast(WRONG_ATTEMPT);
-      }
-    }).catch(()=>toast(WRONG_ATTEMPT))
+    )
+      .then((resp) => {
+        setIsLoading(false);
+        if (resp.status === 200 && resp.data.length) {
+          let data = JSON.stringify(resp.data);
+          data = JSON.parse(data);
+          setResponse(data);
+        } else {
+          return toast(WRONG_ATTEMPT);
+        }
+      })
+      .catch(() => toast(WRONG_ATTEMPT));
   };
   const formSubmit = () => {
     fetchData();
@@ -93,7 +99,7 @@ const HeatMap = () => {
     if (!isLoading) {
       fetchFiltersData();
     }
-   // eslint-disable-next-line
+    // eslint-disable-next-line
   }, []);
 
   return (
@@ -104,7 +110,7 @@ const HeatMap = () => {
       <form onSubmit={handleSubmit(formSubmit)}>
         <div className={classes.dashedBorder}>
           <Suspense fallback={<></>}>
-            <Filters FiltersDisplay={FiltersDisplay} />
+            <Filters HeatmapFilterShow={HeatmapFilterShow} />
           </Suspense>
           <div className="multiSelect">
             Affiliates

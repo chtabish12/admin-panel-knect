@@ -14,8 +14,8 @@ import { NO_DATA } from "../../helper/Helper.js";
 export default function ServicesPage() {
   const classes = useStyles();
   const [state, setState] = useState("");
-
   const fetchData = () => {
+   
     AdminPanelService.Service()
       .then((resp) => {
         if (resp.data.length) setState(resp.data);
