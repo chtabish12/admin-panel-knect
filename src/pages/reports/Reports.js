@@ -149,8 +149,8 @@ const Reports = () => {
                             <>
                               <tr>
                                 <td>
-                                  {moment(state.createdAt).format("YYYY-MM-DD")
-                                    ? moment(state.createdAt).format(
+                                  {moment(state.reportOf).format("YYYY-MM-DD")
+                                    ? moment(state.reportOf).format(
                                         "YYYY-MM-DD"
                                       )
                                     : "N/A"}
