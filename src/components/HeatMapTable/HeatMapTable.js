@@ -14,6 +14,7 @@ const HeatMapTable = ({ dataShow, data }) => {
   // API
   const [state, setState] = useState("");
   const [tableShow, setTableShow] = useState(false);
+  const [heatMapDate, setHeatMapDate] = useState();
   let heatMapArray = [];
   const createPdf = (html) => Doc.createPdf(html);
 
@@ -26,10 +27,6 @@ const HeatMapTable = ({ dataShow, data }) => {
     data.map((element) => {
       const heatMap = [];
       element.heat.map((ele, i) => {
-        netbase =
-          i === 0
-            ? element.totalSubscribers - ele.unsubCount
-            : netbase - ele.unsubCount;
         Unsub =
           i === 0
             ? (ele.unsubCount / element.totalSubscribers) * 100
@@ -42,14 +39,19 @@ const HeatMapTable = ({ dataShow, data }) => {
           i === 0
             ? (ele.chargeCount / element.totalSubscribers) * 100
             : (ele.chargeCount / netbase) * 100;
+        netbase =
+          i === 0
+            ? element.totalSubscribers - ele.unsubCount
+            : netbase - ele.unsubCount;
         return heatMap.push({
           ...ele,
-          netbase,
           churn,
           charged,
           Unsub,
+          netbase,
         });
       });
+
       heatMapArray.push({
         date: element.reportDate,
         subscriptions: element.totalSubscribers,
@@ -71,10 +73,10 @@ const HeatMapTable = ({ dataShow, data }) => {
         data.heatMap.unshift(dumyObject);
       }
     });
+    setHeatMapDate(heatMapArray[0].heatMap);
     setState(heatMapArray);
     setTableShow(true);
   };
-
   useEffect(() => {
     if (dataShow) {
       fetchData();
@@ -104,13 +106,15 @@ const HeatMapTable = ({ dataShow, data }) => {
                           <th>Date</th>
                         </div>
                         <th>Total Subscriptions</th>
-                        {state
-                          ? state.map((state) => {
+                        {heatMapDate
+                          ? heatMapDate.map((state) => {
                               return (
                                 <th>
                                   <div className="date-header">
-                                    {moment(state.date).format("YYYY-MM-DD")
-                                      ? moment(state.date).format("YYYY-MM-DD")
+                                    {moment(state.reportOf).format("YYYY-MM-DD")
+                                      ? moment(state.reportOf).format(
+                                          "YYYY-MM-DD"
+                                        )
                                       : "N/A"}
                                   </div>
                                   <thead>
@@ -169,11 +173,9 @@ const HeatMapTable = ({ dataShow, data }) => {
                                                     <td>
                                                       {typeof heat.charged !==
                                                       "string"
-                                                        ? Math.floor(
-                                                            heat.charged * 100
-                                                          ) /
-                                                            100 +
-                                                          "%"
+                                                        ? heat.charged.toFixed(
+                                                            2
+                                                          ) + "%"
                                                         : "-"}
                                                     </td>
                                                     <td>
@@ -184,11 +186,9 @@ const HeatMapTable = ({ dataShow, data }) => {
                                                     <td>
                                                       {typeof heat.charged !==
                                                       "string"
-                                                        ? Math.floor(
-                                                            heat.Unsub * 100
-                                                          ) /
-                                                            100 +
-                                                          "%"
+                                                        ? heat.Unsub.toFixed(
+                                                            2
+                                                          ) + "%"
                                                         : "-"}
                                                     </td>
                                                     <td>
@@ -199,9 +199,7 @@ const HeatMapTable = ({ dataShow, data }) => {
                                                     <td>
                                                       {typeof heat.charged !==
                                                       "string"
-                                                        ? Math.floor(
-                                                            heat.churn * 100
-                                                          ) / 100
+                                                        ? heat.churn.toFixed(2)
                                                         : "-"}
                                                     </td>
                                                   </tr>
