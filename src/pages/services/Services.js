@@ -14,20 +14,22 @@ import { NO_DATA } from "../../helper/Helper.js";
 export default function ServicesPage() {
   const classes = useStyles();
   const [state, setState] = useState("");
+  var _ = require("lodash");
   const fetchData = () => {
-   
     AdminPanelService.Service()
       .then((resp) => {
-        if (resp.data.length) setState(resp.data);
-        else {
+        if (resp.data.length) {
+          const test = _.orderBy(resp.data, "id", ["asc"]);
+          setState(test);
+        } else {
           return toast(NO_DATA);
         }
       })
       .catch(() => toast(NO_DATA));
   };
-
   useEffect(() => {
     fetchData();
+    // eslint-disable-next-line
   }, []);
 
   return (

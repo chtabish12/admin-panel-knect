@@ -27,6 +27,7 @@
     "devextreme": "^21.2.5",
     "devextreme-react": "^21.2.5",
     "dotenv": "^10.0.0",
+    "lodash": "^4.17.21",
     "materialui-daterange-picker": "^1.1.92",
     "moment": "^2.29.1",
     "react": "^16.14.0",
@@ -46,7 +47,7 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "PORT=4000 react-scripts start",
+    "start": "react-scripts start",
     "start-prod": "pm2 start npm --name knect_admin_panel -- start",
     "stop-prod": "pm2 delete knect_admin_panel",
     "build": "react-scripts build",
