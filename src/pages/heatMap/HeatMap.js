@@ -34,6 +34,8 @@ const HeatMap = () => {
   // API
   const [affiliatesList, setAffiliatesList] = useState("");
   const [tableShow, setTableShow] = useState(false);
+  const [dateArray, setDateArray] = useState([]);
+  let dummyDate = [];
   // date picker
   const [startDate, setStartDate] = useState(
     new Date(new Date().setDate(new Date().getDate() - 30))
@@ -84,12 +86,23 @@ const HeatMap = () => {
           let data = JSON.stringify(resp.data);
           data = JSON.parse(data);
           setResponse(data);
+          let currentDate = new Date(data[0].reportDate);
+          while (
+            currentDate <=
+            new Date(new Date().setDate(new Date().getDate() - 1))
+          ) {
+            dummyDate.push(new Date(currentDate));
+            // Use UTC date to prevent problems with time zones and DST
+            currentDate.setUTCDate(currentDate.getUTCDate() + 1);
+          }
+          setDateArray(dummyDate);
         } else {
           return toast(WRONG_ATTEMPT);
         }
       })
       .catch(() => toast(WRONG_ATTEMPT));
   };
+
   const formSubmit = () => {
     fetchData();
     setTableShow(true);
@@ -157,7 +170,11 @@ const HeatMap = () => {
         <Grid item xs={12} md={12}>
           <div className={classes.dashedBorder}>
             <Suspense fallback={<></>}>
-              <HeatMapTable dataShow={tableShow} data={response} />
+              <HeatMapTable
+                dataShow={tableShow}
+                data={response}
+                dateArray={dateArray}
+              />
             </Suspense>
           </div>
         </Grid>

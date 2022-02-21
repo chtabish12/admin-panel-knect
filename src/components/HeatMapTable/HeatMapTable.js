@@ -10,11 +10,10 @@ import Widget from "../Widget/Widget.js";
 import Doc from "./DocService";
 import PdfContainer from "./PdfContainer";
 
-const HeatMapTable = ({ dataShow, data }) => {
+const HeatMapTable = ({ dataShow, data, dateArray }) => {
   // API
   const [state, setState] = useState("");
   const [tableShow, setTableShow] = useState(false);
-  const [heatMapDate, setHeatMapDate] = useState();
   let heatMapArray = [];
   const createPdf = (html) => Doc.createPdf(html);
 
@@ -51,13 +50,13 @@ const HeatMapTable = ({ dataShow, data }) => {
           netbase,
         });
       });
-
       heatMapArray.push({
         date: element.reportDate,
         subscriptions: element.totalSubscribers,
         heatMap,
       });
     });
+
     heatMapArray.forEach((data, index) => {
       const dumyObject = {
         Unsub: "-",
@@ -65,15 +64,13 @@ const HeatMapTable = ({ dataShow, data }) => {
         charged: "-",
         churn: "-",
         netbase: "-",
-        reportDate: "-",
-        reportOf: "-",
         unsubCount: "-",
       };
       for (let i = 1; i <= index; i++) {
         data.heatMap.unshift(dumyObject);
       }
     });
-    setHeatMapDate(heatMapArray[0].heatMap);
+
     setState(heatMapArray);
     setTableShow(true);
   };
@@ -106,13 +103,13 @@ const HeatMapTable = ({ dataShow, data }) => {
                           <th>Date</th>
                         </div>
                         <th>Total Subscriptions</th>
-                        {heatMapDate
-                          ? heatMapDate.map((state) => {
+                        {dateArray
+                          ? dateArray.map((state) => {
                               return (
                                 <th>
                                   <div className="date-header">
-                                    {moment(state.reportOf).format("YYYY-MM-DD")
-                                      ? moment(state.reportOf).format(
+                                    {moment(state).format("YYYY-MM-DD")
+                                      ? moment(state).format(
                                           "YYYY-MM-DD"
                                         )
                                       : "N/A"}
