@@ -1,16 +1,25 @@
+body {
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
+  overflow-y: scroll;
+}
+
+body::-webkit-scrollbar {
+  display: none; /* for Chrome, Safari, and Opera */
+}
 .LegendRoot-root-102 {
-    display: flex ;
-    padding: 22px !important;
+  display: flex;
+  padding: 22px !important;
 }
 .makeStyles-widgetBody-93 {
-    padding-left: 24px;
-    padding-right: 24px;
-    padding-bottom: 24px;
-    height: 100vh !important;
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-bottom: 24px;
+  height: 100vh !important;
 }
 css-6j8wv5-Input {
-    margin: 0px !important;
+  margin: 0px !important;
 }
-DatePicker input{
-height: 33px !important;
+DatePicker input {
+  height: 33px !important;
 }
