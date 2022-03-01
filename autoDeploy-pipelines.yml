@@ -10,6 +10,6 @@ steps:
   inputs:
     sshEndpoint: 'Knect-Admin-EC2'
     runOptions: 'commands'
-    commands: 'cd ~/knect-admin-panel/ && git pull origin main 2>&1 && npm i && npm run build 2>&1;'
+    commands: 'cd ~/knect-admin-panel/ && git pull origin main && npm i && npm run build 2>&1;'
     readyTimeout: '20000'
 
