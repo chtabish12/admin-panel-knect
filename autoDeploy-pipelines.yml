@@ -1,0 +1,15 @@
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: SSH@0
+  inputs:
+    sshEndpoint: 'Knect-Admin-EC2'
+    runOptions: 'commands'
+    commands: 'cd ~/knect-admin-panel/ && git pull origin main 2>&1 && npm i && npm run build 2>&1;'
+    readyTimeout: '20000'
+
