@@ -58,7 +58,7 @@ const Reports = () => {
           });
           if (revenueSegregationArray.length) {
             revenueSegregationArray.forEach((ele) => {
-              if (!ele) {
+              if (!ele || ele=== "{}") {
                 return pricePoint.push("N/A");
               } else {
                 pricePoint.push(
