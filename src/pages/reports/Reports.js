@@ -26,8 +26,10 @@ const Reports = () => {
   // local
   const classes = useStyles();
   const ReportFlag = true;
+  const revenueSegregationArray = [];
   const [tableShow, setTableShow] = useState(false);
-
+  let pricePoint = [];
+  let response = [];
   // date picker
   const [startDate, setStartDate] = useState(
     new Date(new Date().setDate(new Date().getDate() - 30))
@@ -49,7 +51,48 @@ const Reports = () => {
         if (resp.status !== 200) {
           return toast(WRONG_ATTEMPT);
         } else if (resp.data.length && resp.status === 200) {
-          setState(resp.data);
+          resp.data.forEach((element) => {
+            revenueSegregationArray.push(
+              JSON.parse(element.revenueSegregation)
+            );
+          });
+          if (revenueSegregationArray.length) {
+            revenueSegregationArray.forEach((ele) => {
+              if (!ele) {
+                return pricePoint.push("N/A");
+              } else {
+                pricePoint.push(
+                  ele.map((element) => (
+                    <text>
+                      P: {element.price}; C:{" "}
+                      {new Intl.NumberFormat().format(element.subscriptions)}{" "}
+                      <br />
+                    </text>
+                  ))
+                );
+              }
+            });
+          }
+          // eslint-disable-next-line
+          resp.data.map((element, i) => {
+            response.push({
+              reportOf: element.reportOf,
+              totalRevenue: element.totalRevenue,
+              chargedCustomers: element.chargedCustomers,
+              Subscriptions: element.Subscriptions,
+              newSubsChargingCount: element.newSubsChargingCount,
+              newSubsChargingPercentage: element.newSubsChargingPercentage,
+              renewalCount: element.renewalCount,
+              renewalPercentage: element.renewalPercentage,
+              sameDayUnsub: element.sameDayUnsub,
+              Unsubscriptions: element.Unsubscriptions,
+              totalBase: element.totalBase,
+              chargingPercentage: element.chargingPercentage,
+              revenueSegregationArray: pricePoint[i],
+            });
+          });
+          setState([]);
+          setState(response);
           setTableShow(true);
         } else {
           return toast(NO_DATA);
@@ -129,6 +172,7 @@ const Reports = () => {
                     <tr>
                       <th>Date</th>
                       <th>Revenue</th>
+                      <th>Price Points</th>
                       <th>Charged Users</th>
                       <th>New Subs #</th>
                       <th>New Subs Charging #</th>
@@ -163,6 +207,11 @@ const Reports = () => {
                                         state.totalRevenue
                                       )
                                     : 0}
+                                </td>
+                                <td className="td-width">
+                                  {state.revenueSegregationArray
+                                    ? state.revenueSegregationArray
+                                    : ""}
                                 </td>
                                 <td>
                                   {new Intl.NumberFormat().format(
