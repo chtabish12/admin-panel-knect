@@ -69,7 +69,9 @@ code {
 .searchBox#css_custom_input::placeholder {
   color: red;
 }
-
+.td-width{
+  width: 150px !important;
+}
 .form {
   position: relative;
   display: flex;
