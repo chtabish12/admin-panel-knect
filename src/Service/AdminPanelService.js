@@ -1,6 +1,7 @@
 import {
   BASE_URL,
   LOGIN_URL,
+  MAIN_DASHBOARD_URL,
   REVENUE_URL,
   SERVICES_URL,
   REPORTS_URL,
@@ -13,6 +14,23 @@ export const AdminPanelService = {
     const url = `${BASE_URL}${LOGIN_URL}`;
     return axios.post(url, request);
   },
+  MainDashBoard: async (productIds, startDate, endDate, interval, region) => {
+    const url = `${BASE_URL}${MAIN_DASHBOARD_URL}`;
+
+    return axios.get(url, {
+      headers: {
+        token: sessionStorage.getItem("token-user"),
+      },
+      params: {
+        productIds: `${productIds}`,
+        startDate: `${startDate}`,
+        endDate: `${endDate}`,
+        interval: `${interval}`,
+        region: `${region}`,
+      },
+    });
+  },
+
   DashBoard: async (startDate, endDate, productIds, serviceIds, region) => {
     const url = `${BASE_URL}${REVENUE_URL}`;
     return axios.get(url, {

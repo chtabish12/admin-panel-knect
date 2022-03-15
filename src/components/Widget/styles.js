@@ -6,7 +6,7 @@ export default makeStyles(theme => ({
     minHeight: "100%",
   },
   widgetHeader: {
-    padding: theme.spacing(3),
+    padding: theme.spacing(1),
     paddingBottom: theme.spacing(1),
     display: "flex",
     justifyContent: "space-between",

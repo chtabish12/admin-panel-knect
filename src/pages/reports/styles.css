@@ -118,6 +118,11 @@ code {
   position: right;
   float: right;
 }
+.a-button{
+  outline: none !important;
+  text-decoration: none !important;
+  
+}
 .makeStyles-dashedBorder-60 {
   width: auto !important;
   display: flex;

@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  Route,
-  Switch,
-  withRouter,
-} from "react-router-dom";
+import { Route, Switch, Redirect, withRouter } from "react-router-dom";
 import classnames from "classnames";
 
 // styles
@@ -15,8 +11,9 @@ import Sidebar from "../Sidebar/Sidebar.js";
 
 // pages
 import Dashboard from "../../pages/dashboard/Dashboard.js";
+import MainDashboard from "../../pages/mainDashboard/MainDashboard.js";
 import Services from "../../pages/services/Services.js";
-import HeatMap from "../../pages/heatMap/HeatMap.js"
+import HeatMap from "../../pages/heatMap/HeatMap.js";
 import Reports from "../../pages/reports/Reports.js";
 
 // context
@@ -30,23 +27,29 @@ function Layout(props) {
 
   return (
     <div className={classes.root}>
-        <>
-          <Header history={props.history} />
-          <Sidebar />
-          <div
-            className={classnames(classes.content, {
-              [classes.contentShift]: layoutState.isSidebarOpened,
-            })}
-          >
-            <div className={classes.fakeToolbar} />
-            <Switch>
-              <Route path="/app/dashboard" component={Dashboard} />
-              <Route path="/app/services" component={Services} />
-              <Route path="/app/reports" component={Reports} />
-              <Route path="/app/heatmap" component={HeatMap} />
-            </Switch>
-          </div>
-        </>
+      <>
+        <Header history={props.history} />
+        <Sidebar />
+        <div
+          className={classnames(classes.content, {
+            [classes.contentShift]: layoutState.isSidebarOpened,
+          })}
+        >
+          <div className={classes.fakeToolbar} />
+          <Switch>
+            <Route path="/app/mainDashboard" component={MainDashboard} />
+            <Route path="/app/subdashboard" component={Dashboard} />
+            <Route path="/app/services" component={Services} />
+            <Route
+              exact
+              path="/app/reports"
+              render={() => <Redirect to="/app/reports/service" />}
+            />
+            <Route path="/app/reports/service" component={Reports} />
+            <Route path="/app/reports/heatmap" component={HeatMap} />
+          </Switch>
+        </div>
+      </>
     </div>
   );
 }
