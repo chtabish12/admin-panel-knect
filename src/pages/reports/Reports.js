@@ -229,13 +229,13 @@ const Reports = () => {
                                 <td>
                                   {((state.sameDayUnsub
                                     ? state.sameDayUnsub
-                                    : 0 * 100) / state.Subscriptions
+                                    : 0) / state.Subscriptions
                                     ? state.Subscriptions
                                     : 0
                                   ).toFixed(2) + "%"
                                     ? ((state.sameDayUnsub
                                         ? state.sameDayUnsub
-                                        : 0 * 100) / state.Subscriptions
+                                        : 0) / state.Subscriptions
                                         ? state.Subscriptions
                                         : 0
                                       ).toFixed(2) + "%"
