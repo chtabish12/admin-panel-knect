@@ -276,7 +276,9 @@ const Reports = () => {
                                     : 0}
                                 </td>
                                 <td>
-                                  {(
+                                  {
+                                  state.Subscriptions?(
+                                  (
                                     (state.sameDayUnsub * 100) /
                                     state.Subscriptions
                                   ).toFixed(2) + "%"
@@ -284,7 +286,7 @@ const Reports = () => {
                                         (state.sameDayUnsub * 100) /
                                         state.Subscriptions
                                       ).toFixed(2) + "%"
-                                    : 0}
+                                    : 0):"0.00%"}
                                 </td>
                                 <td>
                                   {new Intl.NumberFormat().format(
