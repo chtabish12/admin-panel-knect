@@ -8,6 +8,16 @@ import { toast } from "react-toastify";
 import { NO_DATA } from "../../helper/Helper";
 import { useForm } from "react-hook-form";
 import { AdminPanelService } from "../../Service/AdminPanelService";
+import {
+  MAIN_DASHBOARD_STARTDATE,
+  OK,
+  MAIN_DASHBOARD,
+  SUBMIT,
+  EXPORT_CSV,
+  PLATFORM_REVENUE,
+  YOY_GROWTH,
+  REGIONAL_REVENUE,
+} from "../../Constants";
 import Widget from "../../components/Widget/Widget";
 import "../../styles.css";
 const ApexLineChart = lazy(() =>
@@ -24,6 +34,7 @@ const MainDashboard = () => {
   const [operatorRevenue, setOperatorRevenue] = useState();
   const [regionalRevenue, setRegionalRevenue] = useState();
   const [yoyRevenue, setYoyRevenue] = useState();
+  const [isLoading, setIsLoading] = useState(false);
   const MainDashBoardFiltersShow = true;
   const regions = JSON.parse(localStorage.getItem("api-data"));
   const FiltersReduxState = useSelector((state) => state.filtersData);
@@ -38,10 +49,10 @@ const MainDashboard = () => {
       : "";
     let startDate = FiltersReduxState.startDateSet
       ? FiltersReduxState.startDateSet
-      : "2018-01-01";
+      : MAIN_DASHBOARD_STARTDATE;
     let endDate = FiltersReduxState.endDateSet
       ? FiltersReduxState.endDateSet
-      : "2022-02-30";
+      : new Date();
     let region = FiltersReduxState.regionSet ? FiltersReduxState.regionSet : "";
     AdminPanelService.MainDashBoard(
       productIds,
@@ -51,11 +62,12 @@ const MainDashboard = () => {
       region
     )
       .then((resp) => {
-        if (resp.status === 200 && resp.statusText === "OK") {
+        if (resp.status === 200 && resp.statusText === OK) {
           setGeneralRevenue(resp.data.generalRevenue);
           setOperatorRevenue(resp.data.operatorRevenue);
           setRegionalRevenue(resp.data.regionalRevenue);
           setYoyRevenue(resp.data.yoyRevenue);
+          setIsLoading(true);
         } else {
           return toast(NO_DATA);
         }
@@ -68,11 +80,11 @@ const MainDashboard = () => {
   useEffect(() => {
     fetchData();
     // eslint-disable-next-line
-  }, []);
+  }, [setIsLoading]);
   return (
     <>
       <Suspense fallback={<></>}>
-        <PageTitle title="Main Dashboard" />
+        <PageTitle title={MAIN_DASHBOARD} />
       </Suspense>
 
       <form className="form" onSubmit={handleSubmit(formSubmit)}>
@@ -90,7 +102,7 @@ const MainDashboard = () => {
               color="primary"
               size="medium"
             >
-              Submit
+              {SUBMIT}
             </Button>
           </div>
         </>
@@ -103,29 +115,29 @@ const MainDashboard = () => {
           rel="noreferrer"
         >
           <Button variant="contained" color="secondary" size="medium">
-            Export CSV
+            {EXPORT_CSV}
           </Button>
         </a>
       </div>
       <> </>
       <Grid container spacing={2}>
-        {generalRevenue && (
+        {isLoading && (
           <>
-            <Grid item xs={12} md={6}>
-              <Widget title="Platform Revenue" upperTitle>
+            <Grid item xs={12} md={7}>
+              <Widget title={PLATFORM_REVENUE} upperTitle>
                 <Suspense fallback={<></>}>
                   <ApexLineChart generalRevenue={generalRevenue} />
                 </Suspense>
               </Widget>
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={5}>
               <Suspense fallback={<></>}>
                 <PieGraph operatorRevenue={operatorRevenue} />
               </Suspense>
             </Grid>
 
             <Grid item xs={12} md={6}>
-              <Widget noBodyPadding title="YoY Growth" upperTitle>
+              <Widget noBodyPadding title={YOY_GROWTH} upperTitle>
                 <ResponsiveContainer width="100%" height={400}>
                   <Suspense fallback={<></>}>
                     <BubbleChart yoyRevenue={yoyRevenue} />
@@ -134,7 +146,7 @@ const MainDashboard = () => {
               </Widget>
             </Grid>
             <Grid item xs={12} md={6}>
-              <Widget noBodyPadding title="Regional Revenue" upperTitle>
+              <Widget noBodyPadding title={REGIONAL_REVENUE} upperTitle>
                 <ResponsiveContainer width="100%" height={400}>
                   <Suspense fallback={<></>}>
                     <TreeGraph

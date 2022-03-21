@@ -13,7 +13,6 @@ import {
 } from "devextreme-react/chart";
 
 const BubbleChart = ({ yoyRevenue }) => {
-  // console.log(yoyRevenue)
   return (
     <Chart
       id="chart"

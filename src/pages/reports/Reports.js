@@ -48,9 +48,9 @@ const Reports = () => {
 
     AdminPanelService.Reporting(serviceID, startdate, enddate, productID)
       .then((resp) => {
-        if (resp.status !== 200) {
+        if (resp.statusText !== "OK") {
           return toast(WRONG_ATTEMPT);
-        } else if (resp.data.length && resp.status === 200) {
+        } else if (resp.data.length && resp.statusText === "OK") {
           resp.data.forEach((element) => {
             revenueSegregationArray.push(
               JSON.parse(element.revenueSegregation)

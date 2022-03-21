@@ -96,7 +96,6 @@ const MainDashBoardFilterMethod = (
   dispatch(filtersAction.startDateSet(moment(startDate).format("YYYY-MM-DD")));
   dispatch(filtersAction.endDateSet(moment(endDate).format("YYYY-MM-DD")));
   dispatch(filtersAction.regionSet(regionValue.join(",")));
-  // console.log(regionValue);
 };
 
 const FilterFunction = (
@@ -191,7 +190,7 @@ const loginUser = (dispatch, history, setIsLoading, message) => {
     sessionStorage.setItem("id_token", 1);
     setIsLoading(true);
     dispatch({ type: "LOGIN_SUCCESS" });
-    history.push("/app/mainDashboard");
+    history.push("/app/subdashboard");
   } else if (message === 400) {
     setIsLoading(false);
   }

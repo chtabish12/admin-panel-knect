@@ -2,17 +2,18 @@ import React, { useState } from "react";
 import { useTheme } from "@material-ui/styles";
 import { Pie, PieChart, Sector } from "recharts";
 import Widget from "../Widget/Widget";
+import { OVERALL_OPERATOR_REVENUE } from "../../Constants";
 import { ResponsiveContainer } from "recharts";
 
 const PieGraph = ({ operatorRevenue }) => {
   var theme = useTheme();
-
+  operatorRevenue?.forEach((item) => (item.revenue = Math.round(item.revenue)));
   // local
   var [activeIndex, setActiveIndexId] = useState(0);
 
   return (
     <>
-      <Widget title="Overall Operators Revenue" noBodyPadding upperTitle>
+      <Widget title={OVERALL_OPERATOR_REVENUE} noBodyPadding upperTitle>
         <ResponsiveContainer width="100%" height={400}>
           <PieChart width={300} height={300}>
             <Pie
@@ -20,7 +21,7 @@ const PieGraph = ({ operatorRevenue }) => {
               activeShape={renderActiveShape}
               data={operatorRevenue}
               innerRadius={70}
-              outerRadius={110}
+              outerRadius={100}
               fill={theme.palette.info.main}
               dataKey="revenue"
               onMouseEnter={(e, id) => setActiveIndexId(id)}
@@ -54,7 +55,7 @@ function renderActiveShape(props) {
   var cos = Math.cos(-RADIAN * midAngle);
   var sx = cx + (outerRadius + 10) * cos;
   var sy = cy + (outerRadius + 10) * sin;
-  var mx = cx + (outerRadius + 30) * cos;
+  var mx = cx + (outerRadius + 1) * cos;
   var my = cy + (outerRadius + 30) * sin;
   var ex = mx + (cos >= 0 ? 1 : -1) * 22;
   var ey = my;
@@ -79,8 +80,8 @@ function renderActiveShape(props) {
         cy={cy}
         startAngle={startAngle}
         endAngle={endAngle}
-        innerRadius={outerRadius + 6}
-        outerRadius={outerRadius + 10}
+        innerRadius={outerRadius + 2}
+        outerRadius={outerRadius + 8}
         fill={fill}
       />
       <path
@@ -90,18 +91,13 @@ function renderActiveShape(props) {
       />
       <circle cx={ex} cy={ey} r={6} fill={fill} stroke="none" />
       <text
+        className="pieChart"
         x={ex + (cos >= 0 ? 1 : -1) * 12}
         y={ey}
         textAnchor={textAnchor}
         fill="#333"
       >{`${revenue}`}</text>
-      <text
-        x={ex+30}
-        y={ey}
-        dy={18}
-        textAnchor={textAnchor}
-        fill="#999"
-      >
+      <text x={ex + 10} y={ey} dy={18} textAnchor={textAnchor} fill="#999">
         {`(${(percent * 100).toFixed(2)}%)`}
       </text>
     </g>
