@@ -1,3 +1,16 @@
+/* body {
+  -ms-overflow-style: none; 
+  scrollbar-width: none;
+  overflow-y: scroll;
+  
+}
+
+body::-webkit-scrollbar {
+  display: none; 
+} */
+.apexcharts-toolbar {
+  z-index: 0 !important;
+}
 .LegendRoot-root-102 {
   display: flex;
   padding: 22px !important;
@@ -17,6 +30,9 @@ DatePicker input {
 .makeStyles-dashedBorder-90 {
     width: auto !important;
 }
+.BubbleChartLegends{
+  display: none !important;
+}
 /* ////////////RESPONSIVE STYLING/////////////////// */
 @media only screen and (max-width: 942px) {
   .MuiTypography-body1 {
@@ -25,6 +41,9 @@ DatePicker input {
   .MuiButton-containedSizeLarge {
     padding: 3px 20px !important;
     font-size: 0.7rem !important;
+  }
+  .makeStyles-drawerOpen-40 {
+    width: 200px !important;
   }
 }
 

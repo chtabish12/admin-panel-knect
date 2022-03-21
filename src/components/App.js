@@ -35,12 +35,12 @@ export default function App() {
           <Route
             exact
             path="/"
-            render={() => <Redirect to="/app/dashboard" />}
+            render={() => <Redirect to="/app/subdashboard" />}
           />
           <Route
             exact
             path="/app"
-            render={() => <Redirect to="/app/dashboard" />}
+            render={() => <Redirect to="/app/subdashboard" />}
           />
           <PublicRoute path="/login" component={Login} />
           <PrivateRoute path="/app" component={Layout} />

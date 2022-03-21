@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Drawer, IconButton, List } from "@material-ui/core";
 import {
   Home as HomeIcon,
-  FormatSize as TypographyIcon,
   ArrowBack as ArrowBackIcon,
+  ViewQuilt,
+  BusinessCenter,
+  FilterNone as UIElementsIcon,
   // MapIcon
 } from "@material-ui/icons";
 import { useTheme } from "@material-ui/styles";
@@ -15,7 +17,6 @@ import useStyles from "./styles";
 
 // components
 import SidebarLink from "./components/SidebarLink/SidebarLink";
-import Dot from "./components/Dot";
 
 // context
 import {
@@ -25,25 +26,39 @@ import {
 } from "../../context/LayoutContext";
 
 const structure = [
-  { id: 0, label: "Dashboard", link: "/app/dashboard", icon: <HomeIcon /> },
+  // {
+  //   id: 0,
+  //   label: "Main Dashboard",
+  //   link: "/app/mainDashboard",
+  //   icon: <HomeIcon />,
+  // },
   {
     id: 1,
+    label: "Dashboard",
+    link: "/app/subdashboard",
+    icon: <ViewQuilt />,
+  },
+  {
+    id: 2,
     label: "My Services",
     link: "/app/services",
-    icon: <TypographyIcon />,
+    icon: <BusinessCenter />,
   },
-  { id: 2, type: "title", label: "Reporting"},
   {
     id: 3,
-    label: "Service wise",
+    label: "Reporting",
     link: "/app/reports",
-    icon: <Dot size="large" color="warning" />,
-  },
-  {
-    id: 4,
-    label: "Services HeatMap",
-    link: "/app/heatmap",
-    icon: <Dot size="large" color="success" />,
+    icon: <UIElementsIcon />,
+    children: [
+      {
+        label: "Service wise",
+        link: "/app/reports/service",
+      },
+      {
+        label: "Services HeatMap",
+        link: "/app/reports/heatmap",
+      },
+    ],
   },
 ];
 
@@ -58,7 +73,7 @@ const Sidebar = ({ location }) => {
   // local
   const [isPermanent, setPermanent] = useState(true);
 
-  useEffect(function() {
+  useEffect(function () {
     window.addEventListener("resize", handleWindowWidthChange);
     handleWindowWidthChange();
     return function cleanup() {
@@ -92,7 +107,7 @@ const Sidebar = ({ location }) => {
         </IconButton>
       </div>
       <List className={classes.sidebarList}>
-        {structure.map(link => (
+        {structure.map((link) => (
           <SidebarLink
             key={link.id}
             location={location}
@@ -116,6 +131,6 @@ const Sidebar = ({ location }) => {
       setPermanent(true);
     }
   }
-}
+};
 
 export default withRouter(Sidebar);

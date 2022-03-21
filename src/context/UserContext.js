@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { filtersAction } from "../store/filtersData";
+import moment from "moment";
 const UserStateContext = React.createContext();
 const UserDispatchContext = React.createContext();
 
@@ -46,6 +47,57 @@ const useUserDispatch = () => {
 };
 
 //////////////////////##FILTER METHOD###/////////////////////
+const LoginApiResp = JSON.parse(localStorage.getItem("api-data"));
+const MainDashBoardFilterMethod = (
+  regions,
+  regionSelectValue,
+  productArray,
+  RegionsArray,
+  productSelect,
+  startDate,
+  endDate,
+  intervalSelect
+) => {
+  const dispatch = useDispatch();
+  regions.map((i, index) => {
+    return RegionsArray.push({
+      value: index,
+      label: i.name,
+    });
+  });
+  if (regionSelectValue.length) {
+    for (let i = 0; i < regionSelectValue.length; i++)
+      for (
+        let x = 0;
+        x < LoginApiResp[regionSelectValue[i].value].products.length;
+        x++
+      ) {
+        productArray.push({
+          value: LoginApiResp[regionSelectValue[i].value].products[x].id,
+          label: LoginApiResp[regionSelectValue[i].value].products[x].name,
+        });
+      }
+  }
+  productArray = productArray.filter(
+    (value, index, self) =>
+      index ===
+      self.findIndex((t) => t.label === value.label && t.value === value.value)
+  );
+  const productArrayValue = [];
+  for (let x = 0; x < productSelect.length; x++) {
+    productArrayValue.push(productSelect[x].value);
+  }
+  const regionValue = [];
+  for (let x = 0; x < regionSelectValue.length; x++) {
+    regionValue.push(regionSelectValue[x].label);
+  }
+  dispatch(filtersAction.productSet(productArrayValue.join(",")));
+  dispatch(filtersAction.intervalSet(intervalSelect));
+  dispatch(filtersAction.startDateSet(moment(startDate).format("YYYY-MM-DD")));
+  dispatch(filtersAction.endDateSet(moment(endDate).format("YYYY-MM-DD")));
+  dispatch(filtersAction.regionSet(regionValue.join(",")));
+};
+
 const FilterFunction = (
   productArray,
   productSelect,
@@ -58,7 +110,6 @@ const FilterFunction = (
   servIndex
 ) => {
   const dispatch = useDispatch();
-  const LoginApiResp = JSON.parse(localStorage.getItem("api-data"));
   if (ChartBarShow) {
     for (let x = 0; x < LoginApiResp[prodIndex].products.length; x++) {
       productArray.push({
@@ -139,7 +190,7 @@ const loginUser = (dispatch, history, setIsLoading, message) => {
     sessionStorage.setItem("id_token", 1);
     setIsLoading(true);
     dispatch({ type: "LOGIN_SUCCESS" });
-    history.push("/app/dashboard");
+    history.push("/app/subdashboard");
   } else if (message === 400) {
     setIsLoading(false);
   }
@@ -158,6 +209,7 @@ export {
   UserProvider,
   useUserState,
   useUserDispatch,
+  MainDashBoardFilterMethod,
   FilterFunction,
   loginUser,
   signOut,

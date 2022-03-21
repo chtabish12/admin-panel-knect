@@ -27,7 +27,7 @@ const customizeTooltip = (arg) => {
 };
 
 ///////////////component
-const ChartBar = ({ region, label, y, z}) => {
+const ChartBar = ({ region, label, y, z }) => {
   // local
   const [myState, setmyState] = useState([]);
   const [seriesData, setSeriesData] = useState([]);
@@ -39,7 +39,7 @@ const ChartBar = ({ region, label, y, z}) => {
     fetchData();
   };
 
-  const fetchData =  () => {
+  const fetchData = () => {
     var date = new Date();
     date.setDate(date.getDate() - 15);
     let startdate = moment(date).format("YYYY-MM-DD");
@@ -74,7 +74,6 @@ const ChartBar = ({ region, label, y, z}) => {
       })
       .catch(() => toast(NO_DATA));
   };
-
   useEffect(() => {
     if (!loadingData) {
       fetchData();

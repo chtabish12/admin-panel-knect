@@ -1,6 +1,7 @@
 import {
   BASE_URL,
   LOGIN_URL,
+  MAIN_DASHBOARD_URL,
   REVENUE_URL,
   SERVICES_URL,
   REPORTS_URL,
@@ -8,16 +9,34 @@ import {
   HEATMAP_URL,
 } from "../Constants";
 import axios from "axios";
+const TOKEN = sessionStorage.getItem("token-user");
 export const AdminPanelService = {
   Login: async (request) => {
     const url = `${BASE_URL}${LOGIN_URL}`;
     return axios.post(url, request);
   },
+  MainDashBoard: async (productIds, startDate, endDate, interval, region) => {
+    const url = `${BASE_URL}${MAIN_DASHBOARD_URL}`;
+
+    return axios.get(url, {
+      headers: {
+        token: TOKEN,
+      },
+      params: {
+        productIds: `${productIds}`,
+        startDate: `${startDate}`,
+        endDate: `${endDate}`,
+        interval: `${interval}`,
+        region: region.includes(",") ? region.split(",") : region,
+      },
+    });
+  },
+
   DashBoard: async (startDate, endDate, productIds, serviceIds, region) => {
     const url = `${BASE_URL}${REVENUE_URL}`;
     return axios.get(url, {
       headers: {
-        token: sessionStorage.getItem("token-user"),
+        token: TOKEN,
       },
       params: {
         startDate: `${startDate}`,
@@ -32,7 +51,7 @@ export const AdminPanelService = {
     const url = `${BASE_URL}${SERVICES_URL}`;
     return axios.get(url, {
       headers: {
-        token: sessionStorage.getItem("token-user"),
+        token: TOKEN,
       },
     });
   },
@@ -40,7 +59,7 @@ export const AdminPanelService = {
     const url = `${BASE_URL}${REPORTS_URL}`;
     return axios.get(url, {
       headers: {
-        token: sessionStorage.getItem("token-user"),
+        token: TOKEN,
       },
       params: {
         serviceIds: `${serviceId}`,
@@ -54,7 +73,7 @@ export const AdminPanelService = {
     const url = `${BASE_URL}${AFFILIATES_URL}`;
     return axios.get(url, {
       headers: {
-        token: sessionStorage.getItem("token-user"),
+        token: TOKEN,
       },
     });
   },
@@ -62,7 +81,7 @@ export const AdminPanelService = {
     const url = `${BASE_URL}${HEATMAP_URL}`;
     return axios.get(url, {
       headers: {
-        token: sessionStorage.getItem("token-user"),
+        token: TOKEN,
       },
       params: {
         serviceId,
