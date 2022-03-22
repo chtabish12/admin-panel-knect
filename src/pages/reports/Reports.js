@@ -1,6 +1,6 @@
 import React, { useState, useEffect, lazy, Suspense } from "react";
 import { useSelector } from "react-redux";
-import { Grid, Button } from "@material-ui/core";
+import { Grid, Button, Typography } from "@material-ui/core";
 import { Table } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
@@ -9,7 +9,6 @@ import { toast } from "react-toastify";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
-
 // styles
 import "bootstrap/dist/css/bootstrap.min.css";
 import useStyles from "./styles";
@@ -29,7 +28,6 @@ const Reports = () => {
   const revenueSegregationArray = [];
   const [tableShow, setTableShow] = useState(false);
   let pricePoint = [];
-  let response = [];
   // date picker
   const [startDate, setStartDate] = useState(
     new Date(new Date().setDate(new Date().getDate() - 30))
@@ -37,6 +35,7 @@ const Reports = () => {
   const [endDate, setEndDate] = useState(new Date());
   // API
   const [state, setState] = useState("");
+  let productName = [];
   const { handleSubmit } = useForm();
   // Redux
   const productID = useSelector((state) => state.filtersData.productSet);
@@ -50,15 +49,20 @@ const Reports = () => {
       .then((resp) => {
         if (resp.statusText !== "OK") {
           return toast(WRONG_ATTEMPT);
-        } else if (resp.data.length && resp.statusText === "OK") {
-          resp.data.forEach((element) => {
-            revenueSegregationArray.push(
-              JSON.parse(element.revenueSegregation)
-            );
+        } else if (resp.data && resp.statusText === "OK") {
+          for (const [, value] of Object.entries(resp.data)) {
+            productName.push(value);
+          }
+          // eslint-disable-next-line
+          productName.map((serviceName) => {
+            // eslint-disable-next-line
+            serviceName.report.map((data) => {
+              revenueSegregationArray.push(JSON.parse(data.revenueSegregation));
+            });
           });
           if (revenueSegregationArray.length) {
             revenueSegregationArray.forEach((ele) => {
-              if (!ele || ele=== "{}") {
+              if (!ele || ele === "{}") {
                 return pricePoint.push("N/A");
               } else {
                 pricePoint.push(
@@ -74,25 +78,14 @@ const Reports = () => {
             });
           }
           // eslint-disable-next-line
-          resp.data.map((element, i) => {
-            response.push({
-              reportOf: element.reportOf,
-              totalRevenue: element.totalRevenue,
-              chargedCustomers: element.chargedCustomers,
-              Subscriptions: element.Subscriptions,
-              newSubsChargingCount: element.newSubsChargingCount,
-              newSubsChargingPercentage: element.newSubsChargingPercentage,
-              renewalCount: element.renewalCount,
-              renewalPercentage: element.renewalPercentage,
-              sameDayUnsub: element.sameDayUnsub,
-              Unsubscriptions: element.Unsubscriptions,
-              totalBase: element.totalBase,
-              chargingPercentage: element.chargingPercentage,
-              revenueSegregationArray: pricePoint[i],
+          productName.map((serviceName) => {
+            // eslint-disable-next-line
+            serviceName.report.map((element, i) => {
+              element.revenueSegregationArray = pricePoint[i];
             });
           });
           setState([]);
-          setState(response);
+          setState(productName);
           setTableShow(true);
         } else {
           return toast(NO_DATA);
@@ -186,140 +179,157 @@ const Reports = () => {
                       <th>Net Charging</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    {state
-                      ? state.map((state) => {
-                          return (
-                            <>
-                              <tr>
-                                <td>
-                                  {moment(state.reportOf).format("YYYY-MM-DD")
-                                    ? moment(state.reportOf).format(
-                                        "YYYY-MM-DD"
-                                      )
-                                    : "N/A"}
-                                </td>
-                                <td>
-                                  {new Intl.NumberFormat().format(
-                                    state.totalRevenue
-                                  )
-                                    ? new Intl.NumberFormat().format(
-                                        state.totalRevenue
-                                      )
-                                    : 0}
-                                </td>
-                                <td className="td-width">
-                                  {state.revenueSegregationArray
-                                    ? state.revenueSegregationArray
-                                    : ""}
-                                </td>
-                                <td>
-                                  {new Intl.NumberFormat().format(
-                                    state.chargedCustomers
-                                  )
-                                    ? new Intl.NumberFormat().format(
-                                        state.chargedCustomers
-                                      )
-                                    : 0}
-                                </td>
-                                <td>
-                                  {new Intl.NumberFormat().format(
-                                    state.Subscriptions
-                                  )
-                                    ? new Intl.NumberFormat().format(
-                                        state.Subscriptions
-                                      )
-                                    : 0}
-                                </td>
-                                <td>
-                                  {new Intl.NumberFormat().format(
-                                    state.newSubsChargingCount
-                                  )
-                                    ? new Intl.NumberFormat().format(
-                                        state.newSubsChargingCount
-                                      )
-                                    : 0}
-                                </td>
-                                <td>
-                                  {(
-                                    state.newSubsChargingPercentage * 100
-                                  ).toFixed(2) + "%"
-                                    ? (
-                                        state.newSubsChargingPercentage * 100
-                                      ).toFixed(2) + "%"
-                                    : 0}
-                                </td>
-                                <td>
-                                  {new Intl.NumberFormat().format(
-                                    state.renewalCount
-                                  )
-                                    ? new Intl.NumberFormat().format(
-                                        state.renewalCount
-                                      )
-                                    : 0}
-                                </td>
-                                <td>
-                                  {(state.renewalPercentage * 100).toFixed(2) +
-                                  "%"
-                                    ? (state.renewalPercentage * 100).toFixed(
-                                        2
-                                      ) + "%"
-                                    : 0}
-                                </td>
-                                <td>
-                                  {new Intl.NumberFormat().format(
-                                    state.sameDayUnsub
-                                  )
-                                    ? new Intl.NumberFormat().format(
-                                        state.sameDayUnsub
-                                      )
-                                    : 0}
-                                </td>
-                                <td>
-                                  {
-                                  state.Subscriptions?(
-                                  (
-                                    (state.sameDayUnsub * 100) /
-                                    state.Subscriptions
-                                  ).toFixed(2) + "%"
-                                    ? (
-                                        (state.sameDayUnsub * 100) /
-                                        state.Subscriptions
-                                      ).toFixed(2) + "%"
-                                    : 0):"0.00%"}
-                                </td>
-                                <td>
-                                  {new Intl.NumberFormat().format(
-                                    state.Unsubscriptions
-                                  )
-                                    ? new Intl.NumberFormat().format(
-                                        state.Unsubscriptions
-                                      )
-                                    : 0}
-                                </td>
-                                <td>
-                                  {new Intl.NumberFormat().format(
-                                    state.totalBase
-                                  )
-                                    ? new Intl.NumberFormat().format(
-                                        state.totalBase
-                                      )
-                                    : 0}
-                                </td>
-                                <td>
-                                  {(state.chargingPercentage * 100).toFixed(2) +
-                                  "%"
-                                    ? (state.chargingPercentage * 100).toFixed(
-                                        2
-                                      ) + "%"
-                                    : 0}
-                                </td>
-                              </tr>
-                            </>
-                          );
-                        })
-                      : ""}
-                  </tbody>
+                  {state
+                    ? state.map((name) => {
+                        return (
+                          <>
+                            <Typography className="serviceName">
+                              {name.serviceName}
+                            </Typography>
+                            <tbody>
+                              {name
+                                ? name.report.map((state) => {
+                                    return (
+                                      <>
+                                        <tr>
+                                          <td>
+                                            {moment(state.reportOf).format(
+                                              "YYYY-MM-DD"
+                                            )
+                                              ? moment(state.reportOf).format(
+                                                  "YYYY-MM-DD"
+                                                )
+                                              : "N/A"}
+                                          </td>
+                                          <td>
+                                            {new Intl.NumberFormat().format(
+                                              state.totalRevenue
+                                            )
+                                              ? new Intl.NumberFormat().format(
+                                                  state.totalRevenue
+                                                )
+                                              : 0}
+                                          </td>
+                                          <td className="td-width">
+                                            {state.revenueSegregationArray
+                                              ? state.revenueSegregationArray
+                                              : ""}
+                                          </td>
+                                          <td>
+                                            {new Intl.NumberFormat().format(
+                                              state.chargedCustomers
+                                            )
+                                              ? new Intl.NumberFormat().format(
+                                                  state.chargedCustomers
+                                                )
+                                              : 0}
+                                          </td>
+                                          <td>
+                                            {new Intl.NumberFormat().format(
+                                              state.Subscriptions
+                                            )
+                                              ? new Intl.NumberFormat().format(
+                                                  state.Subscriptions
+                                                )
+                                              : 0}
+                                          </td>
+                                          <td>
+                                            {new Intl.NumberFormat().format(
+                                              state.newSubsChargingCount
+                                            )
+                                              ? new Intl.NumberFormat().format(
+                                                  state.newSubsChargingCount
+                                                )
+                                              : 0}
+                                          </td>
+                                          <td>
+                                            {(
+                                              state.newSubsChargingPercentage *
+                                              100
+                                            ).toFixed(2) + "%"
+                                              ? (
+                                                  state.newSubsChargingPercentage *
+                                                  100
+                                                ).toFixed(2) + "%"
+                                              : 0}
+                                          </td>
+                                          <td>
+                                            {new Intl.NumberFormat().format(
+                                              state.renewalCount
+                                            )
+                                              ? new Intl.NumberFormat().format(
+                                                  state.renewalCount
+                                                )
+                                              : 0}
+                                          </td>
+                                          <td>
+                                            {(
+                                              state.renewalPercentage * 100
+                                            ).toFixed(2) + "%"
+                                              ? (
+                                                  state.renewalPercentage * 100
+                                                ).toFixed(2) + "%"
+                                              : 0}
+                                          </td>
+                                          <td>
+                                            {new Intl.NumberFormat().format(
+                                              state.sameDayUnsub
+                                            )
+                                              ? new Intl.NumberFormat().format(
+                                                  state.sameDayUnsub
+                                                )
+                                              : 0}
+                                          </td>
+                                          <td>
+                                            {state.Subscriptions
+                                              ? (
+                                                  (state.sameDayUnsub * 100) /
+                                                  state.Subscriptions
+                                                ).toFixed(2) + "%"
+                                                ? (
+                                                    (state.sameDayUnsub * 100) /
+                                                    state.Subscriptions
+                                                  ).toFixed(2) + "%"
+                                                : 0
+                                              : "0.00%"}
+                                          </td>
+                                          <td>
+                                            {new Intl.NumberFormat().format(
+                                              state.Unsubscriptions
+                                            )
+                                              ? new Intl.NumberFormat().format(
+                                                  state.Unsubscriptions
+                                                )
+                                              : 0}
+                                          </td>
+                                          <td>
+                                            {new Intl.NumberFormat().format(
+                                              state.totalBase
+                                            )
+                                              ? new Intl.NumberFormat().format(
+                                                  state.totalBase
+                                                )
+                                              : 0}
+                                          </td>
+                                          <td>
+                                            {(
+                                              state.chargingPercentage * 100
+                                            ).toFixed(2) + "%"
+                                              ? (
+                                                  state.chargingPercentage * 100
+                                                ).toFixed(2) + "%"
+                                              : 0}
+                                          </td>
+                                        </tr>
+                                      </>
+                                    );
+                                  })
+                                : ""}
+                            </tbody>
+                          </>
+                        );
+                      })
+                    : ""}
                 </Table>
               </>
             )}

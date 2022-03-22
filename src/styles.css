@@ -33,6 +33,11 @@ DatePicker input {
 .BubbleChartLegends{
   display: none !important;
 }
+.serviceName{
+  width: 200px !important;
+  padding :5px !important;
+  font-size: 20px !important;
+}
 /* ////////////RESPONSIVE STYLING/////////////////// */
 @media only screen and (max-width: 942px) {
   .MuiTypography-body1 {
