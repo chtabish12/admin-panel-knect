@@ -25,9 +25,7 @@ const Reports = () => {
   // local
   const classes = useStyles();
   const ReportFlag = true;
-  const revenueSegregationArray = [];
   const [tableShow, setTableShow] = useState(false);
-  let pricePoint = [];
   // date picker
   const [startDate, setStartDate] = useState(
     new Date(new Date().setDate(new Date().getDate() - 30))
@@ -35,11 +33,11 @@ const Reports = () => {
   const [endDate, setEndDate] = useState(new Date());
   // API
   const [state, setState] = useState("");
-  let productName = [];
   const { handleSubmit } = useForm();
   // Redux
   const productID = useSelector((state) => state.filtersData.productSet);
   const serviceID = useSelector((state) => state.filtersData.serviceSet);
+  let price;
 
   const fetchData = async () => {
     let startdate = moment(startDate).format("YYYY-MM-DD");
@@ -50,42 +48,33 @@ const Reports = () => {
         if (resp.statusText !== "OK") {
           return toast(WRONG_ATTEMPT);
         } else if (resp.data && resp.statusText === "OK") {
-          for (const [, value] of Object.entries(resp.data)) {
-            productName.push(value);
-          }
           // eslint-disable-next-line
-          productName.map((serviceName) => {
-            // eslint-disable-next-line
-            serviceName.report.map((data) => {
-              revenueSegregationArray.push(JSON.parse(data.revenueSegregation));
-            });
-          });
-          if (revenueSegregationArray.length) {
-            revenueSegregationArray.forEach((ele) => {
-              if (!ele || ele === "{}") {
-                return pricePoint.push("N/A");
-              } else {
-                pricePoint.push(
-                  ele.map((element) => (
-                    <text>
-                      P: {element.price}; C:{" "}
-                      {new Intl.NumberFormat().format(element.subscriptions)}{" "}
-                      <br />
-                    </text>
-                  ))
-                );
+          resp.data.map((ele) => {
+            for (const [, element] of Object.entries(ele.report)) {
+              const pricePoints = JSON.parse(element.revenueSegregation);
+              price = "N/A";
+              // eslint-disable-next-line
+              {
+                if (pricePoints || typeof pricePoints == Array)
+                  // eslint-disable-next-line
+                  pricePoints?.forEach((ele) => {
+                    if (!ele) {
+                      return (price = "N/A");
+                    } else
+                      price = (
+                        <text>
+                          P: {ele.price}; C:{" "}
+                          {new Intl.NumberFormat().format(ele.subscriptions)}{" "}
+                          <br />
+                        </text>
+                      );
+                  });
               }
-            });
-          }
-          // eslint-disable-next-line
-          productName.map((serviceName) => {
-            // eslint-disable-next-line
-            serviceName.report.map((element, i) => {
-              element.revenueSegregationArray = pricePoint[i];
-            });
+              element.revenueSegregationArray = price;
+            }
+            setState([]);
+            setState(resp.data);
           });
-          setState([]);
-          setState(productName);
           setTableShow(true);
         } else {
           return toast(NO_DATA);
