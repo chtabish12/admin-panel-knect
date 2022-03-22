@@ -9,7 +9,6 @@ import {
   HEATMAP_URL,
 } from "../Constants";
 import axios from "axios";
-const TOKEN = sessionStorage.getItem("token-user");
 export const AdminPanelService = {
   Login: async (request) => {
     const url = `${BASE_URL}${LOGIN_URL}`;
@@ -20,7 +19,7 @@ export const AdminPanelService = {
 
     return axios.get(url, {
       headers: {
-        token: TOKEN,
+        token: sessionStorage.getItem("token-user"),
       },
       params: {
         productIds: `${productIds}`,
@@ -36,7 +35,7 @@ export const AdminPanelService = {
     const url = `${BASE_URL}${REVENUE_URL}`;
     return axios.get(url, {
       headers: {
-        token: TOKEN,
+        token: sessionStorage.getItem("token-user"),
       },
       params: {
         startDate: `${startDate}`,
@@ -51,7 +50,7 @@ export const AdminPanelService = {
     const url = `${BASE_URL}${SERVICES_URL}`;
     return axios.get(url, {
       headers: {
-        token: TOKEN,
+        token: sessionStorage.getItem("token-user"),
       },
     });
   },
@@ -59,7 +58,7 @@ export const AdminPanelService = {
     const url = `${BASE_URL}${REPORTS_URL}`;
     return axios.get(url, {
       headers: {
-        token: TOKEN,
+        token: sessionStorage.getItem("token-user"),
       },
       params: {
         serviceIds: `${serviceId}`,
@@ -73,7 +72,7 @@ export const AdminPanelService = {
     const url = `${BASE_URL}${AFFILIATES_URL}`;
     return axios.get(url, {
       headers: {
-        token: TOKEN,
+        token: sessionStorage.getItem("token-user"),
       },
     });
   },
@@ -81,7 +80,7 @@ export const AdminPanelService = {
     const url = `${BASE_URL}${HEATMAP_URL}`;
     return axios.get(url, {
       headers: {
-        token: TOKEN,
+        token: sessionStorage.getItem("token-user"),
       },
       params: {
         serviceId,
