@@ -86,7 +86,7 @@ const HeatMapTable = ({ dataShow, data, dateArray }) => {
         <Grid item xs={12} md={12}>
           <Widget disableWidgetMenu>
             {tableShow && (
-              <PdfContainer createPdf={createPdf}>
+              <PdfContainer createPdf={createPdf} buttonClass={"csv-button-pdf"} sectionClass={"pdf-toolbar"}>
                 <>
                   <Table
                     striped

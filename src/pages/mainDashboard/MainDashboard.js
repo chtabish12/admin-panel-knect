@@ -114,9 +114,7 @@ const MainDashboard = () => {
           target="_blank"
           rel="noreferrer"
         >
-          <Button variant="contained" color="secondary" size="medium">
-            {EXPORT_CSV}
-          </Button>
+          <button className="btn btn-info csv-button">{EXPORT_CSV}</button>
         </a>
       </div>
       <> </>
