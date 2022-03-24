@@ -55,10 +55,10 @@ const Reports = () => {
               price = "N/A";
               // eslint-disable-next-line
               {
-                if (pricePoints || typeof pricePoints == Array)
+                if (pricePoints && pricePoints !== "{}")
                   // eslint-disable-next-line
                   pricePoints?.forEach((ele) => {
-                    if (!ele) {
+                    if (!ele && ele === "{}") {
                       return (price = "N/A");
                     } else
                       price = (

@@ -47,7 +47,6 @@ const useUserDispatch = () => {
 };
 
 //////////////////////##FILTER METHOD###/////////////////////
-const LoginApiResp = JSON.parse(localStorage.getItem("api-data"));
 const MainDashBoardFilterMethod = (
   regions,
   regionSelectValue,
@@ -58,6 +57,7 @@ const MainDashBoardFilterMethod = (
   endDate,
   intervalSelect
 ) => {
+  const LoginApiResp = JSON.parse(localStorage.getItem("api-data"));
   const dispatch = useDispatch();
   regions.map((i, index) => {
     return RegionsArray.push({
@@ -109,6 +109,7 @@ const FilterFunction = (
   prodIndex,
   servIndex
 ) => {
+  const LoginApiResp = JSON.parse(localStorage.getItem("api-data"));
   const dispatch = useDispatch();
   if (ChartBarShow) {
     for (let x = 0; x < LoginApiResp[prodIndex].products.length; x++) {
@@ -190,6 +191,7 @@ const loginUser = (dispatch, history, setIsLoading, message) => {
     sessionStorage.setItem("id_token", 1);
     setIsLoading(true);
     dispatch({ type: "LOGIN_SUCCESS" });
+    // history.push("/app/mainDashboard");
     history.push("/app/subdashboard");
   } else if (message === 400) {
     setIsLoading(false);
