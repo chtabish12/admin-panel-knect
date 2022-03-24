@@ -69,7 +69,7 @@ code {
 .searchBox#css_custom_input::placeholder {
   color: red;
 }
-.td-width{
+.td-width {
   width: 150px !important;
 }
 .form {
@@ -107,21 +107,37 @@ code {
   border-radius: 3px;
   /* margin-right: 15px; */
 }
-.csv-button{
+.csv-button {
   color: #fff;
-  background-color: #536DFE;
-  border: 1px solid #536DFE;
+  background-color: #1f9c00;
+  border: 1px solid #1f9c00;
+  margin: 2px;
 }
-.CSV-button-div{
+.csv-button:hover {
+  background-color: #1d8f00;
+  border: 1px solid #1d8f00;
+  color: white;
+}
+.csv-button-pdf {
+  color: #fff;
+  background-color: #ff3c00;
+  border: 1px solid #ff0000;
+  margin: 2px;
+}
+.csv-button-pdf:hover {
+  background-color: #eb3700;
+  border: 1px solid #eb3700;
+  color: white;
+}
+.CSV-button-div {
   display: flex;
   margin-bottom: 12px;
-  position: right;
-  float: right;
+  position: right !important;
+  float: right !important;
 }
-.a-button{
+.a-button {
   outline: none !important;
   text-decoration: none !important;
-  
 }
 .makeStyles-dashedBorder-60 {
   width: auto !important;
