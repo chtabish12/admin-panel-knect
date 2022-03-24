@@ -5,8 +5,8 @@ export default (props) => {
   const createPdf = () => props.createPdf(bodyRef.current);
   return (
     <section className="pdf-container">
-      <section className="pdf-toolbar">
-        <button onClick={createPdf} className="heatMap-pdf-button">Export PDF</button>
+      <section className={props.sectionClass}>
+        <button onClick={createPdf} className={props.buttonClass}>Export PDF</button>
       </section>
       <section className="pdf-body" ref={bodyRef}>
         {props.children}
