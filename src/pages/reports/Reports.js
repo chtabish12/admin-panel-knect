@@ -4,6 +4,8 @@ import { Grid, Button, Typography } from "@material-ui/core";
 import { Table } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
+// import Doc from "./DocService";
+// import PdfContainer from "../../components/HeatMapTable/PdfContainer";
 import { toast } from "react-toastify";
 //date picker
 import DatePicker from "react-datepicker";
@@ -24,6 +26,7 @@ const PageTitle = lazy(() => import("../../components/PageTitle/PageTitle.js"));
 const Reports = () => {
   // local
   const classes = useStyles();
+  // const createPdf = (html) => Doc.createPdf(html);
   const ReportFlag = true;
   const [tableShow, setTableShow] = useState(false);
   // date picker
@@ -57,17 +60,23 @@ const Reports = () => {
               {
                 if (pricePoints && pricePoints !== "{}")
                   // eslint-disable-next-line
-                  pricePoints?.forEach((ele) => {
+                  [pricePoints]?.forEach((ele) => {
                     if (!ele && ele === "{}") {
                       return (price = "N/A");
-                    } else
-                      price = (
-                        <text>
-                          P: {ele.price}; C:{" "}
-                          {new Intl.NumberFormat().format(ele.subscriptions)}{" "}
-                          <br />
-                        </text>
-                      );
+                    } else {
+                      price = [];
+                      for (let i = 0; i < ele.length; i++) {
+                        price.push(
+                          <text>
+                            P: {ele[i].price}; C:{" "}
+                            {new Intl.NumberFormat().format(
+                              ele[i].subscriptions
+                            )}{" "}
+                            <br />
+                          </text>
+                        );
+                      }
+                    }
                   });
               }
               element.revenueSegregationArray = price;
@@ -141,6 +150,7 @@ const Reports = () => {
         <Grid item xs={12} md={12}>
           <Widget disableWidgetMenu>
             {tableShow && (
+              // <PdfContainer createPdf={createPdf}>
               <>
                 <Table
                   striped
@@ -321,6 +331,7 @@ const Reports = () => {
                     : ""}
                 </Table>
               </>
+              // </PdfContainer>
             )}
             <>{!tableShow && <p>No Record!!</p>}</>
           </Widget>
