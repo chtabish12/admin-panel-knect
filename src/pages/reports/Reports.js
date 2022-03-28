@@ -1,7 +1,7 @@
 import React, { useState, lazy, Suspense } from "react";
 import { useSelector } from "react-redux";
 import { Grid, Button, Typography } from "@material-ui/core";
-import { RotatingLines } from "react-loader-spinner";
+import { RotatingLines, LineWave } from "react-loader-spinner";
 import { Table } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
@@ -102,7 +102,7 @@ const Reports = () => {
   };
   return (
     <>
-      <Suspense fallback={<></>}>
+      <Suspense fallback={<div className="spinner"><LineWave/></div>}>
         <PageTitle title="Reports" />
       </Suspense>
       <div className={classes.dashedBorder}>

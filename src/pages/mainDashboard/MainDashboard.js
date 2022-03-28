@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 import { Grid } from "@material-ui/core";
 import { ResponsiveContainer } from "recharts";
 import { Button } from "@material-ui/core";
+import { LineWave } from "react-loader-spinner";
+
 // components
 import { toast } from "react-toastify";
 import { NO_DATA } from "../../helper/Helper";
@@ -83,13 +85,13 @@ const MainDashboard = () => {
   }, [setIsLoading]);
   return (
     <>
-      <Suspense fallback={<></>}>
+      <Suspense fallback={<div className="spinner"><LineWave/></div>}>
         <PageTitle title={MAIN_DASHBOARD} />
       </Suspense>
 
       <form className="form" onSubmit={handleSubmit(formSubmit)}>
         <>
-          <Suspense fallback={<></>}>
+          <Suspense fallback={<div className="spinner"><LineWave/></div>}>
             <Filters
               regions={regions}
               MainDashBoardFiltersShow={MainDashBoardFiltersShow}
@@ -123,13 +125,13 @@ const MainDashboard = () => {
           <>
             <Grid item xs={12} md={7}>
               <Widget title={PLATFORM_REVENUE} upperTitle>
-                <Suspense fallback={<></>}>
+                <Suspense fallback={<div className="spinner"><LineWave/></div>}>
                   <ApexLineChart generalRevenue={generalRevenue} />
                 </Suspense>
               </Widget>
             </Grid>
             <Grid item xs={12} md={5}>
-              <Suspense fallback={<></>}>
+              <Suspense fallback={<div className="spinner"><LineWave/></div>}>
                 <PieGraph operatorRevenue={operatorRevenue} />
               </Suspense>
             </Grid>
@@ -137,7 +139,7 @@ const MainDashboard = () => {
             <Grid item xs={12} md={6}>
               <Widget noBodyPadding title={YOY_GROWTH} upperTitle>
                 <ResponsiveContainer width="100%" height={400}>
-                  <Suspense fallback={<></>}>
+                  <Suspense fallback={<div className="spinner"><LineWave/></div>}>
                     <BubbleChart yoyRevenue={yoyRevenue} />
                   </Suspense>
                 </ResponsiveContainer>
@@ -146,7 +148,7 @@ const MainDashboard = () => {
             <Grid item xs={12} md={6}>
               <Widget noBodyPadding title={REGIONAL_REVENUE} upperTitle>
                 <ResponsiveContainer width="100%" height={400}>
-                  <Suspense fallback={<></>}>
+                  <Suspense fallback={<div className="spinner"><LineWave/></div>}>
                     <TreeGraph
                       stackBar={"bar"}
                       regionalRevenue={regionalRevenue}
