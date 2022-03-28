@@ -8,7 +8,7 @@ import Widget from "../../components/Widget/Widget.js";
 const PageTitle = lazy(() => import("../../components/PageTitle/PageTitle.js"));
 const ChartBar = lazy(() => import("../../components/ChartBar/ChartBar.js"));
 
-const Dashboard = () => {
+const MyRevenue = () => {
   const classes = useStyles();
   const [response, setResponse] = useState([]);
   var x = 0;
@@ -22,7 +22,7 @@ const Dashboard = () => {
   return (
     <>
       <Suspense fallback={<></>}>
-        <PageTitle title="Dashboard" />
+        <PageTitle title="My Revenue" />
       </Suspense>
       <Grid item xs={12}>
         <Widget bodyClass={classes.mainChartBody}>
@@ -43,4 +43,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default MyRevenue;

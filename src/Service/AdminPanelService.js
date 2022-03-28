@@ -31,7 +31,7 @@ export const AdminPanelService = {
     });
   },
 
-  DashBoard: async (startDate, endDate, productIds, serviceIds, region) => {
+  MyRevenue: async (startDate, endDate, productIds, serviceIds, region) => {
     const url = `${BASE_URL}${REVENUE_URL}`;
     return axios.get(url, {
       headers: {

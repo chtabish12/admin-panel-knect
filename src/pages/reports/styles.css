@@ -135,6 +135,11 @@ code {
   position: right !important;
   float: right !important;
 }
+.spinner{
+  margin: 150px auto;
+  width: 10vw;
+  padding: 10px;
+}
 .a-button {
   outline: none !important;
   text-decoration: none !important;

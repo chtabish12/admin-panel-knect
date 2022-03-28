@@ -1,6 +1,7 @@
-import React, { useState, useEffect, lazy, Suspense } from "react";
+import React, { useState, lazy, Suspense } from "react";
 import { useSelector } from "react-redux";
 import { Grid, Button, Typography } from "@material-ui/core";
+import { RotatingLines } from "react-loader-spinner";
 import { Table } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
@@ -29,6 +30,7 @@ const Reports = () => {
   const createPdf = (html) => Doc.createPdf(html);
   const ReportFlag = true;
   const [tableShow, setTableShow] = useState(false);
+  const [loading, setLoading] = useState(false);
   // date picker
   const [startDate, setStartDate] = useState(
     new Date(new Date().setDate(new Date().getDate() - 30))
@@ -85,6 +87,7 @@ const Reports = () => {
             setState(resp.data);
           });
           setTableShow(true);
+          setLoading(false);
         } else {
           return toast(NO_DATA);
         }
@@ -93,9 +96,10 @@ const Reports = () => {
   };
 
   const formSubmit = async () => {
+    setLoading(true);
+    setTableShow(false)
     fetchData();
   };
-  useEffect(() => {}, []);
   return (
     <>
       <Suspense fallback={<></>}>
@@ -135,7 +139,7 @@ const Reports = () => {
           </div>
         </form>
       </div>
-      {!tableShow && (
+      {!tableShow && !loading && (
         <Grid container spacing={1}>
           <Grid item xs={12} md={12}>
             <Widget disableWidgetMenu>
@@ -143,6 +147,11 @@ const Reports = () => {
             </Widget>
           </Grid>
         </Grid>
+      )}
+      {loading && (
+        <div className="spinner">
+          <RotatingLines width="100" strokeColor="#536DFE" />
+        </div>
       )}
       {tableShow && (
         <>
@@ -156,7 +165,9 @@ const Reports = () => {
             />
           </div>
           <PdfContainer
-            createPdf={createPdf} buttonClass={"btn btn-info csv-button-pdf"} sectionClass={"CSV-button-div"}
+            createPdf={createPdf}
+            buttonClass={"btn btn-info csv-button-pdf"}
+            sectionClass={"CSV-button-div"}
           >
             <Grid container spacing={1}>
               <Grid item xs={12} md={12}>
