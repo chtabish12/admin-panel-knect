@@ -118,16 +118,18 @@ const FilterFunction = (
         label: LoginApiResp[prodIndex].products[x].name,
       });
     }
-    for (
-      let i = 0;
-      i < LoginApiResp[servIndex].products[0].services.length;
-      i++
-    ) {
-      serviceArray.push({
-        value: LoginApiResp[servIndex].products[0].services[i].id,
-        label: LoginApiResp[servIndex].products[0].services[i].name,
-      });
-    }
+
+    for (let y = 0; y < LoginApiResp[servIndex].products.length; y++)
+      for (
+        let i = 0;
+        i < LoginApiResp[servIndex].products[y].services.length;
+        i++
+      ) {
+        serviceArray.push({
+          value: LoginApiResp[servIndex].products[y].services[i].id,
+          label: LoginApiResp[servIndex].products[y].services[i].name,
+        });
+      }
   }
   // Product array data for displaying dropdown
   else {
