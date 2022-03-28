@@ -189,7 +189,7 @@ const FilterFunction = (
 };
 //////////////////////##LOGIN METHOD###/////////////////////
 const loginUser = (dispatch, history, setIsLoading, message) => {
-  if (message === 200) {
+  if (message === 'OK') {
     sessionStorage.setItem("id_token", 1);
     setIsLoading(true);
     dispatch({ type: "LOGIN_SUCCESS" });

@@ -61,7 +61,7 @@ const ChartBar = ({ region, label, y, z }) => {
     )
       .then((resp) => {
         setLoadingData(false);
-        if (resp.status === 200 && resp.data.length) {
+        if (resp.statusText === 'OK' && resp.data.length) {
           setmyState(resp.data[0].report);
           for (let i = 0; i < resp.data[0].report.length; i++)
           series = Object.keys(resp.data[0].report[i]);          
