@@ -189,11 +189,11 @@ const FilterFunction = (
 };
 //////////////////////##LOGIN METHOD###/////////////////////
 const loginUser = (dispatch, history, setIsLoading, message) => {
-  if (message === 'OK') {
+  if (message === 200) {
     sessionStorage.setItem("id_token", 1);
     setIsLoading(true);
     dispatch({ type: "LOGIN_SUCCESS" });
-    history.push("/app/Dashboard");
+    history.push("/app/myRevenue");
   } else if (message === 400) {
     setIsLoading(false);
   }

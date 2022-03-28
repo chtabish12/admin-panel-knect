@@ -59,11 +59,12 @@ const Login = (props) => {
         if (resp.status !== 200) {
           return toast(LOGIN_VALIDATION);
         }
+        // console.log(JSON.parse(resp.data.user.permission))
         sessionStorage.setItem("token-user", resp.data.token);
         localStorage.setItem("api-data", JSON.stringify(resp.data.regions));
         sessionStorage.setItem("user-name", resp.data.user.name);
         sessionStorage.setItem("user-id", resp.data.user.id);
-        loginUser(userDispatch, props.history, setIsLoading, resp.statusText);
+        loginUser(userDispatch, props.history, setIsLoading, resp.status);
       })
       .catch(() => toast(LOGIN_VALIDATION));
   };

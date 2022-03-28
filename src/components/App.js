@@ -35,16 +35,16 @@ export default function App() {
           <Route
             exact
             path="/"
-            render={() => <Redirect to="/app/Dashboard" />}
+            render={() => <Redirect to="/app/myRevenue"/>}
           />
           <Route
             exact
             path="/app"
-            render={() => <Redirect to="/app/Dashboard" />}
+            render={() => <Redirect to="/app/myRevenue" exact/>}
           />
-          <PublicRoute path="/login" component={Login} />
+          <PublicRoute path="/login" component={Login} exact/>
           <PrivateRoute path="/app" component={Layout} />
-          <Route component={Error} />
+          <Route path="*" component={Error} />
         </Switch>
       </HashRouter>
     </>
