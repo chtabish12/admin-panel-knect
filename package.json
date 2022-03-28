@@ -47,6 +47,7 @@
     "react-dom": "^16.14.0",
     "react-hook-form": "^7.22.4",
     "react-html-table-to-excel": "^2.0.0",
+    "react-loader-spinner": "^6.0.0-0",
     "react-multi-select-component": "^4.1.14",
     "react-redux": "^7.2.6",
     "react-router-dom": "^5.2.0",

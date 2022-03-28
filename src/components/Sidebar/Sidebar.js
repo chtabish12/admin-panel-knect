@@ -26,16 +26,16 @@ import {
 } from "../../context/LayoutContext";
 
 const structure = [
-  // {
-  //   id: 0,
-  //   label: "Main Dashboard",
-  //   link: "/app/mainDashboard",
-  //   icon: <HomeIcon />,
-  // },
+  {
+    id: 0,
+    label: "Main Dashboard",
+    link: "/app/Dashboard",
+    icon: <HomeIcon />,
+  },
   {
     id: 1,
-    label: "Dashboard",
-    link: "/app/subdashboard",
+    label: "My Revenue",
+    link: "/app/myRevenue",
     icon: <ViewQuilt />,
   },
   {

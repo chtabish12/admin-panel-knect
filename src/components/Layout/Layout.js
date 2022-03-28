@@ -10,7 +10,7 @@ import Header from "../Header/Header.js";
 import Sidebar from "../Sidebar/Sidebar.js";
 
 // pages
-import Dashboard from "../../pages/dashboard/Dashboard.js";
+import myRevenue from "../../pages/myRevenue/MyRevenue.js";
 import MainDashboard from "../../pages/mainDashboard/MainDashboard.js";
 import Services from "../../pages/services/Services.js";
 import HeatMap from "../../pages/heatMap/HeatMap.js";
@@ -37,8 +37,8 @@ function Layout(props) {
         >
           <div className={classes.fakeToolbar} />
           <Switch>
-            {/* <Route path="/app/mainDashboard" component={MainDashboard} /> */}
-            <Route path="/app/subdashboard" component={Dashboard} />
+            <Route path="/app/Dashboard" component={MainDashboard} />
+            <Route path="/app/myRevenue" component={myRevenue} />
             <Route path="/app/services" component={Services} />
             <Route
               exact

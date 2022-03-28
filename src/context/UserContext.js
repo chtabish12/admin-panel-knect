@@ -193,8 +193,7 @@ const loginUser = (dispatch, history, setIsLoading, message) => {
     sessionStorage.setItem("id_token", 1);
     setIsLoading(true);
     dispatch({ type: "LOGIN_SUCCESS" });
-    // history.push("/app/mainDashboard");
-    history.push("/app/subdashboard");
+    history.push("/app/Dashboard");
   } else if (message === 400) {
     setIsLoading(false);
   }

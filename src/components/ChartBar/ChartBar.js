@@ -52,7 +52,7 @@ const ChartBar = ({ region, label, y, z }) => {
       : "";
 
     let series = [];
-    AdminPanelService.DashBoard(
+    AdminPanelService.MyRevenue(
       startdate,
       enddate,
       productId,
