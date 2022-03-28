@@ -63,7 +63,7 @@ const Login = (props) => {
         localStorage.setItem("api-data", JSON.stringify(resp.data.regions));
         sessionStorage.setItem("user-name", resp.data.user.name);
         sessionStorage.setItem("user-id", resp.data.user.id);
-        loginUser(userDispatch, props.history, setIsLoading, resp.status);
+        loginUser(userDispatch, props.history, setIsLoading, resp.statusText);
       })
       .catch(() => toast(LOGIN_VALIDATION));
   };

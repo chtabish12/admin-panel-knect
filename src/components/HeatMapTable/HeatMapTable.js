@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
+import { RotatingLines } from "react-loader-spinner";
 import { Table } from "react-bootstrap";
 import moment from "moment";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -10,7 +11,7 @@ import Widget from "../Widget/Widget.js";
 import Doc from "./DocService";
 import PdfContainer from "./PdfContainer";
 
-const HeatMapTable = ({ dataShow, data, dateArray }) => {
+const HeatMapTable = ({ dataShow, data, dateArray, loading }) => {
   // API
   const [state, setState] = useState("");
   const [tableShow, setTableShow] = useState(false);
@@ -18,6 +19,7 @@ const HeatMapTable = ({ dataShow, data, dateArray }) => {
   const createPdf = (html) => Doc.createPdf(html);
 
   const fetchData = () => {
+    setTableShow(false);
     let netbase = 0;
     let churn = 0;
     let charged = 0;
@@ -71,22 +73,32 @@ const HeatMapTable = ({ dataShow, data, dateArray }) => {
       }
     });
     setState(heatMapArray);
-    setTableShow(true);
+    // setTableShow(true);
   };
+
   useEffect(() => {
     if (dataShow) {
       fetchData();
-    }
+    } else setTableShow(false);
     //eslint-disable-next-line
   }, [data]);
   return (
     //eslint-disable-next-line
     <>
+      {loading && (
+        <div className="spinner">
+          <RotatingLines width="100" strokeColor="#536DFE" />
+        </div>
+      )}
       <Grid container spacing={1}>
         <Grid item xs={12} md={12}>
           <Widget disableWidgetMenu>
-            {tableShow && (
-              <PdfContainer createPdf={createPdf} buttonClass={"csv-button-pdf"} sectionClass={"pdf-toolbar"}>
+            {dataShow && !loading && (
+              <PdfContainer
+                createPdf={createPdf}
+                buttonClass={"csv-button-pdf"}
+                sectionClass={"pdf-toolbar"}
+              >
                 <>
                   <Table
                     striped
@@ -214,7 +226,7 @@ const HeatMapTable = ({ dataShow, data, dateArray }) => {
                 </>
               </PdfContainer>
             )}
-            <>{!tableShow && <p>No Record!!</p>}</>
+            <>{!tableShow && !dataShow && <p>No Record!!</p>}</>
           </Widget>
         </Grid>
       </Grid>
