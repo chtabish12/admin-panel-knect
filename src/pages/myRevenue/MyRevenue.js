@@ -1,5 +1,6 @@
 import React, { useState, useEffect, lazy, Suspense } from "react";
 import { Grid } from "@material-ui/core";
+import { LineWave } from "react-loader-spinner";
 
 // styles
 import useStyles from "./styles";
@@ -21,14 +22,14 @@ const MyRevenue = () => {
 
   return (
     <>
-      <Suspense fallback={<></>}>
+      <Suspense fallback={<div className="spinner"><LineWave/></div>}>
         <PageTitle title="My Revenue" />
       </Suspense>
       <Grid item xs={12}>
         <Widget bodyClass={classes.mainChartBody}>
           {response?.length > 0 &&
             response?.map((region, key) => (
-              <Suspense key={key} fallback={<></>}>
+              <Suspense key={key} fallback={<div className="spinner"><LineWave/></div>}>
                 <ChartBar
                   region={region.name}
                   key={key}

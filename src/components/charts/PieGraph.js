@@ -6,28 +6,40 @@ import { OVERALL_OPERATOR_REVENUE } from "../../Constants";
 import { ResponsiveContainer } from "recharts";
 
 const PieGraph = ({ operatorRevenue }) => {
+  var _ = require("lodash");
+  let showChart = false;
   var theme = useTheme();
   operatorRevenue?.forEach((item) => (item.revenue = Math.round(item.revenue)));
   // local
   var [activeIndex, setActiveIndexId] = useState(0);
+  showChart = _.every(operatorRevenue, { revenue: 0 });
 
   return (
     <>
       <Widget title={OVERALL_OPERATOR_REVENUE} noBodyPadding upperTitle>
-        <ResponsiveContainer width="100%" height={400}>
-          <PieChart width={300} height={300}>
-            <Pie
-              activeIndex={activeIndex}
-              activeShape={renderActiveShape}
-              data={operatorRevenue}
-              innerRadius={70}
-              outerRadius={100}
-              fill={theme.palette.info.main}
-              dataKey="revenue"
-              onMouseEnter={(e, id) => setActiveIndexId(id)}
-            />
-          </PieChart>
-        </ResponsiveContainer>
+        {!showChart && (
+          <ResponsiveContainer width="100%" height={400}>
+            <PieChart width={300} height={300}>
+              <Pie
+                activeIndex={activeIndex}
+                activeShape={renderActiveShape}
+                data={operatorRevenue}
+                innerRadius={70}
+                outerRadius={100}
+                fill={theme.palette.info.main}
+                dataKey="revenue"
+                onMouseEnter={(e, id) => setActiveIndexId(id)}
+              />
+            </PieChart>
+          </ResponsiveContainer>
+        )}
+        <>
+          {showChart && (
+            <ResponsiveContainer width="100%" height={400}>
+              <h4 className="center-text">No Data</h4>
+            </ResponsiveContainer>
+          )}
+        </>
       </Widget>
     </>
   );

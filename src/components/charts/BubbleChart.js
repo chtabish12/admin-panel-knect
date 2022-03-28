@@ -41,11 +41,11 @@ const BubbleChart = ({ yoyRevenue }) => {
           sizeField={"revenue"}
         />
       ))}
-        <Legend
-          position="outside"
-          verticalAlignment="bottom"
-          horizontalAlignment="center"
-        />
+      <Legend
+        position="outside"
+        verticalAlignment="bottom"
+        horizontalAlignment="center"
+      />
       <Export enabled={true} />
     </Chart>
   );
@@ -54,8 +54,10 @@ const BubbleChart = ({ yoyRevenue }) => {
 export default BubbleChart;
 
 function customizeTooltip(pointInfo) {
+  let revenue = Math.round(pointInfo.valueText);
   return {
-    text: `${pointInfo.point.data.productName}<br/>Total Revenue: ${pointInfo.valueText}M`};
+    text: `${pointInfo.point.data.productName}<br/>Total Revenue: ${revenue}`,
+  };
 }
 
 function seriesClick(e) {
