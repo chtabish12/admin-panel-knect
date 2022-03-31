@@ -1,45 +1,32 @@
-import React, { useState } from "react";
-import { useTheme } from "@material-ui/styles";
-import { Pie, PieChart, Sector } from "recharts";
+import React from "react";
+import PieChart, {
+  Series,
+  Label,
+  Margin,
+  Export,
+  Legend,
+  Animation,
+} from "devextreme-react/pie-chart";
 import Widget from "../Widget/Widget";
 import { OVERALL_OPERATOR_REVENUE } from "../../Constants";
-import { ResponsiveContainer } from "recharts";
-
 const PieGraph = ({ operatorRevenue }) => {
-  var _ = require("lodash");
-  let showChart = false;
-  var theme = useTheme();
-  operatorRevenue?.forEach((item) => (item.revenue = Math.round(item.revenue)));
-  // local
-  var [activeIndex, setActiveIndexId] = useState(0);
-  showChart = _.every(operatorRevenue, { revenue: 0 });
-
   return (
     <>
       <Widget title={OVERALL_OPERATOR_REVENUE} noBodyPadding upperTitle>
-        {!showChart && (
-          <ResponsiveContainer width="100%" height={400}>
-            <PieChart width={300} height={300}>
-              <Pie
-                activeIndex={activeIndex}
-                activeShape={renderActiveShape}
-                data={operatorRevenue}
-                innerRadius={70}
-                outerRadius={100}
-                fill={theme.palette.info.main}
-                dataKey="revenue"
-                onMouseEnter={(e, id) => setActiveIndexId(id)}
-              />
-            </PieChart>
-          </ResponsiveContainer>
-        )}
-        <>
-          {showChart && (
-            <ResponsiveContainer width="100%" height={400}>
-              <h4 className="center-text">No Data</h4>
-            </ResponsiveContainer>
-          )}
-        </>
+        <PieChart
+          id="pie"
+          dataSource={operatorRevenue}
+          palette="Bright"
+          resolveLabelOverlapping="shift"
+        >
+          <Series argumentField="name" valueField="revenue">
+            <Label visible={true} customizeText={formatText} />
+          </Series>
+          <Margin bottom={20} />
+          <Export enabled={true} />
+          <Legend visible={false} />
+          <Animation enabled={false} />
+        </PieChart>
       </Widget>
     </>
   );
@@ -47,71 +34,8 @@ const PieGraph = ({ operatorRevenue }) => {
 export default PieGraph;
 
 // ################################################################
-
-function renderActiveShape(props) {
-  var RADIAN = Math.PI / 180;
-  var {
-    cx,
-    cy,
-    midAngle,
-    innerRadius,
-    outerRadius,
-    startAngle,
-    endAngle,
-    fill,
-    payload,
-    percent,
-    revenue,
-  } = props;
-  var sin = Math.sin(-RADIAN * midAngle);
-  var cos = Math.cos(-RADIAN * midAngle);
-  var sx = cx + (outerRadius + 10) * cos;
-  var sy = cy + (outerRadius + 10) * sin;
-  var mx = cx + (outerRadius + 1) * cos;
-  var my = cy + (outerRadius + 30) * sin;
-  var ex = mx + (cos >= 0 ? 1 : -1) * 22;
-  var ey = my;
-  var textAnchor = cos >= 0 ? "start" : "end";
-
-  return (
-    <g>
-      <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
-        {payload.name}
-      </text>
-      <Sector
-        cx={cx}
-        cy={cy}
-        innerRadius={innerRadius}
-        outerRadius={outerRadius}
-        startAngle={startAngle}
-        endAngle={endAngle}
-        fill={fill}
-      />
-      <Sector
-        cx={cx}
-        cy={cy}
-        startAngle={startAngle}
-        endAngle={endAngle}
-        innerRadius={outerRadius + 2}
-        outerRadius={outerRadius + 8}
-        fill={fill}
-      />
-      <path
-        d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`}
-        stroke={fill}
-        fill="none"
-      />
-      <circle cx={ex} cy={ey} r={6} fill={fill} stroke="none" />
-      <text
-        className="pieChart"
-        x={ex + (cos >= 0 ? 1 : -1) * 12}
-        y={ey}
-        textAnchor={textAnchor}
-        fill="#333"
-      >{`${revenue}`}</text>
-      <text x={ex + 10} y={ey} dy={18} textAnchor={textAnchor} fill="#999">
-        {`(${(percent * 100).toFixed(2)}%)`}
-      </text>
-    </g>
-  );
+function formatText(arg) {
+  let revenue = Number(arg.valueText).toFixed(1);
+  let percent = Number(arg.percent).toFixed(3);
+  return `${arg.argumentText} \n Revenue: ${revenue} \n ${percent * 100}%`;
 }

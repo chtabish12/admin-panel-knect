@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,33 +16,47 @@ import { useUserState } from "../context/UserContext";
 export default function App() {
   // global
   var { isAuthenticated } = useUserState();
-
+  const [routePush, setRoutePush] = useState();
+  const permissions = sessionStorage.getItem("user-permissions");
+  useEffect(() => {
+    if(permissions)
+    if (permissions?.split(",").includes("Main Dashboard")) {
+      setRoutePush("/app/Dashboard");
+    } else if (permissions?.split(",").includes("My Revenue")) {
+      setRoutePush("/app/myRevenue");
+    }
+  }, [setRoutePush, permissions]);
   return (
     <>
       <ToastContainer
-       position="top-center"
-       autoClose={5000}
-       hideProgressBar={false}
-       newestOnTop={false}
-       closeOnClick
-       rtl={false}
-       pauseOnFocusLoss
-       draggable
-       pauseOnHover
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
       />
       <HashRouter>
         <Switch>
+        <Route
+            exact
+            path="/"
+            component={Login}
+          />
           <Route
             exact
             path="/"
-            render={() => <Redirect to="/app/myRevenue"/>}
+            render={() => <Redirect to={`"${routePush}"`}/>}
           />
           <Route
             exact
             path="/app"
-            render={() => <Redirect to="/app/myRevenue" exact/>}
+            render={() => <Redirect to={`"${routePush}"`} exact />}
           />
-          <PublicRoute path="/login" component={Login} exact/>
+          <PublicRoute path="/login" component={Login} />
           <PrivateRoute path="/app" component={Layout} />
           <Route path="*" component={Error} />
         </Switch>

@@ -59,8 +59,8 @@ const Login = (props) => {
         if (resp.status !== 200) {
           return toast(LOGIN_VALIDATION);
         }
-        // console.log(JSON.parse(resp.data.user.permission))
         sessionStorage.setItem("token-user", resp.data.token);
+        sessionStorage.setItem("user-permissions", resp.data.user.permission);
         localStorage.setItem("api-data", JSON.stringify(resp.data.regions));
         sessionStorage.setItem("user-name", resp.data.user.name);
         sessionStorage.setItem("user-id", resp.data.user.id);
