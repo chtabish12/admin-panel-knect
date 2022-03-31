@@ -70,7 +70,7 @@ const BubbleChart = ({ yoyRevenue }) => {
     });
     return current;
   });
-  console.log("before", yoyRevenue);
+  // console.log("before", yoyRevenue);
   data = data.filter(
     (value, index, self) =>
       index ===
@@ -78,7 +78,7 @@ const BubbleChart = ({ yoyRevenue }) => {
         (t) => t.productName === value.productName && t.year === value.year
       )
   );
-  console.log("after", data);
+  // console.log("after", data);
   return (
     <>
       <Chart id="chart" dataSource={data}>
