@@ -8,56 +8,80 @@ import {
   Tooltip,
 } from "devextreme-react/chart";
 const BubbleChart = ({ yoyRevenue }) => {
-  // const _ = require("lodash");
-  // const group = _.groupBy(yoyRevenue, "year");
-  // const total = Object.values(group).reduce(
-  //   (previous, current, currentIndex) => {
-  //     let obj = {};
-  //     let temp = {};
-  //     const pp = previous.map((ele) => {
-  //       current.map((tt) => {
-  //         if (tt.productName == ele.productName) {
-  //           // console.log("pre", ele.revenue)
-  //           // console.log("curr", tt.revenue)
-  //           temp = {
-  //             revenue: ele.revenue,
-  //             year: ele.year,
-  //             productName: ele.productName,
-  //             growth: `${
-  //               tt.revenue ? tt.revenue : 1 / ele.revenue ? ele.revenue : 1
-  //             }%`,
-  //             scale:
-  //               ele === 0
-  //                 ? "up"
-  //                 : tt === 0
-  //                 ? "down"
-  //                 : ele.revenue > tt.revenue
-  //                 ? "down"
-  //                 : "up",
-  //           };
-  //           obj = { ...obj, temp };
-  //         }
-  //       });
-  //       if (currentIndex == 1) {
-  //         temp = {
-  //           revenue: ele.revenue,
-  //           year: ele.year,
-  //           productName: ele.productName,
-  //           growth: "100%",
-  //           scale: "up",
-  //         };
-  //         obj = { ...obj, temp };
-  //       }
-  //       return obj;
-  //     });
-  //     console.log("====", pp);
-  //     return current;
-  //   }
-  // );
-  // console.log("data", total);
+  const _ = require("lodash");
+  const group = _.groupBy(yoyRevenue, "year");
+  let data = [];
+  Object.values(group).reduce((previous, current, currentIndex) => {
+    if (currentIndex === 1) {
+      // eslint-disable-next-line
+      previous.map((ele) => {
+        data.push({
+          revenue: ele.revenue,
+          year: ele.year,
+          productName: ele.productName,
+          growth: "100%",
+          scale: "up",
+        });
+      });
+    }
+    // eslint-disable-next-line
+    previous.map((ele) => {
+      // eslint-disable-next-line
+      current.map((tt) => {
+        if (ele.productName === tt.productName) {
+          data.push({
+            revenue: tt.revenue,
+            year: tt.year,
+            productName: tt.productName,
+            growth: `${(
+              ((tt.revenue ? tt.revenue : 1) /
+                (ele.revenue ? ele.revenue : 1)) *
+              100
+            ).toFixed(2)}%`,
+            scale:
+              ele.revenue === 0
+                ? "up"
+                : tt.revenue === 0
+                ? "down"
+                : ele.revenue > tt.revenue
+                ? "down"
+                : "up",
+          });
+        } else if (ele.productName !== tt.productName) {
+          data.push({
+            revenue: ele.revenue,
+            year: ele.year,
+            productName: ele.productName,
+            growth: "100%",
+            scale: "up",
+          });
+        }
+        //  else{
+        //     dummy.push({
+        //       revenue: tt.revenue,
+        //       year: tt.year,
+        //       productName: tt.productName,
+        //       growth: "100%",
+        //       scale: "up",
+        //     });
+        //     console.log(tt.productName !== ele.productName)
+        // }
+      });
+    });
+    return current;
+  });
+  // console.log("before", yoyRevenue);
+  data = data.filter(
+    (value, index, self) =>
+      index ===
+      self.findIndex(
+        (t) => t.productName === value.productName && t.year === value.year
+      )
+  );
+  // console.log("after", data);
   return (
     <>
-      <Chart id="chart" dataSource={yoyRevenue}>
+      <Chart id="chart" dataSource={data}>
         <CommonSeriesSettings
           argumentField="year"
           valueField="revenue"
@@ -79,14 +103,9 @@ const BubbleChart = ({ yoyRevenue }) => {
 };
 
 export default BubbleChart;
-const customizeTooltip = (arg, i) => {
-  // console.log(arg)
+const customizeTooltip = (arg) => {
   let revenue = Math.round(arg.valueText);
-  // let prevYearPercentage = 0
-  // if(i !==0 ){
-
-  // }
   return {
-    text: `${arg.seriesName} \n revenue: ${revenue} \n year: ${arg.argument}`,
+    text: `${arg.seriesName} \n year: ${arg.argument} \n revenue: ${revenue} \n growth: ${arg.point.data.growth} \n scale: ${arg.point.data.scale}`,
   };
 };
