@@ -137,7 +137,7 @@ const MainDashboard = () => {
             </Grid>
 
             <Grid item xs={12} md={6}>
-              <Widget noBodyPadding title={YOY_GROWTH} upperTitle>
+              <Widget title={YOY_GROWTH} upperTitle>
                 <ResponsiveContainer width="100%" height={400}>
                   <Suspense fallback={<div className="spinner"><LineWave/></div>}>
                     <BubbleChart yoyRevenue={yoyRevenue} />
@@ -146,7 +146,7 @@ const MainDashboard = () => {
               </Widget>
             </Grid>
             <Grid item xs={12} md={6}>
-              <Widget noBodyPadding title={REGIONAL_REVENUE} upperTitle>
+              <Widget title={REGIONAL_REVENUE} upperTitle>
                 <ResponsiveContainer width="100%" height={400}>
                   <Suspense fallback={<div className="spinner"><LineWave/></div>}>
                     <TreeGraph
