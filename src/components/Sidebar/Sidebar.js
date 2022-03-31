@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Drawer, IconButton, List } from "@material-ui/core";
 import {
-  Home as HomeIcon,
   ArrowBack as ArrowBackIcon,
-  ViewQuilt,
-  BusinessCenter,
-  FilterNone as UIElementsIcon,
   // MapIcon
 } from "@material-ui/icons";
 import { useTheme } from "@material-ui/styles";
@@ -25,44 +21,7 @@ import {
   toggleSidebar,
 } from "../../context/LayoutContext";
 
-const structure = [
-  // {
-  //   id: 0,
-  //   label: "Main Dashboard",
-  //   link: "/app/Dashboard",
-  //   icon: <HomeIcon />,
-  // },
-  {
-    id: 1,
-    label: "My Revenue",
-    link: "/app/myRevenue",
-    icon: <ViewQuilt />,
-  },
-  {
-    id: 2,
-    label: "My Services",
-    link: "/app/services",
-    icon: <BusinessCenter />,
-  },
-  {
-    id: 3,
-    label: "Reporting",
-    link: "/app/reports",
-    icon: <UIElementsIcon />,
-    children: [
-      {
-        label: "Service wise",
-        link: "/app/reports/service",
-      },
-      {
-        label: "Services HeatMap",
-        link: "/app/reports/heatmap",
-      },
-    ],
-  },
-];
-
-const Sidebar = ({ location }) => {
+const Sidebar = ({ location, structure }) => {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -107,7 +66,7 @@ const Sidebar = ({ location }) => {
         </IconButton>
       </div>
       <List className={classes.sidebarList}>
-        {structure.map((link) => (
+        {structure?.map((link) => (
           <SidebarLink
             key={link.id}
             location={location}

@@ -189,11 +189,17 @@ const FilterFunction = (
 };
 //////////////////////##LOGIN METHOD###/////////////////////
 const loginUser = (dispatch, history, setIsLoading, message) => {
+  const permissions = sessionStorage.getItem("user-permissions").split(",");
   if (message === 200) {
     sessionStorage.setItem("id_token", 1);
     setIsLoading(true);
     dispatch({ type: "LOGIN_SUCCESS" });
-    history.push("/app/myRevenue");
+
+    if (permissions.includes("Main Dashboard")) {
+      history.push("/app/Dashboard");
+    } else if (permissions.includes("My Revenue")) {
+      history.push("/app/myRevenue");
+    }
   } else if (message === 400) {
     setIsLoading(false);
   }
@@ -202,6 +208,8 @@ const loginUser = (dispatch, history, setIsLoading, message) => {
 const signOut = (dispatch, history) => {
   sessionStorage.removeItem("id_token");
   sessionStorage.removeItem("token-user");
+  sessionStorage.removeItem("admin-flag");
+  sessionStorage.removeItem("user-permissions");
   dispatch({ type: "SIGN_OUT_SUCCESS" });
   history.push("/login");
   sessionStorage.clear();
