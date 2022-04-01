@@ -23,6 +23,21 @@ const BubbleChart = ({ yoyRevenue }) => {
           scale: "up",
         });
       });
+    } else {
+      var result = current.filter(function (obj) {
+        return !previous.some(function (obj2) {
+          return obj.productName === obj2.productName;
+        });
+      });
+      result.map((i) => {
+        return data.push({
+          revenue: i.revenue,
+          year: i.year,
+          productName: i.productName,
+          growth: "100%",
+          scale: "up",
+        });
+      });
     }
     // eslint-disable-next-line
     previous.map((ele) => {
@@ -47,7 +62,10 @@ const BubbleChart = ({ yoyRevenue }) => {
                 ? "down"
                 : "up",
           });
-        } else if (ele.productName !== tt.productName) {
+        } else if (
+          ele.productName !== tt.productName ||
+          ele.productName.includes(tt.productName)
+        ) {
           data.push({
             revenue: ele.revenue,
             year: ele.year,
@@ -56,21 +74,10 @@ const BubbleChart = ({ yoyRevenue }) => {
             scale: "up",
           });
         }
-        //  else{
-        //     dummy.push({
-        //       revenue: tt.revenue,
-        //       year: tt.year,
-        //       productName: tt.productName,
-        //       growth: "100%",
-        //       scale: "up",
-        //     });
-        //     console.log(tt.productName !== ele.productName)
-        // }
       });
     });
     return current;
   });
-  // console.log("before", yoyRevenue);
   data = data.filter(
     (value, index, self) =>
       index ===
@@ -78,7 +85,6 @@ const BubbleChart = ({ yoyRevenue }) => {
         (t) => t.productName === value.productName && t.year === value.year
       )
   );
-  // console.log("after", data);
   return (
     <>
       <Chart id="chart" dataSource={data}>
@@ -87,7 +93,6 @@ const BubbleChart = ({ yoyRevenue }) => {
           valueField="revenue"
           // type="stackedBar"
           ignoreEmptyPoints={true}
-          barPadding={60}
         />
         <SeriesTemplate nameField="productName" />
         <Legend
