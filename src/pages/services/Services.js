@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Grid } from "@material-ui/core";
 import { useEffect } from "react";
 import { Table } from "react-bootstrap";
+import { RotatingLines } from "react-loader-spinner";
 import "bootstrap/dist/css/bootstrap.min.css";
 // components
 import PageTitle from "../../components/PageTitle/PageTitle.js";
@@ -14,10 +15,13 @@ import { NO_DATA } from "../../helper/Helper.js";
 export default function ServicesPage() {
   const classes = useStyles();
   const [state, setState] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   var _ = require("lodash");
   const fetchData = () => {
+    setIsLoading(true);
     AdminPanelService.Service()
       .then((resp) => {
+        setIsLoading(false);
         if (resp.data.length) {
           const test = _.orderBy(resp.data, "id", ["asc"]);
           setState(test);
@@ -31,7 +35,6 @@ export default function ServicesPage() {
     fetchData();
     // eslint-disable-next-line
   }, []);
-
   return (
     <>
       <PageTitle title="My Services" />
@@ -51,6 +54,7 @@ export default function ServicesPage() {
                   <th style={{ textAlign: "center" }}>Status</th>
                 </tr>
               </thead>
+
               <tbody>
                 {state
                   ? state.map((state) => {
@@ -98,6 +102,11 @@ export default function ServicesPage() {
                   : ""}
               </tbody>
             </Table>
+            {isLoading && (
+              <div className="spinner">
+                <RotatingLines width="100" strokeColor="#536DFE" />
+              </div>
+            )}
           </Widget>
         </Grid>
       </Grid>
