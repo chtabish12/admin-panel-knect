@@ -5,7 +5,7 @@ import {
   IconButton,
   // InputBase,
   Menu,
-  // MenuItem,
+  MenuItem,
 } from "@material-ui/core";
 import {
   Menu as MenuIcon,
@@ -121,24 +121,27 @@ export default function Header(props) {
           classes={{ paper: classes.profileMenu }}
           disableAutoFocusItem
         >
-          <div className={classes.profileMenuUser}>
+          <MenuItem
+            className={classNames(
+              classes.profileMenuItem,
+              classes.headerMenuItem
+            )}
+          >
+            <AccountIcon className={classes.profileMenuIcon} />
             <Typography variant="h4" weight="medium">
               {username}
             </Typography>
+          </MenuItem>
+          <div className={classes.profileMenuUser}>
             <Typography variant="h6" weight="light">
               KTP- {userid}
             </Typography>
           </div>
-          {/* <MenuItem
-            className={classNames(
-              classes.profileMenuItem,
-              classes.headerMenuItem,
-            )}
-          >
-            <AccountIcon className={classes.profileMenuIcon}/> Profile
-          </MenuItem>  */}
+
           <div className={classes.profileMenuUser}>
             <Typography
+              variant="h6"
+              weight="medium"
               className={classes.profileMenuLink}
               color="primary"
               onClick={() => signOut(userDispatch, props.history)}

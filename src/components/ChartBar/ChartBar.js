@@ -19,6 +19,7 @@ import "./ChartBar.css";
 import { AdminPanelService } from "../../Service/AdminPanelService";
 import "../../styles.css";
 import { NO_DATA } from "../../helper/Helper";
+import { RotatingLines } from "react-loader-spinner";
 
 const customizeTooltip = (arg) => {
   return {
@@ -32,6 +33,8 @@ const ChartBar = ({ region, label, y, z }) => {
   const [myState, setmyState] = useState([]);
   const [seriesData, setSeriesData] = useState([]);
   const [loadingData, setLoadingData] = useState(false);
+  const [apiLoader, setApiLoader] = useState(false);
+
   const ChartBarShow = true;
 
   const formSubmit = (evt) => {
@@ -52,6 +55,8 @@ const ChartBar = ({ region, label, y, z }) => {
       : "";
 
     let series = [];
+    setApiLoader(true);
+
     AdminPanelService.MyRevenue(
       startdate,
       enddate,
@@ -61,6 +66,8 @@ const ChartBar = ({ region, label, y, z }) => {
     )
       .then((resp) => {
         setLoadingData(false);
+        setApiLoader(false);
+
         if (resp.statusText === "OK" && resp.data.length) {
           setmyState(resp.data[0].report);
           for (let i = 0; i < resp.data[0].report.length; i++)
@@ -98,6 +105,11 @@ const ChartBar = ({ region, label, y, z }) => {
           </Button>
         </div>
       </form>
+      {apiLoader && (
+        <div className="spinner">
+          <RotatingLines width="100" strokeColor="#536DFE" />
+        </div>
+      )}
       <Paper className="chartPage">
         {seriesData?.length > 0 && (
           <Chart id="chart" title={`${region} Revenue`} dataSource={myState}>

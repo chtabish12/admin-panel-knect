@@ -90,10 +90,10 @@ const HeatMapTable = ({ dataShow, data, dateArray, loading }) => {
           <RotatingLines width="100" strokeColor="#536DFE" />
         </div>
       )}
-      <Grid container spacing={1}>
-        <Grid item xs={12} md={12}>
-          <Widget disableWidgetMenu>
-            {dataShow && !loading && (
+      {dataShow && !loading && (
+        <Grid container spacing={1}>
+          <Grid item xs={12} md={12}>
+            <Widget disableWidgetMenu>
               <PdfContainer
                 createPdf={createPdf}
                 buttonClass={"csv-button-pdf"}
@@ -225,11 +225,21 @@ const HeatMapTable = ({ dataShow, data, dateArray, loading }) => {
                   </Table>
                 </>
               </PdfContainer>
-            )}
-            <>{!tableShow && !dataShow && <p>No Record!!</p>}</>
-          </Widget>
+            </Widget>
+          </Grid>
         </Grid>
-      </Grid>
+      )}
+      <>
+        {!tableShow && !dataShow && (
+          <Grid container spacing={1}>
+            <Grid item xs={12} md={12}>
+              <Widget disableWidgetMenu>
+                <p>No Record!!</p>
+              </Widget>
+            </Grid>
+          </Grid>
+        )}
+      </>
     </>
   );
 };
