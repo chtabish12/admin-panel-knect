@@ -6,6 +6,7 @@ import {
   ViewQuilt,
   BusinessCenter,
   FilterNone as UIElementsIcon,
+  AccountBox,
   // MapIcon
 } from "@material-ui/icons";
 // styles
@@ -21,6 +22,14 @@ import MainDashboard from "../../pages/mainDashboard/MainDashboard.js";
 import Services from "../../pages/services/Services.js";
 import HeatMap from "../../pages/heatMap/HeatMap.js";
 import Reports from "../../pages/reports/Reports.js";
+import AdminCMS from "../../pages/CMS/AdminCMS";
+import PartnersCMS from "../../pages/CMS/PartnersCMS";
+import ProductsCMS from "../../pages/CMS/ProductsCMS";
+import ServicesCMS from "../../pages/CMS/ServicesCMS";
+import UserCMS from "../../pages/CMS/UserCMS";
+import OperatorCMS from "../../pages/CMS/OperatorCMS";
+import CountryCMS from "../../pages/CMS/CountryCMS";
+import RedirectDetailPage from "../../pages/detailPage/RedirectDetailPage.js";
 
 // context
 import { useLayoutState } from "../../context/LayoutContext";
@@ -28,6 +37,7 @@ import { useLayoutState } from "../../context/LayoutContext";
 function Layout(props) {
   const classes = useStyles();
   const permissions = sessionStorage.getItem("user-permissions").split(",");
+  // console.log(permissions);
   let structure = [];
   let componentShow = [];
   let reportingSubMenus = {
@@ -35,6 +45,13 @@ function Layout(props) {
     label: "Reporting",
     link: "/app/reports",
     icon: <UIElementsIcon />,
+    children: [],
+  };
+  let administrationSubMenus = {
+    id: 4,
+    label: "Administration",
+    link: "/app/administration",
+    icon: <AccountBox />,
     children: [],
   };
   permissions?.forEach((ele) => {
@@ -94,8 +111,58 @@ function Layout(props) {
         component: <HeatMap />,
       });
     }
+    if (ele === "Admin Users") {
+      administrationSubMenus.children.push({
+        label: "Admin Users",
+        link: "/app/administration/adminUsersCMS",
+        component: <AdminCMS />,
+      });
+    }
+    if (ele === "Users") {
+      administrationSubMenus.children.push({
+        label: "Users CMS",
+        link: "/app/administration/usersCMS",
+        component: <UserCMS />,
+      });
+    }
+    if (ele === "Products") {
+      administrationSubMenus.children.push({
+        label: "Products CMS",
+        link: "/app/administration/productsCMS",
+        component: <ProductsCMS />,
+      });
+    }
+    if (ele === "Services") {
+      administrationSubMenus.children.push({
+        label: "Services CMS",
+        link: "/app/administration/servicesCMS",
+        component: <ServicesCMS />,
+      });
+    }
+    if (ele === "Partners") {
+      administrationSubMenus.children.push({
+        label: "Partners CMS",
+        link: "/app/administration/partnersCMS",
+        component: <PartnersCMS />,
+      });
+    }
+    if (ele === "Operator") {
+      administrationSubMenus.children.push({
+        label: "Operator CMS",
+        link: "/app/administration/operatorsCMS",
+        component: <OperatorCMS />,
+      });
+    }
+    if (ele === "Country") {
+      administrationSubMenus.children.push({
+        label: "Country CMS",
+        link: "/app/administration/countryCMS",
+        component: <CountryCMS />,
+      });
+    }
   });
   structure.push(reportingSubMenus);
+  structure.push(administrationSubMenus);
   // global
   const layoutState = useLayoutState();
   return (
@@ -111,17 +178,34 @@ function Layout(props) {
           <div className={classes.fakeToolbar} />
           <Switch>
             <>
-              {componentShow.map((state) => (
-                <Route path={state.link}>{state.component}</Route>
+              {componentShow.map((state, id) => (
+                <Route key={id} path={state.link}>
+                  {state.component}
+                </Route>
               ))}
               <Route
                 exact
                 path="/app/reports"
                 render={() => <Redirect to="/app/reports/service" />}
               />
-              {reportingSubMenus.children.map((reports) => (
-                <Route path={reports.link}>{reports.component}</Route>
+              {reportingSubMenus.children.map((reports, id) => (
+                <Route key={id} path={reports.link}>
+                  {reports.component}
+                </Route>
               ))}
+              <Route
+                exact
+                path="/app/administration"
+                render={() => <Redirect to="/app/administration" />}
+              />
+              {administrationSubMenus.children.map((cms, id) => (
+                <Route key={id} path={cms.link}>
+                  {cms.component}
+                </Route>
+              ))}
+              <Route path="/app/administration/detailPage">
+                <RedirectDetailPage />
+              </Route>
             </>
           </Switch>
         </div>

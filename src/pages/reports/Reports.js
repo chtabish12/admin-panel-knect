@@ -29,7 +29,7 @@ const Reports = () => {
   const classes = useStyles();
   const createPdf = (html) => Doc.createPdf(html);
   const ReportFlag = true;
-  const [tableShow, setTableShow] = useState(false);
+  const [CrudTable, setCrudTable] = useState(false);
   const [loading, setLoading] = useState(false);
   // date picker
   const [startDate, setStartDate] = useState(
@@ -86,7 +86,7 @@ const Reports = () => {
             setState([]);
             setState(resp.data);
           });
-          setTableShow(true);
+          setCrudTable(true);
           setLoading(false);
         } else {
           return toast(NO_DATA);
@@ -97,7 +97,7 @@ const Reports = () => {
 
   const formSubmit = async () => {
     setLoading(true);
-    setTableShow(false)
+    setCrudTable(false)
     fetchData();
   };
   return (
@@ -139,7 +139,7 @@ const Reports = () => {
           </div>
         </form>
       </div>
-      {!tableShow && !loading && (
+      {!CrudTable && !loading && (
         <Grid container spacing={1}>
           <Grid item xs={12} md={12}>
             <Widget disableWidgetMenu>
@@ -153,7 +153,7 @@ const Reports = () => {
           <RotatingLines width="100" strokeColor="#536DFE" />
         </div>
       )}
-      {tableShow && (
+      {CrudTable && (
         <>
           <div className="CSV-button-div">
             <ReactHTMLTableToExcel

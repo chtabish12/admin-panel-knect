@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { filtersAction } from "../store/filtersData";
 import moment from "moment";
+import { toast } from "react-toastify";
 const UserStateContext = React.createContext();
 const UserDispatchContext = React.createContext();
 
@@ -202,6 +203,9 @@ const loginUser = (dispatch, history, setIsLoading, message) => {
     }
   } else if (message === 400) {
     setIsLoading(false);
+  }
+  else{
+    toast("You have no permissions \n Please contact Knect Admin \n for further details")
   }
 };
 //////////////////////##LOGOUT METHOD###/////////////////////

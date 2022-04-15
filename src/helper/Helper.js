@@ -7,3 +7,4 @@ export const NO_DATA = "No Data Found!!, Please come later!!";
 export const WRONG_ATTEMPT = "Wrong attempt, Please retry!!";
 export const WRONG_SELECTION = "Wrong Selection, Please retry!!";
 export const HEADER_ADMIN = "Knect Admin";
+export const SOMETHING_WENT_WRONG = "Something Went Wrong";

@@ -8,7 +8,7 @@ function TreeGraph({ regionalRevenue }) {
   const regionalData = [];
   let items = [];
   for (const [key, value] of Object.entries(grouped)) {
-    showChart = _.every(value, { revenue: 0 });
+    _.every(value, { revenue: 0 });
     items = [];
     // eslint-disable-next-line
     value.map((ele) =>
@@ -23,6 +23,7 @@ function TreeGraph({ regionalRevenue }) {
       items,
     });
   }
+
   return (
     <>
       {!showChart && (
