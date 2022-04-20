@@ -36,6 +36,7 @@ import {
   GET_ADMIN_USER_BY_ID,
   ADD_USER,
   EDIT_USER,
+  GET_PRODUCT_BY_ID
 } from "../Constants";
 import axios from "axios";
 export const AdminPanelService = {
@@ -131,6 +132,14 @@ export const AdminPanelService = {
   AddProducts: async (request) => {
     const url = `${BASE_URL}${ADD_PRODUCTS}`;
     return axios.post(url, request, {
+      headers: {
+        token: sessionStorage.getItem("token-user"),
+      },
+    });
+  },
+  GetProductById: async (id) => {
+    const url = `${BASE_URL}${GET_PRODUCT_BY_ID}${id}`;
+    return axios.get(url, {
       headers: {
         token: sessionStorage.getItem("token-user"),
       },
@@ -233,7 +242,7 @@ export const AdminPanelService = {
       },
     });
   },
-  GetOperatorId: async (id) => {
+  GetOperatorById: async (id) => {
     const url = `${BASE_URL}${GET_OPERATOR_BY_ID}${id}`;
     return axios.get(url, {
       headers: {

@@ -1,32 +1,48 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import AddModel from "../model/AddModel";
-import { PERMISSIONS, BASE_URL } from "../../Constants";
+import { FormGroup } from "@material-ui/core";
+import { PERMISSIONS } from "../../Constants";
 import "../crudTable/styles.css";
-
+import ListMembers from "./AdminAddPermissions";
 
 const AdminUserAdd = ({ addUser, headerTable }) => {
   const [data, setUser] = useState(0);
-  const [permission, setPermission] = useState(PERMISSIONS.split(","));
+  let permissiondata = [];
+  const [permission, setPermission] = useState(PERMISSIONS);
   const initialFormState = {
     id: null,
     name: "",
   };
-
-  console.log(permission)
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setUser({ ...data, [name]: value });
+    let permissionArray = permission.filter(
+      (attendee) => attendee.status === true
+    ); // find anyone who IS going
+    permissiondata = permissionArray.map((going) => going.name);
+    setUser({ ...data, [name]: value, permissiondata });
   };
 
+  const handleAttendingChange = (memberIdx, attendanceState) => {
+    const updatedAttendee = permission[memberIdx]; // from the state 'permission' array, get the correct object for updatedAttendee
+    updatedAttendee.status = attendanceState; // update the boolean of the attendee to indicate going/true || not/false
+
+    const newAttendees = [...permission]; // make a copy of previous state of permission
+    newAttendees[memberIdx] = updatedAttendee; // insert/overwrite array object of the attendee in question with the new version
+    setPermission(newAttendees);
+  };
   return (
     <div>
       <AddModel headerTable={headerTable}>
         <form
           onSubmit={(event) => {
+            let permissionArray = permission.filter(
+              (attendee) => attendee.status === true
+            ); // find anyone who IS going
+            permissiondata = permissionArray.map((going) => going.name);
             event.preventDefault();
             if (!data.name) return;
-            addUser(data);
+            addUser(data, permissiondata);
             setUser(initialFormState);
           }}
         >
@@ -72,13 +88,19 @@ const AdminUserAdd = ({ addUser, headerTable }) => {
           </Form.Group>
           <Form.Group>
             <Form.Label>{headerTable} Permission</Form.Label>
-            <input
-              type="text"
-              placeholder={headerTable}
-              name="permission"
-              value={data.permission}
-              onChange={handleInputChange}
-            />
+            {/* <FormLabel component="legend">Select Permissions for the New User</FormLabel> */}
+            <FormGroup>
+              {permission.map((permission, i) => {
+                return (
+                  <ListMembers
+                    key={i}
+                    permission={permission}
+                    memberIdx={i}
+                    handleAttendingChange={handleAttendingChange}
+                  />
+                );
+              })}
+            </FormGroup>
           </Form.Group>
           <button className="btn btn-primary model-footer">
             Add new {headerTable}

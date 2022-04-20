@@ -29,10 +29,16 @@ import ServicesCMS from "../../pages/CMS/ServicesCMS";
 import UserCMS from "../../pages/CMS/UserCMS";
 import OperatorCMS from "../../pages/CMS/OperatorCMS";
 import CountryCMS from "../../pages/CMS/CountryCMS";
-import RedirectDetailPage from "../../pages/detailPage/RedirectDetailPage.js";
+import AdminUserDetailPage from "../../pages/detailPage/AdminUserDetailPage.js";
 
 // context
 import { useLayoutState } from "../../context/LayoutContext";
+import UserDetailPage from "../../pages/detailPage/UserDetailPage";
+import ProductDetailPage from "../../pages/detailPage/ProductDetailPage";
+import PartnerDetailPage from "../../pages/detailPage/PartnerDetailPage";
+import OperatorsDetailPage from "../../pages/detailPage/OperatorsDetailPage";
+import CountryDetailPage from "../../pages/detailPage/CountryDetailPage";
+import ServicesDetailsPage from "../../pages/detailPage/ServicesDetailsPage";
 
 function Layout(props) {
   const classes = useStyles();
@@ -203,8 +209,26 @@ function Layout(props) {
                   {cms.component}
                 </Route>
               ))}
-              <Route path="/app/administration/detailPage">
-                <RedirectDetailPage />
+              <Route path="/app/administration/AdminUserDetailPage">
+                <AdminUserDetailPage />
+              </Route>
+              <Route path="/app/administration/userDetailPage">
+                <UserDetailPage />
+              </Route>
+              <Route path="/app/administration/productDetailPage">
+                <ProductDetailPage />
+              </Route>
+              <Route path="/app/administration/partnersDetailPage">
+                <PartnerDetailPage />
+              </Route>
+              <Route path="/app/administration/operatorsDetailPage">
+                <OperatorsDetailPage />
+              </Route>
+              <Route path="/app/administration/countriesDetailPage">
+                <CountryDetailPage />
+              </Route>
+              <Route path="/app/administration/servicesDetailPage">
+                <ServicesDetailsPage />
               </Route>
             </>
           </Switch>

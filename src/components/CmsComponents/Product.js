@@ -1,4 +1,5 @@
 import React, { useState, Fragment, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { AdminPanelService } from "../../Service/AdminPanelService";
 import TableCRUD from "../crudTable/TableCRUD";
 import EditForm from "../crudForm/ProductEdit";
@@ -28,7 +29,19 @@ const Product = ({
   let partners = [];
   const columns = [
     { field: "id", headerName: "ID", flex: 1 },
-    { field: "name", headerName: "Name", flex: 1 },
+    {
+      field: "name",
+      headerName: "Name",
+      flex: 1,
+      renderCell: (params) => (
+        <Link
+          to={{ pathname: "productDetailPage", state: params.id }}
+          className="table-name-href"
+        >
+          {params.value}
+        </Link>
+      ),
+    },
     { field: "partnerId", headerName: "PartnerId", flex: 1 },
     { field: "storeId", headerName: "StoreId", flex: 1 },
     {

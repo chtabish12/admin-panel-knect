@@ -1,6 +1,20 @@
 require("dotenv").config();
 export const BASE_URL = process.env.REACT_APP_URL;
-export const PERMISSIONS = process.env.REACT_APP_PERMISSIONS_ARRAY;
+export const PERMISSIONS = [
+  { name: "Main Dashboard", id: 1 },
+  { name: "My Revenue", id: 2 },
+  { name: "My Services", id: 3 },
+  { name: "Service wise", id: 4 },
+  { name: "Services HeatMap", id: 5 },
+  { name: "Administration", id: 6 },
+  { name: "Users", id: 7 },
+  { name: "Admin Users", id: 8 },
+  { name: "Products", id: 9 },
+  { name: "Services", id: 10 },
+  { name: "Partners", id: 11 },
+  { name: "Operator", id: 12 },
+  { name: "Country", id: 13 },
+];
 export const LOGIN_URL = `user/login`;
 export const MAIN_DASHBOARD_URL = `dashboard/mainDashboard`;
 export const REVENUE_URL = `user/revenue?`;
@@ -19,6 +33,7 @@ export const REGIONAL_REVENUE = `Regional Revenue`;
 export const OVERALL_OPERATOR_REVENUE = `Overall Operators Revenue`;
 export const ALL_PRODUCTS = `product/all`;
 export const ADD_PRODUCTS = `product/add`;
+export const GET_PRODUCT_BY_ID = `product/`;
 export const UPDATE_PRODUCTS = `product/edit/`;
 export const ALL_PARTNERS = `partner/all`;
 export const ALL_SERVICES = `service/all`;

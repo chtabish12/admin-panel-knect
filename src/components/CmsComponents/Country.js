@@ -1,4 +1,5 @@
 import React, { useState, Fragment } from "react";
+import { Link } from "react-router-dom";
 import { AdminPanelService } from "../../Service/AdminPanelService";
 import TableCRUD from "../crudTable/TableCRUD";
 import EditForm from "../crudForm/CountryEdit";
@@ -22,7 +23,19 @@ const Country = ({
   };
   const columns = [
     { field: "id", headerName: "ID", flex: 1 },
-    { field: "name", headerName: "Name", flex: 1 },
+    {
+      field: "name",
+      headerName: "Name",
+      flex: 1,
+      renderCell: (params) => (
+        <Link
+          to={{ pathname: "countriesDetailPage", state: params.id }}
+          className="table-name-href"
+        >
+          {params.value}
+        </Link>
+      ),
+    },
     {
       field: "actions",
       type: "number",

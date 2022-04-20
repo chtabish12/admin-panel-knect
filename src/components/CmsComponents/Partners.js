@@ -1,4 +1,5 @@
 import React, { useState, Fragment } from "react";
+import { Link } from "react-router-dom";
 import { AdminPanelService } from "../../Service/AdminPanelService";
 import TableCRUD from "../crudTable/TableCRUD";
 import EditForm from "../crudForm/PartnerEdit";
@@ -26,7 +27,19 @@ const Partners = ({
   };
   const columns = [
     { field: "id", headerName: "ID", flex: 1 },
-    { field: "name", headerName: "Name", flex: 1 },
+    {
+      field: "name",
+      headerName: "Name",
+      flex: 1,
+      renderCell: (params) => (
+        <Link
+          to={{ pathname: "partnersDetailPage", state: params.id }}
+          className="table-name-href"
+        >
+          {params.value}
+        </Link>
+      ),
+    },
     { field: "email", headerName: "Email", flex: 1 },
     { field: "phone", headerName: "Phone", flex: 1 },
     { field: "username", headerName: "Username", flex: 1 },
@@ -37,12 +50,12 @@ const Partners = ({
       headerName: "Actions",
       sortable: false,
       renderCell: ({ row }) => (
-        <ActionButtons initialTableData={row} editRow={editRow}/>
+        <ActionButtons initialTableData={row} editRow={editRow} />
       ),
       flex: 1,
     },
   ];
-  
+
   const [currentState, setCurrentState] = useState(initialFormState);
   // CRUD operations
   const addUser = (data) => {

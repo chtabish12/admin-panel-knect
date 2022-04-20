@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { AdminPanelService } from "../../Service/AdminPanelService";
+import { Link } from "react-router-dom";
 import TableCRUD from "../crudTable/TableCRUD";
 import EditForm from "../crudForm/OperatorEdit";
 import AddForm from "../crudForm/OperatorAdd";
@@ -24,7 +25,19 @@ const Operators = ({
   };
   const columns = [
     { field: "id", headerName: "ID", flex: 1 },
-    { field: "name", headerName: "Name", flex: 1 },
+    {
+      field: "name",
+      headerName: "Name",
+      flex: 1,
+      renderCell: (params) => (
+        <Link
+          to={{ pathname: "operatorsDetailPage", state: params.id }}
+          className="table-name-href"
+        >
+          {params.value}
+        </Link>
+      ),
+    },
     { field: "countryId", headerName: "CountryId", flex: 1 },
     { field: "code", headerName: "Code", flex: 1 },
     {

@@ -1,30 +1,16 @@
 import React from "react";
 import { IconButton } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
-// import DeleteIcon from "@material-ui/icons/Delete";
-// import { useHistory } from "react-router-dom";
+import { Block } from "@material-ui/icons";
 
-const ActionButtons = ({ initialTableData, editRow }) => {
-  // console.log(initialTableData);
-  
-  // const [openProfitCenterModal, setOpenProfitCenterModal] = useState(false);
-  // const handleProfitCenterModal = () => {
-  //   setOpenProfitCenterModal(true);
-  // };
-
-  // const handleClose = () => {
-  //   setOpenProfitCenterModal(false);
-  // };
-  // const handleDelete = () => {
-  //   Modal.fire().then(({ isConfirmed }) => {
-  //     if (isConfirmed) {
-  //       mutate([id]);
-  //     }
-  //   });
-  // };
+const ActionButtons = ({
+  initialTableData,
+  editRow,
+  serviceFlag,
+  blockRow,
+}) => {
   return (
     <>
-      {/* <Tooltip title="Edit"> */}
       <IconButton
         onClick={() => {
           editRow(initialTableData);
@@ -32,21 +18,15 @@ const ActionButtons = ({ initialTableData, editRow }) => {
       >
         <EditIcon color="secondary" />
       </IconButton>
-      {/* </Tooltip> */}
-      {/* <Tooltip>
-        <Box
-        className={clsx(
-          [classes.deleteIcon]
-        )}
+      {serviceFlag && (
+        <IconButton
+          onClick={() => {
+            blockRow(initialTableData);
+          }}
         >
-          <IconButton
-          // onClick={handleDelete}
-          >
-            <DeleteIcon color="error" />
-          </IconButton>
-        </Box>
-      </Tooltip> */}
-      {/* </Show> */}
+          <Block color="secondary" />
+        </IconButton>
+      )}
     </>
   );
 };

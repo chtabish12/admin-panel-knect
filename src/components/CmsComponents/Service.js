@@ -1,11 +1,13 @@
 import React, { useState, useEffect, Fragment } from "react";
+import { Link } from "react-router-dom";
+import ActionButtons from "../crudForm/ActionButtons";
 import { AdminPanelService } from "../../Service/AdminPanelService";
-import CrudTable from "../crudTable/CrudTable";
 import EditForm from "../crudForm/ServiceEdit";
 import AddForm from "../crudForm/ServiceAdd";
 import { toast } from "react-toastify";
 import { Card } from "react-bootstrap";
 import ServiceBlock from "../crudForm/ServiceBlock";
+import TableCRUD from "../crudTable/TableCRUD";
 const Service = ({
   headerTable,
   editing,
@@ -14,7 +16,6 @@ const Service = ({
   setInitialTableData,
   setEditing,
   setFormShow,
-  column,
   serviceFlag,
   blocking,
   setBlocking,
@@ -66,7 +67,38 @@ const Service = ({
   const [operatorsArray, setOperatorsArray] = useState([]);
   const [currentState, setCurrentState] = useState(initialFormState);
   let operators = [];
-
+  const columns = [
+    { field: "id", headerName: "ID", flex: 1 },
+    {
+      field: "name",
+      headerName: "Name",
+      flex: 1,
+      renderCell: (params) => (
+        <Link
+          to={{ pathname: "servicesDetailPage", state: params.id }}
+          className="table-name-href"
+        >
+          {params.value}
+        </Link>
+      ),
+    },
+    { field: "status", headerName: "Status", flex: 1 },
+    {
+      field: "actions",
+      type: "number",
+      headerName: "Actions",
+      sortable: false,
+      renderCell: ({ row }) => (
+        <ActionButtons
+          initialTableData={row}
+          editRow={editRow}
+          blockRow={blockRow}
+          serviceFlag="true"
+        />
+      ),
+      flex: 1,
+    },
+  ];
   // CRUD operations
   const addUser = (data, operatorID) => {
     const request = {
@@ -322,12 +354,12 @@ const Service = ({
         </Fragment>
         <div className="col-12">
           <h5>{headerTable} CMS</h5>
-          <CrudTable
+          <TableCRUD
             initialTableData={initialTableData}
             editRow={editRow}
             blockRow={blockRow}
             blockSerive={blockSerive}
-            column={column}
+            column={columns}
             serviceFlag={serviceFlag}
             // deleteUser={deleteUser}
           />

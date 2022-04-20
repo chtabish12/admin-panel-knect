@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { AdminPanelService } from "../../Service/AdminPanelService";
+import { Link } from "react-router-dom";
 import TableCRUD from "../crudTable/TableCRUD";
 import EditForm from "../crudForm/UsersEdit";
 import AddForm from "../crudForm/UsersAdd";
@@ -26,7 +27,15 @@ const Users = ({
   };
   const columns = [
     { field: "id", headerName: "ID", flex: 1 },
-    { field: "uuid", headerName: "Uuid", flex: 1 },
+    { field: "uuid", headerName: "Uuid", flex: 1,
+    renderCell: (params) => (
+      <Link
+        to={{ pathname: "userDetailPage", state: params.id }}
+        className="table-name-href"
+      >
+        {params.value}
+      </Link>
+    ), },
     { field: "msisdn", headerName: "Msisdn", flex: 1 },
     { field: "Email", headerName: "Email", flex: 1 },
     { field: "operatorId", headerName: "OperatorId", flex: 1 },

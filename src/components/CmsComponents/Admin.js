@@ -1,4 +1,5 @@
 import React, { useState, Fragment } from "react";
+import { Link } from "react-router-dom";
 import { AdminPanelService } from "../../Service/AdminPanelService";
 import TableCRUD from "../crudTable/TableCRUD";
 import EditForm from "../crudForm/AdminUserEdit";
@@ -26,9 +27,61 @@ const Admin = ({
   };
   const columns = [
     { field: "id", headerName: "ID", flex: 1 },
-    { field: "name", headerName: "Name", flex: 1 },
+    {
+      field: "name",
+      headerName: "Name",
+      flex: 1,
+      renderCell: (params) => (
+        <Link
+          to={{ pathname: "AdminUserDetailPage", state: params.id }}
+          className="table-name-href"
+        >
+          {params.value}
+        </Link>
+      ),
+    },
     { field: "email", headerName: "Email", flex: 1 },
-    { field: "isAdmin", headerName: "Admin", flex: 1 },
+    {
+      field: "isAdmin",
+      headerName: "Admin",
+      flex: 1,
+      // cellClassName: (params) => {
+      //   console.log(params);
+      //   if (params.value == null) {
+      //     return "";
+      //   }
+      //   let color =
+      //     params.value === 1
+      //       ? "#5cb85c"
+      //       : params.value === 0
+      //       ? "#d9534f"
+      //       : params.value === 2
+      //       ? "#337ab7"
+      //       : params.value == null
+      //       ? "#f0ad4e"
+      //       : "";
+      //   return (
+      //     <span
+      //       style={{ backgroundColor: color }}
+      //       className={"tableStatusCode"}
+      //     >
+      //       {params.value === 1
+      //         ? "Active"
+      //         : params.value === 0
+      //         ? "Inactive"
+      //         : params.value === 2
+      //         ? "Suspended Subscription"
+      //         : params.value === 3
+      //         ? "Suspended Billing"
+      //         : "N/A"}
+      //     </span>
+      //   );
+      //   // return clsx("super-app", {
+      //   //   negative: params.value < 0,
+      //   //   positive: params.value > 0,
+      //   // });
+      // },
+    },
     {
       field: "actions",
       type: "number",
@@ -43,15 +96,14 @@ const Admin = ({
 
   const [currentState, setCurrentState] = useState(initialFormState);
   // CRUD operations
-  const addUser = (data) => {
+  const addUser = (data, permissiondata) => {
     const request = {
       name: data.name,
       email: data.email,
       password: data.password,
       isAdmin: data.isAdmin,
-      permission: data.permission,
+      permission: permissiondata.toString(),
     };
-    console.log(request)
     AdminPanelService.AddAdminUser(request)
       .then((resp) => {
         toast(resp.data);
@@ -63,14 +115,14 @@ const Admin = ({
     setFormShow(false);
   };
 
-  const updateUser = (id, updatedUser) => {
+  const updateUser = (id, updatedUser, permissiondata) => {
     setEditing(false);
     const task = [updatedUser].find((t) => t.id === updatedUser.id);
     task.name = updatedUser.name;
     task.email = updatedUser.email;
     task.password = updatedUser.password;
     task.isAdmin = updatedUser.isAdmin;
-    task.permission = updatedUser.permission;
+    task.permission = permissiondata.toString();
     AdminPanelService.UpdateAdminUser(id, task)
       .then((resp) => {
         toast(resp.data);
