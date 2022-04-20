@@ -31,6 +31,7 @@ export default function ServicesPage() {
       })
       .catch(() => toast(NO_DATA));
   };
+  console.log(state)
   useEffect(() => {
     fetchData();
     // eslint-disable-next-line
@@ -67,7 +68,7 @@ export default function ServicesPage() {
                           ? "#337ab7"
                           : state.status === 4
                           ? "#f0ad4e"
-                          : "";
+                          : "rgb(157 0 0)";
                       return (
                         <>
                           <tr>

@@ -17,31 +17,33 @@ const AdminUserEdit = ({
   const [data, setUser] = useState(currentState);
   const [permission, setPermission] = useState([]);
   let permissiondata = [];
-  let array = [];
-  let dummy = [];
-  const objectsEqual = (o1, o2) =>
-    Object.keys(o1).length === Object.keys(o2).length &&
-    Object.keys(o1).every((p) => o1[p] === o2[p]);
-
-  console.log(permission);
-
+  let apiPermissions = [];
+  let comparedPermissions = [];
+  const objectsEqual = (o1, o2) => {
+    for (let permission of o1) {
+      const permisionFound = o2.find((perm) => permission.name === perm.name);
+      const permissionObject = {};
+      if (permisionFound) {
+        permissionObject.name = permisionFound.name;
+        permissionObject.id = permisionFound.id;
+        permissionObject.status = true;
+      } else {
+        permissionObject.name = permission.name;
+        permissionObject.id = permission.id;
+        permissionObject.status = false;
+      }
+      comparedPermissions.push(permissionObject);
+    }
+  };
   useEffect(() => {
     currentState.permission.split(",").map((ele, index) => {
-      return array.push({ name: ele, id: index + 1 });
+      return apiPermissions.push({ name: ele, id: index + 1 });
     });
-    PERMISSIONS.map((perm, i) => {
-      if (objectsEqual(perm, array[i])) {
-        return dummy.push({ name: perm.name, id: perm.id, status: true });
-      } else {
-        return dummy.push({ name: perm.name, id: perm.id, status: false });
-      }
-    });
-    console.log("final array", dummy);
-    setPermission(dummy);
+    objectsEqual(PERMISSIONS, apiPermissions);
+    setPermission(comparedPermissions);
     setUser(currentState);
     // eslint-disable-next-line
   }, [editing, setEditing, currentState, updateUser]);
-  // You can tell React to skip applying an effect if certain values havenÃ¢ÂÂt changed between re-renders. [ props ]
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -52,11 +54,11 @@ const AdminUserEdit = ({
     setUser({ ...data, [name]: value, permissiondata });
   };
   const handleAttendingChange = (memberIdx, attendanceState) => {
-    const updatedAttendee = permission[memberIdx]; // from the state 'permission' array, get the correct object for updatedAttendee
+    const updatedAttendee = permission[memberIdx]; // from the state 'permission' apiPermissions, get the correct object for updatedAttendee
     updatedAttendee.status = attendanceState; // update the boolean of the attendee to indicate going/true || not/false
 
     const newAttendees = [...permission]; // make a copy of previous state of permission
-    newAttendees[memberIdx] = updatedAttendee; // insert/overwrite array object of the attendee in question with the new version
+    newAttendees[memberIdx] = updatedAttendee; // insert/overwrite apiPermissions object of the attendee in question with the new version
     setPermission(newAttendees);
   };
   return (
@@ -119,11 +121,11 @@ const AdminUserEdit = ({
           </Form.Group>
           <Form.Group>
             <Form.Label>{headerTable} Permission</Form.Label>
-            {/* <FormLabel component="legend">Select Permissions for the New User</FormLabel> */}
             <FormGroup>
               {permission.map((permission, i) => {
                 return (
                   <ListMembers
+                    // styles={{ margin: "10px" }}
                     key={i}
                     permission={permission}
                     memberIdx={i}
