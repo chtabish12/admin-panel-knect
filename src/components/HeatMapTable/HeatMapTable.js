@@ -14,12 +14,12 @@ import PdfContainer from "./PdfContainer";
 const HeatMapTable = ({ dataShow, data, dateArray, loading }) => {
   // API
   const [state, setState] = useState("");
-  const [tableShow, setTableShow] = useState(false);
+  const [CrudTable, setCrudTable] = useState(false);
   let heatMapArray = [];
   const createPdf = (html) => Doc.createPdf(html);
 
   const fetchData = () => {
-    setTableShow(false);
+    setCrudTable(false);
     let netbase = 0;
     let churn = 0;
     let charged = 0;
@@ -73,13 +73,13 @@ const HeatMapTable = ({ dataShow, data, dateArray, loading }) => {
       }
     });
     setState(heatMapArray);
-    // setTableShow(true);
+    // setCrudTable(true);
   };
 
   useEffect(() => {
     if (dataShow) {
       fetchData();
-    } else setTableShow(false);
+    } else setCrudTable(false);
     //eslint-disable-next-line
   }, [data]);
   return (
@@ -230,7 +230,7 @@ const HeatMapTable = ({ dataShow, data, dateArray, loading }) => {
         </Grid>
       )}
       <>
-        {!tableShow && !dataShow && (
+        {!CrudTable && !dataShow && (
           <Grid container spacing={1}>
             <Grid item xs={12} md={12}>
               <Widget disableWidgetMenu>

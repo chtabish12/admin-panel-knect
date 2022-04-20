@@ -41,6 +41,18 @@ DatePicker input {
 .center-text {
   text-align: center;
 }
+.text-left {
+  height: auto;
+  padding: 60px;
+  font-size: 1.3rem;
+}
+.space-between{
+  margin-right: 25px;
+}
+.space-between-url{
+  margin-right: 30px;
+  display: flex;
+}
 /* ////////////RESPONSIVE STYLING/////////////////// */
 @media only screen and (max-width: 942px) {
   .MuiTypography-body1 {

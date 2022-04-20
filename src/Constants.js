@@ -1,5 +1,20 @@
 require("dotenv").config();
 export const BASE_URL = process.env.REACT_APP_URL;
+export const PERMISSIONS = [
+  { name: "Main Dashboard", id: 1 },
+  { name: "My Revenue", id: 2 },
+  { name: "My Services", id: 3 },
+  { name: "Service wise", id: 4 },
+  { name: "Services HeatMap", id: 5 },
+  { name: "Administration", id: 6 },
+  { name: "Users", id: 7 },
+  { name: "Admin Users", id: 8 },
+  { name: "Products", id: 9 },
+  { name: "Services", id: 10 },
+  { name: "Partners", id: 11 },
+  { name: "Operator", id: 12 },
+  { name: "Country", id: 13 },
+];
 export const LOGIN_URL = `user/login`;
 export const MAIN_DASHBOARD_URL = `dashboard/mainDashboard`;
 export const REVENUE_URL = `user/revenue?`;
@@ -16,3 +31,33 @@ export const PLATFORM_REVENUE = `Platform Revenue`;
 export const YOY_GROWTH = `YoY Growth`;
 export const REGIONAL_REVENUE = `Regional Revenue`;
 export const OVERALL_OPERATOR_REVENUE = `Overall Operators Revenue`;
+export const ALL_PRODUCTS = `product/all`;
+export const ADD_PRODUCTS = `product/add`;
+export const GET_PRODUCT_BY_ID = `product/`;
+export const UPDATE_PRODUCTS = `product/edit/`;
+export const ALL_PARTNERS = `partner/all`;
+export const ALL_SERVICES = `service/all`;
+export const BLOCK_SERVICE = `service/block/`;
+export const ADD_SERVICE = `service/add`;
+export const UPDATE_SERVICE = `service/edit/`;
+export const GET_SERVICE_BY_ID = `service/`;
+export const PARTNER_ALL = `partner/all`;
+export const GET_PARTNER_BY_ID = `partner/`;
+export const ADD_PARTNER = `partner/add`;
+export const EDIT_PARTNER = `partner/edit/`;
+export const OPERATOR_ALL = `operator/all`;
+export const GET_OPERATOR_BY_ID = `operator/`;
+export const ADD_OPERATOR = `operator/add`;
+export const EDIT_Operator = `operator/edit/`;
+export const ALL_COUNTRIES = `country/all`;
+export const GET_COUNTRY_BY_ID = `country/`;
+export const ADD_COUNTRY = `country/add`;
+export const EDIT_COUNTRY = `country/edit/`;
+export const ALL_ADMIN_USERS = `user/admin/all`;
+export const GET_ADMIN_USER_BY_ID = `user/admin/`;
+export const ADD_ADMIN_USER = `user/admin/add`;
+export const EDIT_ADMIN_USER = `user/admin/edit/`;
+export const ALL_USERS = `user/all`;
+export const GET_USER_BY_ID = `user/`;
+export const ADD_USER = `user/add`;
+export const EDIT_USER = `user/edit/`;

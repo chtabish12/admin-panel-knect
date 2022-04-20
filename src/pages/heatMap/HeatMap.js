@@ -34,7 +34,7 @@ const HeatMap = () => {
   const [isLoading, setIsLoading] = useState(false);
   // API
   const [affiliatesList, setAffiliatesList] = useState("");
-  const [tableShow, setTableShow] = useState(false);
+  const [CrudTable, setCrudTable] = useState(false);
   const [loading, setLoading] = useState(false);
   const [dateArray, setDateArray] = useState([]);
   let dummyDate = [];
@@ -103,20 +103,20 @@ const HeatMap = () => {
         } else {
           toast(NO_DATA);
           setLoading(false);
-          setTableShow(false);
+          setCrudTable(false);
         }
       })
       .catch(() => {
         toast(WRONG_ATTEMPT);
         setLoading(false);
-        setTableShow(false);
+        setCrudTable(false);
       });
   };
 
   const formSubmit = () => {
     setLoading(true);
     fetchData();
-    setTableShow(true);
+    setCrudTable(true);
   };
 
   useEffect(() => {
@@ -200,7 +200,7 @@ const HeatMap = () => {
               }
             >
               <HeatMapTable
-                dataShow={tableShow}
+                dataShow={CrudTable}
                 data={response}
                 dateArray={dateArray}
                 loading={loading}
