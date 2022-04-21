@@ -31,7 +31,6 @@ export default function ServicesPage() {
       })
       .catch(() => toast(NO_DATA));
   };
-  console.log(state)
   useEffect(() => {
     fetchData();
     // eslint-disable-next-line

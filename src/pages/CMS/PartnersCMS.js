@@ -25,7 +25,6 @@ const PartnersCMS = () => {
       .catch((err) => toast(err));
   };
 
-  console.log("data", initialTableData)
   useEffect(() => {
     fetchData();
     // eslint-disable-next-line

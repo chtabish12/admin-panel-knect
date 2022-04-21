@@ -191,7 +191,6 @@ const Admin = ({
       .catch((err) => {
         toast(err);
       });
-    // console.log(id, task)
     setFormShow(false);
     setInitialTableData(
       initialTableData.map((data) => (data.id === id ? updatedUser : data))

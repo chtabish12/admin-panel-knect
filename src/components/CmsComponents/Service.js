@@ -211,7 +211,6 @@ const Service = ({
       .catch((err) => {
         toast(err);
       });
-    console.log(id, task);
     setFormShow(false);
     setInitialTableData(
       initialTableData.map((data) => (data.id === id ? updatedUser : data))
@@ -220,7 +219,6 @@ const Service = ({
 
   const blockSerive = (id, state) => {
     setBlocking(false);
-    console.log("id", id, "status", state);
     AdminPanelService.BlockService(id, state)
       .then((resp) => {
         toast(resp.data);

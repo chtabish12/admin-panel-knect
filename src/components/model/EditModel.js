@@ -9,11 +9,7 @@ const EditModel = (props) => {
 
   return (
     <div>
-      <div className="add-product-btn">
-        {/* <Button variant="primary" onClick={handleShow}>
-          Add new {props.headerTable}
-        </Button> */}
-      </div>
+      <div className="add-product-btn"></div>
       <Modal
         show={props.show}
         onHide={handleClose}

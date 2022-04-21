@@ -41,7 +41,6 @@ import {
 import axios from "axios";
 export const AdminPanelService = {
   Login: async (request) => {
-    // console.log("URL", BASE_URL)
     const url = `${BASE_URL}${LOGIN_URL}`;
     return axios.post(url, request);
   },

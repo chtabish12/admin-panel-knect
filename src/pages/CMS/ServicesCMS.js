@@ -18,7 +18,6 @@ const ServicesCMS = () => {
       .then((resp) => {
         // eslint-disable-next-line
         if (resp.statusText == "OK" && resp.data.length) {
-          console.log("data", resp.data);
           setInitialTableData(resp.data);
         } else {
           toast(NO_DATA);

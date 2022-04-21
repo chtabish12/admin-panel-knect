@@ -16,7 +16,6 @@ const UsersAdd = ({ addUser, headerTable, operatorsArray }) => {
   };
 
   const handleInputChange = (event, operator) => {
-    // console.log(event)
     const { name, value } = event.target;
     setUser({ ...data, [name]: value, operator });
   };
