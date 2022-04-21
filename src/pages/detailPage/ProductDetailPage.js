@@ -24,7 +24,6 @@ export default function ProductDetailPage() {
       })
       .catch((err) => toast(err));
   }, [location.state]);
-  console.log(detailPageData);
   return (
     <>
       <Link

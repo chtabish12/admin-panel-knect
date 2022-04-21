@@ -24,7 +24,6 @@ export default function CountryDetailPage() {
       })
       .catch((err) => toast(err));
   }, [location.state]);
-  console.log(detailPageData);
   return (
     <>
       <Link

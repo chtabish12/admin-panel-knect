@@ -10,7 +10,12 @@ const BlockModel = (props) => {
   return (
     <div>
       <div className="add-product-btn"></div>
-      <Modal show={props.show} onHide={handleClose} className="model">
+      <Modal
+        show={props.show}
+        onHide={handleClose}
+        dialogClassName="model"
+        aria-labelledby="example-custom-modal-styling-title"
+      >
         <Modal.Header closeButton>
           <Modal.Title>{props.headerTable}</Modal.Title>
         </Modal.Header>

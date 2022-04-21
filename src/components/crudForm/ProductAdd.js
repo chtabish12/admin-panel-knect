@@ -15,10 +15,7 @@ const ProductAdd = ({ addUser, partnersArray, headerTable }) => {
   };
 
   const handleInputChange = (event, partner) => {
-    // console.log(event)
     const { name, value } = event.target;
-    // console.log(partner)
-
     setUser({ ...data, [name]: value }, partner);
   };
 
@@ -28,8 +25,7 @@ const ProductAdd = ({ addUser, partnersArray, headerTable }) => {
         <form
           onSubmit={(event) => {
             event.preventDefault();
-            if (!data.name || !partner.value || !data.storeId)
-              return;
+            if (!data.name || !partner.value || !data.storeId) return;
             addUser(data, partner.value);
             setUser(initialFormState);
           }}

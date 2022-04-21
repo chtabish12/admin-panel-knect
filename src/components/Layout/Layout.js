@@ -43,7 +43,6 @@ import ServicesDetailsPage from "../../pages/detailPage/ServicesDetailsPage";
 function Layout(props) {
   const classes = useStyles();
   const permissions = sessionStorage.getItem("user-permissions").split(",");
-  // console.log(permissions);
   let structure = [];
   let componentShow = [];
   let reportingSubMenus = {

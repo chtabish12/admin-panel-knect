@@ -62,7 +62,6 @@ const Users = ({
       EPTokenNumber: data.EPTokenNumber,
       Email: data.Email,
     };
-    console.log(request);
     AdminPanelService.AddUser(request)
       .then((resp) => {
         toast(resp.data);
@@ -89,7 +88,6 @@ const Users = ({
       .catch((err) => {
         toast(err);
       });
-    // console.log(id, task)
     setFormShow(false);
     setInitialTableData(
       initialTableData.map((data) => (data.id === id ? updatedUser : data))

@@ -53,13 +53,13 @@ const AdminUserEdit = ({
     permissiondata = permissionArray.map((going) => going.name);
     setUser({ ...data, [name]: value, permissiondata });
   };
-  const handleAttendingChange = (memberIdx, attendanceState) => {
-    const updatedAttendee = permission[memberIdx]; // from the state 'permission' apiPermissions, get the correct object for updatedAttendee
-    updatedAttendee.status = attendanceState; // update the boolean of the attendee to indicate going/true || not/false
+  const handleAttendingChange = (index, state) => {
+    const updatedPermissions = permission[index]; // from the state 'permission' apiPermissions, get the correct object for updatedPermissions
+    updatedPermissions.status = state; // update the boolean of the attendee to indicate going/true || not/false
 
-    const newAttendees = [...permission]; // make a copy of previous state of permission
-    newAttendees[memberIdx] = updatedAttendee; // insert/overwrite apiPermissions object of the attendee in question with the new version
-    setPermission(newAttendees);
+    const newPermissions = [...permission]; // make a copy of previous state of permission
+    newPermissions[index] = updatedPermissions; // insert/overwrite apiPermissions object of the attendee in question with the new version
+    setPermission(newPermissions);
   };
   return (
     <div>
@@ -125,10 +125,9 @@ const AdminUserEdit = ({
               {permission.map((permission, i) => {
                 return (
                   <ListMembers
-                    // styles={{ margin: "10px" }}
                     key={i}
                     permission={permission}
-                    memberIdx={i}
+                    index={i}
                     handleAttendingChange={handleAttendingChange}
                   />
                 );

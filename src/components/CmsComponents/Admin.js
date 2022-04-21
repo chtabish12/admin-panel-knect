@@ -1,5 +1,6 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { AdminPanelService } from "../../Service/AdminPanelService";
 import TableCRUD from "../crudTable/TableCRUD";
 import EditForm from "../crudForm/AdminUserEdit";
@@ -25,6 +26,7 @@ const Admin = ({
     isAdmin: "",
     permission: "",
   };
+  // Define Columns
   const columns = [
     { field: "id", headerName: "ID", flex: 1 },
     {
@@ -93,17 +95,34 @@ const Admin = ({
       flex: 1,
     },
   ];
-
+  // Hooks initialization
   const [currentState, setCurrentState] = useState(initialFormState);
+  const [checked, setChecked] = useState(false);
+  const [partners, setPartners] = useState([]);
+  const [operators, setOperators] = useState([]);
+  const [country, setCountry] = useState([]);
+  // Arrays initialization
+  let partnersArray = [];
+  let operatorsArray = [];
+  let countryArray = [];
+  // Redux
+  const productID = useSelector((state) => state.filtersData.productSet);
+  const serviceID = useSelector((state) => state.filtersData.serviceSet);
   // CRUD operations
-  const addUser = (data, permissiondata) => {
+  const addUser = (data, permissiondata, partners, operators, country) => {
     const request = {
       name: data.name,
       email: data.email,
       password: data.password,
-      isAdmin: data.isAdmin,
+      isAdmin: checked ? 1 : 0,
       permission: permissiondata.toString(),
+      productId: productID,
+      serviceId: serviceID,
+      partnerId: partners.join(","),
+      operatorId: operators.join(","),
+      countryId: country.join(","),
     };
+    console.log(request);
     AdminPanelService.AddAdminUser(request)
       .then((resp) => {
         toast(resp.data);
@@ -115,6 +134,48 @@ const Admin = ({
     setFormShow(false);
   };
 
+  const PartnersAll = () => {
+    AdminPanelService.AllPartners()
+      .then((resp) => {
+        // eslint-disable-next-line
+        if (resp.statusText == "OK" && resp.data.length) {
+          // eslint-disable-next-line
+          partnersArray = resp.data.map((ele) => {
+            return { label: ele.name, value: ele.id };
+          });
+          setPartners(partnersArray);
+        }
+      })
+      .catch((err) => toast(err));
+  };
+  const OperatorsAll = () => {
+    AdminPanelService.AllOperators()
+      .then((resp) => {
+        // eslint-disable-next-line
+        if (resp.statusText == "OK" && resp.data.length) {
+          // eslint-disable-next-line
+          operatorsArray = resp.data.map((ele) => {
+            return { label: ele.name, value: ele.id };
+          });
+          setOperators(operatorsArray);
+        }
+      })
+      .catch((err) => toast(err));
+  };
+  const CountriesAll = () => {
+    AdminPanelService.AllCountries()
+      .then((resp) => {
+        // eslint-disable-next-line
+        if (resp.statusText == "OK" && resp.data.length) {
+          // eslint-disable-next-line
+          countryArray = resp.data.map((ele) => {
+            return { label: ele.name, value: ele.id };
+          });
+          setCountry(countryArray);
+        }
+      })
+      .catch((err) => toast(err));
+  };
   const updateUser = (id, updatedUser, permissiondata) => {
     setEditing(false);
     const task = [updatedUser].find((t) => t.id === updatedUser.id);
@@ -130,7 +191,6 @@ const Admin = ({
       .catch((err) => {
         toast(err);
       });
-    // console.log(id, task)
     setFormShow(false);
     setInitialTableData(
       initialTableData.map((data) => (data.id === id ? updatedUser : data))
@@ -150,6 +210,14 @@ const Admin = ({
       permission: data.permission,
     });
   };
+  useEffect(() => {
+    if (checked) {
+      PartnersAll();
+      OperatorsAll();
+      CountriesAll();
+    }
+    // eslint-disable-next-line
+  }, [checked]);
 
   return (
     <div className="container-fluid">
@@ -174,7 +242,15 @@ const Admin = ({
           </div>
         )}
         <Fragment>
-          <AddForm addUser={addUser} headerTable={headerTable} />
+          <AddForm
+            addUser={addUser}
+            headerTable={headerTable}
+            checked={checked}
+            setChecked={setChecked}
+            partnersArray={partners}
+            operatorsArray={operators}
+            countryArray={country}
+          />
         </Fragment>
         <div className="col-12">
           <h5>{headerTable} CMS</h5>
