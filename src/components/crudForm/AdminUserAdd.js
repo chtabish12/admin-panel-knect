@@ -2,14 +2,33 @@ import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import AddModel from "../model/AddModel";
 import { FormGroup } from "@material-ui/core";
+import Checkbox from "@mui/material/Checkbox";
+import { MultiSelect } from "react-multi-select-component";
 import { PERMISSIONS } from "../../Constants";
+import Filters from "../filters/Filters";
 import "../crudTable/styles.css";
 import ListMembers from "./AdminAddPermissions";
+import { toast } from "react-toastify";
 
-const AdminUserAdd = ({ addUser, headerTable }) => {
+const AdminUserAdd = ({
+  addUser,
+  headerTable,
+  checked,
+  setChecked,
+  partnersArray,
+  operatorsArray,
+  countryArray,
+}) => {
   const [data, setUser] = useState(0);
+
   let permissiondata = [];
+  let partnersID = [];
+  let operatorsID = [];
+  let countryID = [];
   const [permission, setPermission] = useState(PERMISSIONS);
+  const [partners, setPartners] = useState([]);
+  const [operators, setOperators] = useState([]);
+  const [country, setCountry] = useState([]);
   const initialFormState = {
     id: null,
     name: "",
@@ -18,18 +37,27 @@ const AdminUserAdd = ({ addUser, headerTable }) => {
     const { name, value } = event.target;
     let permissionArray = permission.filter(
       (attendee) => attendee.status === true
-    ); // find anyone who IS going
+    );
     permissiondata = permissionArray.map((going) => going.name);
-    setUser({ ...data, [name]: value, permissiondata });
+    setUser({
+      ...data,
+      [name]: value,
+      permissiondata,
+    });
+    setChecked(event.target.checked);
   };
+  const MultiSelectIdCollect = (array, multiSelect) => {
+    for (let x = 0; x < multiSelect.length; x++) {
+      array.push(multiSelect[x].value);
+    }
+  };
+  const handleAttendingChange = (index, state) => {
+    const updatedPermissions = permission[index]; // from the state 'permission' array, get the correct object for permission
+    updatedPermissions.status = state; // update the boolean of the permission to indicate going/true || not/false
 
-  const handleAttendingChange = (memberIdx, attendanceState) => {
-    const updatedAttendee = permission[memberIdx]; // from the state 'permission' array, get the correct object for updatedAttendee
-    updatedAttendee.status = attendanceState; // update the boolean of the attendee to indicate going/true || not/false
-
-    const newAttendees = [...permission]; // make a copy of previous state of permission
-    newAttendees[memberIdx] = updatedAttendee; // insert/overwrite array object of the attendee in question with the new version
-    setPermission(newAttendees);
+    const newPermissions = [...permission]; // make a copy of previous state of permission
+    newPermissions[index] = updatedPermissions; // insert/overwrite array object of the permission
+    setPermission(newPermissions);
   };
   return (
     <div>
@@ -38,11 +66,16 @@ const AdminUserAdd = ({ addUser, headerTable }) => {
           onSubmit={(event) => {
             let permissionArray = permission.filter(
               (attendee) => attendee.status === true
-            ); // find anyone who IS going
+            );
             permissiondata = permissionArray.map((going) => going.name);
             event.preventDefault();
-            if (!data.name) return;
-            addUser(data, permissiondata);
+            MultiSelectIdCollect(partnersID, partners);
+            MultiSelectIdCollect(operatorsID, operators);
+            MultiSelectIdCollect(countryID, country);
+            if (!data.name || partnersID || operatorsID || countryID) {
+              return toast("please verfify input fields");
+            }
+            addUser(data, permissiondata, partnersID, operatorsID, countryID);
             setUser(initialFormState);
           }}
         >
@@ -77,25 +110,56 @@ const AdminUserAdd = ({ addUser, headerTable }) => {
             />
           </Form.Group>
           <Form.Group>
-            <Form.Label>{headerTable} is Admin</Form.Label>
-            <Form.Control
-              type="number"
-              placeholder={headerTable}
-              name="isAdmin"
-              value={data.isAdmin}
+            <Form.Label style={{ margin: "25px 5px", color: "red" }}>
+              Is {headerTable}
+            </Form.Label>
+            <Checkbox
+              checked={checked}
               onChange={handleInputChange}
+              inputProps={{ "aria-label": "controlled" }}
             />
+            {checked && (
+              <div className="multi-select-admin-block">
+                <Filters AdminUserFlag="true" />
+                <div className="multi-select-admin-block">
+                  Partners
+                  <MultiSelect
+                    options={partnersArray}
+                    value={partners}
+                    onChange={setPartners}
+                    labelledBy="Partners"
+                  />
+                </div>
+                <div className="multi-select-admin-block">
+                  Operators
+                  <MultiSelect
+                    options={operatorsArray}
+                    value={operators}
+                    onChange={setOperators}
+                    labelledBy="Operators"
+                  />
+                </div>
+                <div className="multi-select-admin-block">
+                  Countries
+                  <MultiSelect
+                    options={countryArray}
+                    value={country}
+                    onChange={setCountry}
+                    labelledBy="Countries"
+                  />
+                </div>
+              </div>
+            )}
           </Form.Group>
           <Form.Group>
             <Form.Label>{headerTable} Permission</Form.Label>
-            {/* <FormLabel component="legend">Select Permissions for the New User</FormLabel> */}
             <FormGroup>
               {permission.map((permission, i) => {
                 return (
                   <ListMembers
                     key={i}
                     permission={permission}
-                    memberIdx={i}
+                    index={i}
                     handleAttendingChange={handleAttendingChange}
                   />
                 );

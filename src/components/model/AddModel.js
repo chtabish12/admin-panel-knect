@@ -14,7 +14,12 @@ const AddModel = (props) => {
           Add new {props.headerTable}
         </Button>
       </div>
-      <Modal show={show} onHide={handleClose} className="model">
+      <Modal
+        show={show}
+        onHide={handleClose}
+        dialogClassName="model"
+        aria-labelledby="example-custom-modal-styling-title"
+      >
         <Modal.Header closeButton>
           <Modal.Title>Add new {props.headerTable}</Modal.Title>
         </Modal.Header>

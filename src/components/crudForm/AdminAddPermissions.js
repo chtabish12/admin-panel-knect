@@ -2,7 +2,7 @@ import React from "react";
 import { FormControlLabel, Switch } from "@material-ui/core";
 
 const AdminAddPermissions = (props) => {
-  const { permission, memberIdx, handleAttendingChange } = props;
+  const { permission, index, handleAttendingChange } = props;
   return (
     <>
       <FormControlLabel
@@ -10,11 +10,11 @@ const AdminAddPermissions = (props) => {
           <Switch
             checked={permission.status} // boolean true/false
             onChange={() => {
-              handleAttendingChange(memberIdx, !permission.status);
+              handleAttendingChange(index, !permission.status);
             }}
           />
         }
-        label={permission.name}
+        label={<div style={{ marginLeft: "20px" }}>{permission.name}</div>}
       />
     </>
   );
