@@ -6,7 +6,7 @@ import Checkbox from "@mui/material/Checkbox";
 import { MultiSelect } from "react-multi-select-component";
 import { PERMISSIONS } from "../../Constants";
 import Filters from "../filters/Filters";
-import "../crudTable/styles.css";
+import "../../styles.css";
 import ListMembers from "./AdminAddPermissions";
 import { toast } from "react-toastify";
 
@@ -72,7 +72,7 @@ const AdminUserAdd = ({
             MultiSelectIdCollect(partnersID, partners);
             MultiSelectIdCollect(operatorsID, operators);
             MultiSelectIdCollect(countryID, country);
-            if (!data.name || partnersID || operatorsID || countryID) {
+            if (!data.name) {
               return toast("please verfify input fields");
             }
             addUser(data, permissiondata, partnersID, operatorsID, countryID);

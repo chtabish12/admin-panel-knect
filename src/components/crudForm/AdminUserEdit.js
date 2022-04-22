@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form } from "react-bootstrap";
 import EditModel from "../model/EditModel";
 import { PERMISSIONS } from "../../Constants";
-import "../crudTable/styles.css";
+import "../../styles.css";
 import { FormGroup } from "@material-ui/core";
 import ListMembers from "./AdminAddPermissions";
 

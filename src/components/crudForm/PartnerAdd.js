@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import AddModel from "../model/AddModel";
-import "../crudTable/styles.css";
+import "../../styles.css";
 
 const PartnerAdd = ({ addUser, headerTable }) => {
   const [data, setUser] = useState(0);

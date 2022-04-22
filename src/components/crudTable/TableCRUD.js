@@ -1,6 +1,6 @@
 import React from "react";
 import Widget from "../Widget/Widget.js";
-import "./styles.css";
+import "../../styles.css";
 import {
   DataGrid,
   GridToolbarContainer,

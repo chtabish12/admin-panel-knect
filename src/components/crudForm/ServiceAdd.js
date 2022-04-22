@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import AddModel from "../model/AddModel";
 import Select from "react-select";
-import "../crudTable/styles.css";
+import "../../styles.css";
 
 const ServiceAdd = ({ addUser, headerTable, operatorsArray }) => {
   const [data, setUser] = useState(0);

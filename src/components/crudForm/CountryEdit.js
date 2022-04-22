@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Form } from "react-bootstrap";
 import EditModel from "../model/EditModel";
-import "../crudTable/styles.css";
+import "../../styles.css";
 
 const CountryEdit = ({
   editing,

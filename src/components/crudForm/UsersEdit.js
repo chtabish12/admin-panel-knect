@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form } from "react-bootstrap";
 import EditModel from "../model/EditModel";
 import Select from "react-select";
-import "../crudTable/styles.css";
+import "../../styles.css";
 
 const UsersEdit = ({
   editing,

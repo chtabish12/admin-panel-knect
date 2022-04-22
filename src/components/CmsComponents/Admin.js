@@ -106,21 +106,69 @@ const Admin = ({
   let operatorsArray = [];
   let countryArray = [];
   // Redux
-  const productID = useSelector((state) => state.filtersData.productSet);
-  const serviceID = useSelector((state) => state.filtersData.serviceSet);
+  let productID = useSelector((state) => state.filtersData.productSet);
+  let serviceID = useSelector((state) => state.filtersData.serviceSet);
   // CRUD operations
   const addUser = (data, permissiondata, partners, operators, country) => {
+    let adminUserAccessArray = [];
+    let loopLength;
+    productID = productID.split(",");
+    serviceID = serviceID.split(",");
+    // for (let i = 0; i < (Math.max(
+    //   productID.split(","),
+    //   // serviceID.split(","),
+    //   partners.join(",").split(","),
+    //   operators.join(",").split(","),
+    //   country.join(",").split(",")
+    //     )); i++) {
+    //       console.log("length")
+    //     }
+    // adminUserAccessArray.push({
+    //   productId: productID.split(","),
+    //   serviceId: serviceID.split(","),
+    //   partnerId: partners.join(",").split(","),
+    //   operatorId: operators.join(",").split(","),
+    //   countryId: country.join(",").split(","),
+    // });
+    let productLength = productID.length;
+    let serviceLength = serviceID.length;
+    let operatorLength = operators.length;
+    let partnerLength = partners.length;
+    let countryLength = country.length;
+    if (
+      serviceLength >
+      Math.max(productLength, operatorLength, partnerLength, countryLength)
+    ) {
+      loopLength = serviceLength;
+    } else {
+      loopLength = Math.max(
+        productLength,
+        operatorLength,
+        partnerLength,
+        countryLength
+      );
+    }
+    for (let i = 0; i < loopLength; i++) {
+      adminUserAccessArray.push({
+        productId: parseInt(productID[i]) ? parseInt(productID[i]) : "",
+        serviceId: parseInt(serviceID[i]) ? parseInt(serviceID[i]) : "",
+        partnerId: partners[i] ? partners[i] : "",
+        operatorId: operators[i] ? operators[i] : "",
+        countryId: country[i] ? country[i] : "",
+      });
+    }
     const request = {
       name: data.name,
       email: data.email,
       password: data.password,
       isAdmin: checked ? 1 : 0,
       permission: permissiondata.toString(),
-      productId: productID,
-      serviceId: serviceID,
-      partnerId: partners.join(","),
-      operatorId: operators.join(","),
-      countryId: country.join(","),
+      userAccess: adminUserAccessArray,
+      // productId: productID,
+      // serviceId: serviceID,
+      // partnerId: partners.join(","),
+      // operatorId: operators.join(","),
+      // countryId: country.join(","),
     };
     console.log(request);
     AdminPanelService.AddAdminUser(request)
@@ -224,7 +272,7 @@ const Admin = ({
       <div className="row">
         {formShow && (
           <div className="col-12 col-sm-6 mx-auto addUser">
-            <Card class="">
+            <Card>
               {editing && (
                 <Fragment>
                   <h5>Edit Admin Users</h5>
