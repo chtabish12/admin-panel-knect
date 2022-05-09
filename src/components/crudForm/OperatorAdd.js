@@ -14,6 +14,7 @@ const OperatorAdd = ({ addUser, headerTable, countryArray }) => {
     countryId: "",
     code: "",
   };
+  
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUser({ ...data, [name]: value, country });

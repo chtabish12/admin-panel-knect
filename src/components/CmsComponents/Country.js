@@ -8,6 +8,7 @@ import { Card } from "react-bootstrap";
 import EditForm from "../crudForm/CountryEdit";
 import AddForm from "../crudForm/CountryAdd";
 const TableCRUD = lazy(() => import("../crudTable/TableCRUD"));
+
 const Country = ({
   headerTable,
   editing,
@@ -22,6 +23,7 @@ const Country = ({
     id: null,
     name: "",
   };
+  
   const columns = [
     { field: "id", headerName: "ID", flex: 1 },
     {

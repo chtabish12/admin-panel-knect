@@ -13,10 +13,12 @@ import { AdminPanelService } from "../../Service/AdminPanelService.js";
 import { NO_DATA } from "../../helper/Helper.js";
 
 export default function ServicesPage() {
+
   const classes = useStyles();
   const [state, setState] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   var _ = require("lodash");
+
   const fetchData = () => {
     setIsLoading(true);
     AdminPanelService.Service()
@@ -31,10 +33,12 @@ export default function ServicesPage() {
       })
       .catch(() => toast(NO_DATA));
   };
+
   useEffect(() => {
     fetchData();
     // eslint-disable-next-line
   }, []);
+  
   return (
     <>
       <PageTitle title="My Services" />

@@ -7,6 +7,7 @@ import "../../styles.css";
 const ServiceAdd = ({ addUser, headerTable, operatorsArray }) => {
   const [data, setUser] = useState(0);
   const [operator, setOperator] = useState(0);
+  
   const initialFormState = {
     name: "",
     status: "",

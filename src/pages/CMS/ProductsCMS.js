@@ -6,12 +6,14 @@ import { toast } from "react-toastify";
 import Product from "../../components/CmsComponents/Product";
 
 const ProductsCMS = () => {
+
   const productFlag = "true";
   const column = { col: ["id", "name", "partnerId", "Edit / Delete"] };
   // Setting state
   const [initialTableData, setInitialTableData] = useState();
   const [editing, setEditing] = useState(false);
   const [formShow, setFormShow] = useState(false);
+
   const fetchData = () => {
     AdminPanelService.AllProducts()
       .then((resp) => {
@@ -29,6 +31,7 @@ const ProductsCMS = () => {
     fetchData();
     // eslint-disable-next-line
   }, []);
+  
   return (
     <>
       <Grid container spacing={2}>

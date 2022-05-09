@@ -15,6 +15,7 @@ const OperatorEdit = ({
 }) => {
   const [data, setUser] = useState(currentState);
   const [country, setCountry] = useState(0);
+  
   useEffect(() => {
     setUser(currentState);
   }, [editing, setEditing, currentState, updateUser, country, setCountry]);

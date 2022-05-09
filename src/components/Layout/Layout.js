@@ -42,9 +42,11 @@ import ServicesDetailsPage from "../../pages/detailPage/ServicesDetailsPage";
 
 function Layout(props) {
   const classes = useStyles();
+
   const permissions = sessionStorage.getItem("user-permissions").split(",");
   let structure = [];
   let componentShow = [];
+
   let reportingSubMenus = {
     id: 3,
     label: "Reporting",
@@ -52,9 +54,11 @@ function Layout(props) {
     icon: <UIElementsIcon />,
     children: [],
   };
+  
   let administrationSubMenus = {
     id: 4,
   };
+
   if (permissions.includes("Administration")) {
     administrationSubMenus = {
       id: 4,
@@ -64,6 +68,7 @@ function Layout(props) {
       children: [],
     };
   }
+
   permissions?.forEach((ele) => {
     // eslint-disable-next-line
     switch (ele) {
@@ -171,11 +176,13 @@ function Layout(props) {
       });
     }
   });
+
   structure.push(reportingSubMenus);
   structure.push(administrationSubMenus);
 
   // global
   const layoutState = useLayoutState();
+  
   return (
     <div className={classes.root}>
       <>

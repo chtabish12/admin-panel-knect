@@ -8,6 +8,7 @@ import { Card } from "react-bootstrap";
 import EditForm from "../crudForm/OperatorEdit";
 import AddForm from "../crudForm/OperatorAdd";
 const TableCRUD = lazy(() => import("../crudTable/TableCRUD"));
+
 const Operators = ({
   headerTable,
   editing,
@@ -25,6 +26,7 @@ const Operators = ({
     countryId: "",
     code: "",
   };
+
   const columns = [
     { field: "id", headerName: "ID", flex: 1 },
     {
@@ -70,6 +72,7 @@ const Operators = ({
       code: data.code,
       countryId: parseInt(countryID),
     };
+
     AdminPanelService.AddOperator(request)
       .then((resp) => {
         toast(resp.data);
@@ -112,6 +115,7 @@ const Operators = ({
       countryId: data.countryId,
     });
   };
+  
   useEffect(() => {
     AdminPanelService.AllCountries()
       .then((resp) => {

@@ -9,6 +9,7 @@ import ServiceBlock from "../crudForm/ServiceBlock";
 import EditForm from "../crudForm/ServiceEdit";
 import AddForm from "../crudForm/ServiceAdd";
 const TableCRUD = lazy(() => import("../crudTable/TableCRUD"));
+
 const Service = ({
   headerTable,
   editing,
@@ -65,9 +66,11 @@ const Service = ({
     installmentTPS: null,
     renChargingCommand: "",
   };
+
   const [operatorsArray, setOperatorsArray] = useState([]);
   const [currentState, setCurrentState] = useState(initialFormState);
   let operators = [];
+
   const columns = [
     { field: "id", headerName: "ID", flex: 1 },
     {
@@ -145,6 +148,7 @@ const Service = ({
       installmentTPS: data.installmentTPS,
       renChargingCommand: data.renChargingCommand,
     };
+
     AdminPanelService.AddService(request)
       .then((resp) => {
         toast(resp.data);
@@ -205,6 +209,7 @@ const Service = ({
     task.otpEnabled = updatedUser.otpEnabled;
     task.installmentTPS = updatedUser.installmentTPS;
     task.renChargingCommand = updatedUser.renChargingCommand;
+
     AdminPanelService.UpdateService(id, task)
       .then((resp) => {
         toast(resp.data);
@@ -283,6 +288,7 @@ const Service = ({
       renChargingCommand: data.renChargingCommand,
     });
   };
+
   const blockRow = (data) => {
     setFormShow(true);
     setBlocking(true);
@@ -293,6 +299,7 @@ const Service = ({
       status: data.status,
     });
   };
+  
   useEffect(() => {
     AdminPanelService.AllOperators()
       .then((resp) => {
@@ -307,6 +314,7 @@ const Service = ({
       })
       .catch((err) => toast(err));
   }, []);
+
   return (
     <div className="container-fluid">
       <div className="row">

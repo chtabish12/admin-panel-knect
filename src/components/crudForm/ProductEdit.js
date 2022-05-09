@@ -13,6 +13,7 @@ const ProductEdit = ({
   partnersArray,
   headerTable
 }) => {
+  
   const [data, setUser] = useState(currentState);
   const [partner, setPartner] = useState();
 

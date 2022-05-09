@@ -8,6 +8,7 @@ import { Card } from "react-bootstrap";
 import EditForm from "../crudForm/ProductEdit";
 import AddForm from "../crudForm/ProductAdd";
 const TableCRUD = lazy(() => import("../crudTable/TableCRUD"));
+
 const Product = ({
   headerTable,
   editing,
@@ -63,6 +64,7 @@ const Product = ({
       partnerId: parseInt(partnerID),
       storeId: data.storeId,
     };
+
     AdminPanelService.AddProducts(request)
       .then((resp) => {
         toast(resp.data);
@@ -122,6 +124,7 @@ const Product = ({
       })
       .catch((err) => toast(err));
   }, []);
+  
   return (
     <div className="container-fluid">
       <div className="row">

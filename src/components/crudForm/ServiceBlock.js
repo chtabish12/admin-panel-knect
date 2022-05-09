@@ -11,6 +11,7 @@ const ServiceBlock = ({
   blocking,
   setBlocking,
 }) => {
+  
   const [data, setUser] = useState(currentState);
 
   useEffect(() => {

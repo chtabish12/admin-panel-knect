@@ -11,6 +11,7 @@ const OperatorCMS = () => {
   const [editing, setEditing] = useState(false);
   const [formShow, setFormShow] = useState(false);
   const fetchData = () => {
+
     AdminPanelService.AllOperators()
       .then((resp) => {
         // eslint-disable-next-line
@@ -27,6 +28,7 @@ const OperatorCMS = () => {
     fetchData();
     // eslint-disable-next-line
   }, []);
+  
   return (
     <>
       <Grid container spacing={2}>

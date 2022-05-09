@@ -114,13 +114,12 @@ const Admin = ({
   const addUser = (data, permissiondata, partners, operators, country) => {
     let adminUserAccessArray = [];
     let loopLength;
-    productID = productID.split(",");
-    serviceID = serviceID.split(",");
-    let productLength = productID.length;
-    let serviceLength = serviceID.length;
+    let productLength = productID.split(",").length;
+    let serviceLength = serviceID.split(",").length;
     let operatorLength = operators.length;
     let partnerLength = partners.length;
     let countryLength = country.length;
+
     if (
       serviceLength >
       Math.max(productLength, operatorLength, partnerLength, countryLength)
@@ -134,6 +133,7 @@ const Admin = ({
         countryLength
       );
     }
+
     for (let i = 0; i < loopLength; i++) {
       adminUserAccessArray.push({
         productId: parseInt(productID[i]) ? parseInt(productID[i]) : "",
@@ -143,6 +143,7 @@ const Admin = ({
         countryId: country[i] ? country[i] : "",
       });
     }
+
     const request = {
       name: data.name,
       email: data.email,
@@ -151,7 +152,7 @@ const Admin = ({
       permission: permissiondata.toString(),
       userAccess: adminUserAccessArray,
     };
-    console.log(request);
+
     AdminPanelService.AddAdminUser(request)
       .then((resp) => {
         toast(resp.data);
@@ -177,6 +178,7 @@ const Admin = ({
       })
       .catch((err) => toast(err));
   };
+
   const OperatorsAll = () => {
     AdminPanelService.AllOperators()
       .then((resp) => {
@@ -191,6 +193,7 @@ const Admin = ({
       })
       .catch((err) => toast(err));
   };
+
   const CountriesAll = () => {
     AdminPanelService.AllCountries()
       .then((resp) => {
@@ -205,6 +208,7 @@ const Admin = ({
       })
       .catch((err) => toast(err));
   };
+
   const updateUser = (id, updatedUser, permissiondata) => {
     setEditing(false);
     const task = [updatedUser].find((t) => t.id === updatedUser.id);
@@ -240,6 +244,7 @@ const Admin = ({
       permission: data.permission,
     });
   };
+
   useEffect(() => {
     if (checked) {
       PartnersAll();

@@ -8,6 +8,7 @@ import { Card } from "react-bootstrap";
 import EditForm from "../crudForm/UsersEdit";
 import AddForm from "../crudForm/UsersAdd";
 const TableCRUD = lazy(() => import("../crudTable/TableCRUD"));
+
 const Users = ({
   headerTable,
   editing,
@@ -26,6 +27,7 @@ const Users = ({
     EPTokenNumber: "",
     Email: "",
   };
+
   const columns = [
     { field: "id", headerName: "ID", flex: 1 },
     {
@@ -55,6 +57,7 @@ const Users = ({
       flex: 1,
     },
   ];
+
   const [operatorsArray, setOperatorsArray] = useState([]);
   const [currentState, setCurrentState] = useState(initialFormState);
   let operators = [];
@@ -67,6 +70,7 @@ const Users = ({
       EPTokenNumber: data.EPTokenNumber,
       Email: data.Email,
     };
+
     AdminPanelService.AddUser(request)
       .then((resp) => {
         toast(resp.data);
@@ -112,6 +116,7 @@ const Users = ({
       Email: data.Email,
     });
   };
+  
   useEffect(() => {
     AdminPanelService.AllOperators()
       .then((resp) => {

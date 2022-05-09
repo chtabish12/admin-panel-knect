@@ -5,8 +5,10 @@ import Select from "react-select";
 import "../../styles.css";
 
 const UsersAdd = ({ addUser, headerTable, operatorsArray }) => {
+
   const [data, setUser] = useState(0);
   const [operator, setOperator] = useState(0);
+  
   const initialFormState = {
     uuid: "",
     msisdn: "",

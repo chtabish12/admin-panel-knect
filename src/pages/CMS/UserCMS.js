@@ -10,6 +10,7 @@ const UserCMS = () => {
   const [initialTableData, setInitialTableData] = useState();
   const [editing, setEditing] = useState(false);
   const [formShow, setFormShow] = useState(false);
+
   const fetchData = () => {
     AdminPanelService.AllUsers()
       .then((resp) => {
@@ -27,6 +28,7 @@ const UserCMS = () => {
     fetchData();
     // eslint-disable-next-line
   }, []);
+  
   return (
     <>
       <Grid container spacing={2}>

@@ -7,6 +7,7 @@ import "../../styles.css";
 const ProductAdd = ({ addUser, partnersArray, headerTable }) => {
   const [data, setUser] = useState(0);
   const [partner, setPartner] = useState(0);
+  
   const initialFormState = {
     id: null,
     name: "",

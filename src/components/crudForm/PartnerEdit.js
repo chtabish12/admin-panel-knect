@@ -12,6 +12,7 @@ const PartnerEdit = ({
   headerTable,
 }) => {
   const [data, setUser] = useState(currentState);
+  
   useEffect(() => {
     setUser(currentState);
   }, [editing, setEditing, currentState, updateUser]);

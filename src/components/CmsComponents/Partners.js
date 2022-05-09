@@ -8,6 +8,7 @@ import { Card } from "react-bootstrap";
 import EditForm from "../crudForm/PartnerEdit";
 import AddForm from "../crudForm/PartnerAdd";
 const TableCRUD = lazy(() => import("../crudTable/TableCRUD"));
+
 const Partners = ({
   headerTable,
   editing,
@@ -26,6 +27,7 @@ const Partners = ({
     phone: "",
     username: "",
   };
+  
   const columns = [
     { field: "id", headerName: "ID", flex: 1 },
     {
