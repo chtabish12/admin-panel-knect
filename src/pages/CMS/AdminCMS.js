@@ -9,6 +9,7 @@ const AdminCMS = () => {
   // Setting state
   const [initialTableData, setInitialTableData] = useState();
   const [editing, setEditing] = useState(false);
+  const [view, setView] = useState(false);
   const [formShow, setFormShow] = useState(false);
 
   const fetchData = () => {
@@ -28,7 +29,7 @@ const AdminCMS = () => {
     fetchData();
     // eslint-disable-next-line
   }, []);
-  
+
   return (
     <>
       <Grid container spacing={2}>
@@ -38,6 +39,8 @@ const AdminCMS = () => {
               headerTable={"Admin"}
               editing={editing}
               setEditing={setEditing}
+              view={view}
+              setView={setView}
               formShow={formShow}
               setFormShow={setFormShow}
               initialTableData={initialTableData}

@@ -1,5 +1,5 @@
 import React, { useState, Fragment, useEffect, lazy, Suspense } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { AdminPanelService } from "../../Service/AdminPanelService";
 import ActionButtons from "../crudForm/ActionButtons";
@@ -8,11 +8,14 @@ import { Card } from "react-bootstrap";
 import { RotatingLines } from "react-loader-spinner";
 import EditForm from "../crudForm/AdminUserEdit";
 import AddForm from "../crudForm/AdminUserAdd";
+import AdminUserShow from "../crudForm/AdminUserShow";
 const TableCRUD = lazy(() => import("../crudTable/TableCRUD"));
 
 const Admin = ({
   headerTable,
   editing,
+  view,
+  setView,
   formShow,
   initialTableData,
   setInitialTableData,
@@ -35,14 +38,14 @@ const Admin = ({
       field: "name",
       headerName: "Name",
       flex: 1,
-      renderCell: (params) => (
-        <Link
-          to={{ pathname: "AdminUserDetailPage", state: params.id }}
-          className="table-name-href"
-        >
-          {params.value}
-        </Link>
-      ),
+      // renderCell: (params) => (
+      //   <Link
+      //     to={{ pathname: "AdminUserDetailPage", state: params.id }}
+      //     className="table-name-href"
+      //   >
+      //     {params.value}
+      //   </Link>
+      // ),
     },
     { field: "email", headerName: "Email", flex: 1 },
     {
@@ -92,7 +95,12 @@ const Admin = ({
       headerName: "Actions",
       sortable: false,
       renderCell: ({ row }) => (
-        <ActionButtons initialTableData={row} editRow={editRow} />
+        <ActionButtons
+          initialTableData={row}
+          editRow={editRow}
+          showRow={showRow}
+          AdminFlag="true"
+        />
       ),
       flex: 1,
     },
@@ -245,6 +253,20 @@ const Admin = ({
     });
   };
 
+  const showRow = (data) => {
+    setFormShow(true);
+    setView(true);
+
+    setCurrentState({
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      isAdmin: data.isAdmin,
+      permission: data.permission,
+    });
+  };
+
   useEffect(() => {
     if (checked) {
       PartnersAll();
@@ -268,6 +290,17 @@ const Admin = ({
                     setEditing={setEditing}
                     currentState={currentState}
                     updateUser={updateUser}
+                    setFormShow={setFormShow}
+                    headerTable={headerTable}
+                  />
+                </Fragment>
+              )}
+              {view && (
+                <Fragment>
+                  <h5>View Admin Users</h5>
+                  <AdminUserShow
+                    setView={setView}
+                    currentState={currentState}
                     setFormShow={setFormShow}
                     headerTable={headerTable}
                   />

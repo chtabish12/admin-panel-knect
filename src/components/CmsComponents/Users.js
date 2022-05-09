@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Fragment, lazy, Suspense } from "react";
 import { AdminPanelService } from "../../Service/AdminPanelService";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { RotatingLines } from "react-loader-spinner";
 import ActionButtons from "../crudForm/ActionButtons";
 import { toast } from "react-toastify";
@@ -34,14 +34,14 @@ const Users = ({
       field: "uuid",
       headerName: "Uuid",
       flex: 1,
-      renderCell: (params) => (
-        <Link
-          to={{ pathname: "userDetailPage", state: params.id }}
-          className="table-name-href"
-        >
-          {params.value}
-        </Link>
-      ),
+      // renderCell: (params) => (
+      //   <Link
+      //     to={{ pathname: "userDetailPage", state: params.id }}
+      //     className="table-name-href"
+      //   >
+      //     {params.value}
+      //   </Link>
+      // ),
     },
     { field: "msisdn", headerName: "Msisdn", flex: 1 },
     { field: "Email", headerName: "Email", flex: 1 },
