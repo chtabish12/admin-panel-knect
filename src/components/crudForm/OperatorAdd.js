@@ -10,6 +10,7 @@ const OperatorAdd = ({ addUser, headerTable, countryArray }) => {
   const initialFormState = {
     id: null,
     name: "",
+    friendlyName: "",
     countryId: "",
     code: "",
   };
@@ -24,7 +25,7 @@ const OperatorAdd = ({ addUser, headerTable, countryArray }) => {
         <form
           onSubmit={(event) => {
             event.preventDefault();
-            if (!data.name || !country.value) return;
+            if (!data.name || !country.value ) return;
             addUser(data, country.value);
             setUser(initialFormState);
           }}
@@ -36,6 +37,16 @@ const OperatorAdd = ({ addUser, headerTable, countryArray }) => {
               placeholder={headerTable}
               name="name"
               value={data.name}
+              onChange={handleInputChange}
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>{headerTable} FriendlyName</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="FriendlyName"
+              name="friendlyName"
+              value={data.friendlyName}
               onChange={handleInputChange}
             />
           </Form.Group>

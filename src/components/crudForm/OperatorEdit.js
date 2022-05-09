@@ -52,6 +52,16 @@ const OperatorEdit = ({
             />
           </Form.Group>
           <Form.Group>
+            <Form.Label>{headerTable} FriendlyName</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder={headerTable}
+              name="friendlyName"
+              value={data.friendlyName}
+              onChange={handleInputChange}
+            />
+          </Form.Group>
+          <Form.Group>
             <Form.Label>Country Id</Form.Label>
             <Select
               options={countryArray}
