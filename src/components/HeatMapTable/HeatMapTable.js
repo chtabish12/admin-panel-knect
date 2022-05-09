@@ -172,8 +172,12 @@ const HeatMapTable = ({ dataShow, data, dateArray, loading }) => {
                                                 <thead>
                                                   <tr>
                                                     <td>
-                                                      {heat.chargeCount
-                                                        ? heat.chargeCount
+                                                      {new Intl.NumberFormat().format(
+                                                        heat.chargeCount
+                                                      )
+                                                        ? new Intl.NumberFormat().format(
+                                                            heat.chargeCount
+                                                          )
                                                         : "-"}
                                                     </td>
                                                     <td>
@@ -198,8 +202,12 @@ const HeatMapTable = ({ dataShow, data, dateArray, loading }) => {
                                                         : "-"}
                                                     </td>
                                                     <td>
-                                                      {heat.netbase
-                                                        ? heat.netbase
+                                                      {new Intl.NumberFormat().format(
+                                                        heat.netbase
+                                                      )
+                                                        ? new Intl.NumberFormat().format(
+                                                            heat.netbase
+                                                          )
                                                         : "-"}
                                                     </td>
                                                     <td>
