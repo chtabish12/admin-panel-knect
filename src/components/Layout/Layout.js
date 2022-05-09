@@ -54,11 +54,16 @@ function Layout(props) {
   };
   let administrationSubMenus = {
     id: 4,
-    label: "Administration",
-    link: "/app/administration",
-    icon: <AccountBox />,
-    children: [],
   };
+  if (permissions.includes("Administration")) {
+    administrationSubMenus = {
+      id: 4,
+      label: "Administration",
+      link: "/app/administration",
+      icon: <AccountBox />,
+      children: [],
+    };
+  }
   permissions?.forEach((ele) => {
     // eslint-disable-next-line
     switch (ele) {
@@ -168,6 +173,7 @@ function Layout(props) {
   });
   structure.push(reportingSubMenus);
   structure.push(administrationSubMenus);
+
   // global
   const layoutState = useLayoutState();
   return (
@@ -198,37 +204,41 @@ function Layout(props) {
                   {reports.component}
                 </Route>
               ))}
-              <Route
-                exact
-                path="/app/administration"
-                render={() => <Redirect to="/app/administration" />}
-              />
-              {administrationSubMenus.children.map((cms, id) => (
-                <Route key={id} path={cms.link}>
-                  {cms.component}
-                </Route>
-              ))}
-              <Route path="/app/administration/AdminUserDetailPage">
-                <AdminUserDetailPage />
-              </Route>
-              <Route path="/app/administration/userDetailPage">
-                <UserDetailPage />
-              </Route>
-              <Route path="/app/administration/productDetailPage">
-                <ProductDetailPage />
-              </Route>
-              <Route path="/app/administration/partnersDetailPage">
-                <PartnerDetailPage />
-              </Route>
-              <Route path="/app/administration/operatorsDetailPage">
-                <OperatorsDetailPage />
-              </Route>
-              <Route path="/app/administration/countriesDetailPage">
-                <CountryDetailPage />
-              </Route>
-              <Route path="/app/administration/servicesDetailPage">
-                <ServicesDetailsPage />
-              </Route>
+              {permissions.includes("Administration") && (
+                <>
+                  <Route
+                    exact
+                    path="/app/administration"
+                    render={() => <Redirect to="/app/administration" />}
+                  />
+                  {administrationSubMenus.children.map((cms, id) => (
+                    <Route key={id} path={cms.link}>
+                      {cms.component}
+                    </Route>
+                  ))}
+                  <Route path="/app/administration/AdminUserDetailPage">
+                    <AdminUserDetailPage />
+                  </Route>
+                  <Route path="/app/administration/userDetailPage">
+                    <UserDetailPage />
+                  </Route>
+                  <Route path="/app/administration/productDetailPage">
+                    <ProductDetailPage />
+                  </Route>
+                  <Route path="/app/administration/partnersDetailPage">
+                    <PartnerDetailPage />
+                  </Route>
+                  <Route path="/app/administration/operatorsDetailPage">
+                    <OperatorsDetailPage />
+                  </Route>
+                  <Route path="/app/administration/countriesDetailPage">
+                    <CountryDetailPage />
+                  </Route>
+                  <Route path="/app/administration/servicesDetailPage">
+                    <ServicesDetailsPage />
+                  </Route>
+                </>
+              )}
             </>
           </Switch>
         </div>
