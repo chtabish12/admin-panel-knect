@@ -5,9 +5,9 @@ import { RotatingLines } from "react-loader-spinner";
 import ActionButtons from "../crudForm/ActionButtons";
 import { toast } from "react-toastify";
 import { Card } from "react-bootstrap";
+import EditForm from "../crudForm/OperatorEdit";
+import AddForm from "../crudForm/OperatorAdd";
 const TableCRUD = lazy(() => import("../crudTable/TableCRUD"));
-const EditForm = lazy(() => import("../crudForm/OperatorEdit"));
-const AddForm = lazy(() => import("../crudForm/OperatorAdd"));
 const Operators = ({
   headerTable,
   editing,
@@ -136,13 +136,6 @@ const Operators = ({
               {editing && (
                 <Fragment>
                   <h5>Edit Operators</h5>
-                  <Suspense
-                    fallback={
-                      <div className="spinner">
-                        <RotatingLines width="100" strokeColor="#536DFE" />
-                      </div>
-                    }
-                  >
                     <EditForm
                       editing={editing}
                       setEditing={setEditing}
@@ -151,27 +144,18 @@ const Operators = ({
                       setFormShow={setFormShow}
                       headerTable={headerTable}
                       countryArray={countryArray}
-                    />{" "}
-                  </Suspense>
+                    />
                 </Fragment>
               )}
             </Card>
           </div>
         )}
         <Fragment>
-          <Suspense
-            fallback={
-              <div className="spinner">
-                <RotatingLines width="100" strokeColor="#536DFE" />
-              </div>
-            }
-          >
             <AddForm
               addUser={addUser}
               headerTable={headerTable}
               countryArray={countryArray}
-            />{" "}
-          </Suspense>
+            />
         </Fragment>
         <div className="col-12">
           <h5>{headerTable} CMS</h5>

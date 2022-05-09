@@ -1,13 +1,15 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState, Fragment, useEffect, lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { AdminPanelService } from "../../Service/AdminPanelService";
-import TableCRUD from "../crudTable/TableCRUD";
-import EditForm from "../crudForm/AdminUserEdit";
-import AddForm from "../crudForm/AdminUserAdd";
 import ActionButtons from "../crudForm/ActionButtons";
 import { toast } from "react-toastify";
 import { Card } from "react-bootstrap";
+import { RotatingLines } from "react-loader-spinner";
+import EditForm from "../crudForm/AdminUserEdit";
+import AddForm from "../crudForm/AdminUserAdd";
+const TableCRUD = lazy(() => import("../crudTable/TableCRUD"));
+
 const Admin = ({
   headerTable,
   editing,
@@ -114,22 +116,6 @@ const Admin = ({
     let loopLength;
     productID = productID.split(",");
     serviceID = serviceID.split(",");
-    // for (let i = 0; i < (Math.max(
-    //   productID.split(","),
-    //   // serviceID.split(","),
-    //   partners.join(",").split(","),
-    //   operators.join(",").split(","),
-    //   country.join(",").split(",")
-    //     )); i++) {
-    //       console.log("length")
-    //     }
-    // adminUserAccessArray.push({
-    //   productId: productID.split(","),
-    //   serviceId: serviceID.split(","),
-    //   partnerId: partners.join(",").split(","),
-    //   operatorId: operators.join(",").split(","),
-    //   countryId: country.join(",").split(","),
-    // });
     let productLength = productID.length;
     let serviceLength = serviceID.length;
     let operatorLength = operators.length;
@@ -164,11 +150,6 @@ const Admin = ({
       isAdmin: checked ? 1 : 0,
       permission: permissiondata.toString(),
       userAccess: adminUserAccessArray,
-      // productId: productID,
-      // serviceId: serviceID,
-      // partnerId: partners.join(","),
-      // operatorId: operators.join(","),
-      // countryId: country.join(","),
     };
     console.log(request);
     AdminPanelService.AddAdminUser(request)
@@ -237,7 +218,8 @@ const Admin = ({
         toast(resp.data);
       })
       .catch((err) => {
-        toast(err);
+        console.log("error", err);
+        toast("You have no permissions to Edit/Update");
       });
     setFormShow(false);
     setInitialTableData(
@@ -302,11 +284,19 @@ const Admin = ({
         </Fragment>
         <div className="col-12">
           <h5>{headerTable} CMS</h5>
-          <TableCRUD
-            initialTableData={initialTableData}
-            editRow={editRow}
-            column={columns}
-          />
+          <Suspense
+            fallback={
+              <div className="spinner">
+                <RotatingLines width="100" strokeColor="#536DFE" />
+              </div>
+            }
+          >
+            <TableCRUD
+              initialTableData={initialTableData}
+              editRow={editRow}
+              column={columns}
+            />
+          </Suspense>
         </div>
       </div>
     </div>

@@ -1,13 +1,14 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, Fragment, lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import ActionButtons from "../crudForm/ActionButtons";
 import { AdminPanelService } from "../../Service/AdminPanelService";
-import EditForm from "../crudForm/ServiceEdit";
-import AddForm from "../crudForm/ServiceAdd";
 import { toast } from "react-toastify";
 import { Card } from "react-bootstrap";
+import { RotatingLines } from "react-loader-spinner";
 import ServiceBlock from "../crudForm/ServiceBlock";
-import TableCRUD from "../crudTable/TableCRUD";
+import EditForm from "../crudForm/ServiceEdit";
+import AddForm from "../crudForm/ServiceAdd";
+const TableCRUD = lazy(() => import("../crudTable/TableCRUD"));
 const Service = ({
   headerTable,
   editing,
@@ -352,15 +353,23 @@ const Service = ({
         </Fragment>
         <div className="col-12">
           <h5>{headerTable} CMS</h5>
-          <TableCRUD
-            initialTableData={initialTableData}
-            editRow={editRow}
-            blockRow={blockRow}
-            blockSerive={blockSerive}
-            column={columns}
-            serviceFlag={serviceFlag}
-            // deleteUser={deleteUser}
-          />
+          <Suspense
+            fallback={
+              <div className="spinner">
+                <RotatingLines width="100" strokeColor="#536DFE" />
+              </div>
+            }
+          >
+            <TableCRUD
+              initialTableData={initialTableData}
+              editRow={editRow}
+              blockRow={blockRow}
+              blockSerive={blockSerive}
+              column={columns}
+              serviceFlag={serviceFlag}
+              // deleteUser={deleteUser}
+            />{" "}
+          </Suspense>
         </div>
       </div>
     </div>
@@ -368,15 +377,3 @@ const Service = ({
 };
 
 export default Service;
-
-//////////////////////////////////////
-//           validate={(values) => {
-//             const errors = {};
-//             if (!values.name) {
-//               return (errors.name = "Please, provide product's name");
-//             }
-
-//             if (!values.partnerId) {
-//               return (errors.partnerId = "Please, provide product's partnerId");
-//             }
-//           }}
