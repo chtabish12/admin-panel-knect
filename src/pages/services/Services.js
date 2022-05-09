@@ -46,6 +46,7 @@ export default function ServicesPage() {
                 <tr>
                   <th>ID</th>
                   <th>Name</th>
+                  <th>Operator Name</th>
                   <th>Product</th>
                   <th>Price</th>
                   <th>Tax Rate</th>
@@ -73,6 +74,7 @@ export default function ServicesPage() {
                           <tr>
                             <td>{state.id ? state.id : 0}</td>
                             <td>{state.name ? state.name : "N/A"}</td>
+                            <td>{state.operator ? state.operator : "N/A"}</td>
                             <td>{state.productName ? state.productName : 0}</td>
                             <td>{state.pricePoint ? state.pricePoint : 0}</td>
                             <td>{state.taxRate ? state.taxRate : 0}</td>
