@@ -6,6 +6,7 @@ import { NO_DATA } from "../../helper/Helper";
 import { toast } from "react-toastify";
 
 const ServicesCMS = () => {
+
   const column = ["id", "name"];
   const serviceFlag = "true";
   // Setting state
@@ -13,6 +14,7 @@ const ServicesCMS = () => {
   const [editing, setEditing] = useState(false);
   const [blocking, setBlocking] = useState(false);
   const [formShow, setFormShow] = useState(false);
+
   const fetchData = () => {
     AdminPanelService.AllServices()
       .then((resp) => {
@@ -30,6 +32,7 @@ const ServicesCMS = () => {
     fetchData();
     // eslint-disable-next-line
   }, []);
+  
   return (
     <>
       <Grid container spacing={2}>

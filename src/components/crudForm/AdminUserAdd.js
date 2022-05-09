@@ -6,7 +6,7 @@ import Checkbox from "@mui/material/Checkbox";
 import { MultiSelect } from "react-multi-select-component";
 import { PERMISSIONS } from "../../Constants";
 import Filters from "../filters/Filters";
-import "../crudTable/styles.css";
+import "../../styles.css";
 import ListMembers from "./AdminAddPermissions";
 import { toast } from "react-toastify";
 
@@ -29,10 +29,12 @@ const AdminUserAdd = ({
   const [partners, setPartners] = useState([]);
   const [operators, setOperators] = useState([]);
   const [country, setCountry] = useState([]);
+
   const initialFormState = {
     id: null,
     name: "",
   };
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     let permissionArray = permission.filter(
@@ -46,11 +48,13 @@ const AdminUserAdd = ({
     });
     setChecked(event.target.checked);
   };
+
   const MultiSelectIdCollect = (array, multiSelect) => {
     for (let x = 0; x < multiSelect.length; x++) {
       array.push(multiSelect[x].value);
     }
   };
+
   const handleAttendingChange = (index, state) => {
     const updatedPermissions = permission[index]; // from the state 'permission' array, get the correct object for permission
     updatedPermissions.status = state; // update the boolean of the permission to indicate going/true || not/false
@@ -59,6 +63,7 @@ const AdminUserAdd = ({
     newPermissions[index] = updatedPermissions; // insert/overwrite array object of the permission
     setPermission(newPermissions);
   };
+  
   return (
     <div>
       <AddModel headerTable={headerTable}>
@@ -72,7 +77,7 @@ const AdminUserAdd = ({
             MultiSelectIdCollect(partnersID, partners);
             MultiSelectIdCollect(operatorsID, operators);
             MultiSelectIdCollect(countryID, country);
-            if (!data.name || partnersID || operatorsID || countryID) {
+            if (!data.name) {
               return toast("please verfify input fields");
             }
             addUser(data, permissiondata, partnersID, operatorsID, countryID);

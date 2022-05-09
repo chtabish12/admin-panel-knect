@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form } from "react-bootstrap";
 import Select from "react-select";
 import EditModel from "../model/EditModel";
-import "../crudTable/styles.css";
+import "../../styles.css";
 
 const ProductEdit = ({
   editing,
@@ -13,6 +13,7 @@ const ProductEdit = ({
   partnersArray,
   headerTable
 }) => {
+  
   const [data, setUser] = useState(currentState);
   const [partner, setPartner] = useState();
 

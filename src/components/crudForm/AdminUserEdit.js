@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form } from "react-bootstrap";
 import EditModel from "../model/EditModel";
 import { PERMISSIONS } from "../../Constants";
-import "../crudTable/styles.css";
+import "../../styles.css";
 import { FormGroup } from "@material-ui/core";
 import ListMembers from "./AdminAddPermissions";
 
@@ -19,10 +19,12 @@ const AdminUserEdit = ({
   let permissiondata = [];
   let apiPermissions = [];
   let comparedPermissions = [];
+
   const objectsEqual = (o1, o2) => {
     for (let permission of o1) {
       const permisionFound = o2.find((perm) => permission.name === perm.name);
       const permissionObject = {};
+
       if (permisionFound) {
         permissionObject.name = permisionFound.name;
         permissionObject.id = permisionFound.id;
@@ -35,10 +37,12 @@ const AdminUserEdit = ({
       comparedPermissions.push(permissionObject);
     }
   };
+
   useEffect(() => {
     currentState.permission.split(",").map((ele, index) => {
       return apiPermissions.push({ name: ele, id: index + 1 });
     });
+
     objectsEqual(PERMISSIONS, apiPermissions);
     setPermission(comparedPermissions);
     setUser(currentState);
@@ -53,6 +57,7 @@ const AdminUserEdit = ({
     permissiondata = permissionArray.map((going) => going.name);
     setUser({ ...data, [name]: value, permissiondata });
   };
+
   const handleAttendingChange = (index, state) => {
     const updatedPermissions = permission[index]; // from the state 'permission' apiPermissions, get the correct object for updatedPermissions
     updatedPermissions.status = state; // update the boolean of the attendee to indicate going/true || not/false
@@ -61,6 +66,7 @@ const AdminUserEdit = ({
     newPermissions[index] = updatedPermissions; // insert/overwrite apiPermissions object of the attendee in question with the new version
     setPermission(newPermissions);
   };
+  
   return (
     <div>
       <EditModel

@@ -1,12 +1,14 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, Fragment, lazy, Suspense } from "react";
 import { AdminPanelService } from "../../Service/AdminPanelService";
 import { Link } from "react-router-dom";
-import TableCRUD from "../crudTable/TableCRUD";
-import EditForm from "../crudForm/UsersEdit";
-import AddForm from "../crudForm/UsersAdd";
+import { RotatingLines } from "react-loader-spinner";
 import ActionButtons from "../crudForm/ActionButtons";
 import { toast } from "react-toastify";
 import { Card } from "react-bootstrap";
+import EditForm from "../crudForm/UsersEdit";
+import AddForm from "../crudForm/UsersAdd";
+const TableCRUD = lazy(() => import("../crudTable/TableCRUD"));
+
 const Users = ({
   headerTable,
   editing,
@@ -25,17 +27,22 @@ const Users = ({
     EPTokenNumber: "",
     Email: "",
   };
+
   const columns = [
     { field: "id", headerName: "ID", flex: 1 },
-    { field: "uuid", headerName: "Uuid", flex: 1,
-    renderCell: (params) => (
-      <Link
-        to={{ pathname: "userDetailPage", state: params.id }}
-        className="table-name-href"
-      >
-        {params.value}
-      </Link>
-    ), },
+    {
+      field: "uuid",
+      headerName: "Uuid",
+      flex: 1,
+      renderCell: (params) => (
+        <Link
+          to={{ pathname: "userDetailPage", state: params.id }}
+          className="table-name-href"
+        >
+          {params.value}
+        </Link>
+      ),
+    },
     { field: "msisdn", headerName: "Msisdn", flex: 1 },
     { field: "Email", headerName: "Email", flex: 1 },
     { field: "operatorId", headerName: "OperatorId", flex: 1 },
@@ -50,6 +57,7 @@ const Users = ({
       flex: 1,
     },
   ];
+
   const [operatorsArray, setOperatorsArray] = useState([]);
   const [currentState, setCurrentState] = useState(initialFormState);
   let operators = [];
@@ -62,6 +70,7 @@ const Users = ({
       EPTokenNumber: data.EPTokenNumber,
       Email: data.Email,
     };
+
     AdminPanelService.AddUser(request)
       .then((resp) => {
         toast(resp.data);
@@ -107,6 +116,7 @@ const Users = ({
       Email: data.Email,
     });
   };
+  
   useEffect(() => {
     AdminPanelService.AllOperators()
       .then((resp) => {
@@ -139,7 +149,7 @@ const Users = ({
                     setFormShow={setFormShow}
                     headerTable={headerTable}
                     operatorsArray={operatorsArray}
-                  />
+                  />{" "}
                 </Fragment>
               )}
             </Card>
@@ -150,15 +160,23 @@ const Users = ({
             addUser={addUser}
             headerTable={headerTable}
             operatorsArray={operatorsArray}
-          />
+          />{" "}
         </Fragment>
         <div className="col-12">
           <h5>{headerTable} CMS</h5>
-          <TableCRUD
-            initialTableData={initialTableData}
-            editRow={editRow}
-            column={columns}
-          />
+          <Suspense
+            fallback={
+              <div className="spinner">
+                <RotatingLines width="100" strokeColor="#536DFE" />
+              </div>
+            }
+          >
+            <TableCRUD
+              initialTableData={initialTableData}
+              editRow={editRow}
+              column={columns}
+            />{" "}
+          </Suspense>
         </div>
       </div>
     </div>

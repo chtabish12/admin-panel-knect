@@ -1,12 +1,14 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, Fragment, lazy, Suspense } from "react";
 import { AdminPanelService } from "../../Service/AdminPanelService";
 import { Link } from "react-router-dom";
-import TableCRUD from "../crudTable/TableCRUD";
-import EditForm from "../crudForm/OperatorEdit";
-import AddForm from "../crudForm/OperatorAdd";
+import { RotatingLines } from "react-loader-spinner";
 import ActionButtons from "../crudForm/ActionButtons";
 import { toast } from "react-toastify";
 import { Card } from "react-bootstrap";
+import EditForm from "../crudForm/OperatorEdit";
+import AddForm from "../crudForm/OperatorAdd";
+const TableCRUD = lazy(() => import("../crudTable/TableCRUD"));
+
 const Operators = ({
   headerTable,
   editing,
@@ -20,9 +22,11 @@ const Operators = ({
   const initialFormState = {
     id: null,
     name: "",
+    friendlyName: "",
     countryId: "",
     code: "",
   };
+
   const columns = [
     { field: "id", headerName: "ID", flex: 1 },
     {
@@ -37,6 +41,11 @@ const Operators = ({
           {params.value}
         </Link>
       ),
+    },
+    {
+      field: "friendlyName",
+      headerName: "FriendlyName",
+      flex: 1,
     },
     { field: "countryId", headerName: "CountryId", flex: 1 },
     { field: "code", headerName: "Code", flex: 1 },
@@ -59,9 +68,11 @@ const Operators = ({
   const addUser = (data, countryID) => {
     const request = {
       name: data.name,
+      friendlyName: data.friendlyName,
       code: data.code,
       countryId: parseInt(countryID),
     };
+
     AdminPanelService.AddOperator(request)
       .then((resp) => {
         toast(resp.data);
@@ -76,6 +87,7 @@ const Operators = ({
     setEditing(false);
     const task = [updatedUser].find((t) => t.id === updatedUser.id);
     task.name = updatedUser.name;
+    task.friendlyName = updatedUser.friendlyName;
     task.code = updatedUser.code;
     task.countryId = countryValue;
     AdminPanelService.UpdateOperator(id, task)
@@ -98,10 +110,12 @@ const Operators = ({
     setCurrentState({
       id: data.id,
       name: data.name,
+      friendlyName: data.friendlyName,
       code: data.code,
       countryId: data.countryId,
     });
   };
+  
   useEffect(() => {
     AdminPanelService.AllCountries()
       .then((resp) => {
@@ -126,34 +140,42 @@ const Operators = ({
               {editing && (
                 <Fragment>
                   <h5>Edit Operators</h5>
-                  <EditForm
-                    editing={editing}
-                    setEditing={setEditing}
-                    currentState={currentState}
-                    updateUser={updateUser}
-                    setFormShow={setFormShow}
-                    headerTable={headerTable}
-                    countryArray={countryArray}
-                  />
+                    <EditForm
+                      editing={editing}
+                      setEditing={setEditing}
+                      currentState={currentState}
+                      updateUser={updateUser}
+                      setFormShow={setFormShow}
+                      headerTable={headerTable}
+                      countryArray={countryArray}
+                    />
                 </Fragment>
               )}
             </Card>
           </div>
         )}
         <Fragment>
-          <AddForm
-            addUser={addUser}
-            headerTable={headerTable}
-            countryArray={countryArray}
-          />
+            <AddForm
+              addUser={addUser}
+              headerTable={headerTable}
+              countryArray={countryArray}
+            />
         </Fragment>
         <div className="col-12">
           <h5>{headerTable} CMS</h5>
-          <TableCRUD
-            initialTableData={initialTableData}
-            editRow={editRow}
-            column={columns}
-          />
+          <Suspense
+            fallback={
+              <div className="spinner">
+                <RotatingLines width="100" strokeColor="#536DFE" />
+              </div>
+            }
+          >
+            <TableCRUD
+              initialTableData={initialTableData}
+              editRow={editRow}
+              column={columns}
+            />{" "}
+          </Suspense>
         </div>
       </div>
     </div>

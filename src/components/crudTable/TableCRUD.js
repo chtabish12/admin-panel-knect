@@ -1,6 +1,6 @@
 import React from "react";
 import Widget from "../Widget/Widget.js";
-import "./styles.css";
+import "../../styles.css";
 import {
   DataGrid,
   GridToolbarContainer,
@@ -15,6 +15,7 @@ const TableCRUD = ({ initialTableData, column }) => {
       </GridToolbarContainer>
     );
   }
+
   return (
     <>
       <Widget style={{ height: "77vh", width: "100%" }}>
@@ -33,4 +34,5 @@ const TableCRUD = ({ initialTableData, column }) => {
     </>
   );
 };
+
 export default TableCRUD;

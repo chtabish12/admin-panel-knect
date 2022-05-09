@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form } from "react-bootstrap";
 import EditModel from "../model/EditModel";
 import Select from "react-select";
-import "../crudTable/styles.css";
+import "../../styles.css";
 
 const ServiceEdit = ({
   editing,
@@ -13,6 +13,7 @@ const ServiceEdit = ({
   headerTable,
   operatorsArray,
 }) => {
+  
   const [data, setUser] = useState(currentState);
   const [operator, setOperator] = useState();
 

@@ -1,12 +1,14 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState, Fragment, useEffect, lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import { AdminPanelService } from "../../Service/AdminPanelService";
-import TableCRUD from "../crudTable/TableCRUD";
-import EditForm from "../crudForm/ProductEdit";
-import AddForm from "../crudForm/ProductAdd";
+import { RotatingLines } from "react-loader-spinner";
 import ActionButtons from "../crudForm/ActionButtons";
 import { toast } from "react-toastify";
 import { Card } from "react-bootstrap";
+import EditForm from "../crudForm/ProductEdit";
+import AddForm from "../crudForm/ProductAdd";
+const TableCRUD = lazy(() => import("../crudTable/TableCRUD"));
+
 const Product = ({
   headerTable,
   editing,
@@ -62,6 +64,7 @@ const Product = ({
       partnerId: parseInt(partnerID),
       storeId: data.storeId,
     };
+
     AdminPanelService.AddProducts(request)
       .then((resp) => {
         toast(resp.data);
@@ -121,6 +124,7 @@ const Product = ({
       })
       .catch((err) => toast(err));
   }, []);
+  
   return (
     <div className="container-fluid">
       <div className="row">
@@ -149,15 +153,23 @@ const Product = ({
             addUser={addUser}
             partnersArray={partnersArray}
             headerTable={headerTable}
-          />
+          />{" "}
         </Fragment>
         <div className="col-12">
           <h5>{headerTable} CMS</h5>
-          <TableCRUD
-            initialTableData={initialTableData}
-            editRow={editRow}
-            column={columns}
-          />
+          <Suspense
+            fallback={
+              <div className="spinner">
+                <RotatingLines width="100" strokeColor="#536DFE" />
+              </div>
+            }
+          >
+            <TableCRUD
+              initialTableData={initialTableData}
+              editRow={editRow}
+              column={columns}
+            />{" "}
+          </Suspense>
         </div>
       </div>
     </div>

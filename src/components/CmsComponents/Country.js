@@ -1,12 +1,14 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import { AdminPanelService } from "../../Service/AdminPanelService";
-import TableCRUD from "../crudTable/TableCRUD";
-import EditForm from "../crudForm/CountryEdit";
-import AddForm from "../crudForm/CountryAdd";
+import { RotatingLines } from "react-loader-spinner";
 import ActionButtons from "../crudForm/ActionButtons";
 import { toast } from "react-toastify";
 import { Card } from "react-bootstrap";
+import EditForm from "../crudForm/CountryEdit";
+import AddForm from "../crudForm/CountryAdd";
+const TableCRUD = lazy(() => import("../crudTable/TableCRUD"));
+
 const Country = ({
   headerTable,
   editing,
@@ -21,6 +23,7 @@ const Country = ({
     id: null,
     name: "",
   };
+  
   const columns = [
     { field: "id", headerName: "ID", flex: 1 },
     {
@@ -108,22 +111,30 @@ const Country = ({
                     updateUser={updateUser}
                     setFormShow={setFormShow}
                     headerTable={headerTable}
-                  />
+                  />{" "}
                 </Fragment>
               )}
             </Card>
           </div>
         )}
         <Fragment>
-          <AddForm addUser={addUser} headerTable={headerTable} />
+          <AddForm addUser={addUser} headerTable={headerTable} />{" "}
         </Fragment>
         <div className="col-12">
           <h5>{headerTable} CMS</h5>
-          <TableCRUD
-            initialTableData={initialTableData}
-            editRow={editRow}
-            column={columns}
-          />
+          <Suspense
+            fallback={
+              <div className="spinner">
+                <RotatingLines width="100" strokeColor="#536DFE" />
+              </div>
+            }
+          >
+            <TableCRUD
+              initialTableData={initialTableData}
+              editRow={editRow}
+              column={columns}
+            />{" "}
+          </Suspense>
         </div>
       </div>
     </div>

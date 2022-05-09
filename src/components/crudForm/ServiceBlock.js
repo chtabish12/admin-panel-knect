@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Form } from "react-bootstrap";
-import "../crudTable/styles.css";
+import "../../styles.css";
 import BlockModel from "../model/BlockModel";
 
 const ServiceBlock = ({
@@ -11,6 +11,7 @@ const ServiceBlock = ({
   blocking,
   setBlocking,
 }) => {
+  
   const [data, setUser] = useState(currentState);
 
   useEffect(() => {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form } from "react-bootstrap";
 import EditModel from "../model/EditModel";
 import Select from "react-select";
-import "../crudTable/styles.css";
+import "../../styles.css";
 
 const OperatorEdit = ({
   editing,
@@ -15,6 +15,7 @@ const OperatorEdit = ({
 }) => {
   const [data, setUser] = useState(currentState);
   const [country, setCountry] = useState(0);
+  
   useEffect(() => {
     setUser(currentState);
   }, [editing, setEditing, currentState, updateUser, country, setCountry]);
@@ -48,6 +49,16 @@ const OperatorEdit = ({
               placeholder={headerTable}
               name="name"
               value={data.name}
+              onChange={handleInputChange}
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>{headerTable} FriendlyName</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder={headerTable}
+              name="friendlyName"
+              value={data.friendlyName}
               onChange={handleInputChange}
             />
           </Form.Group>

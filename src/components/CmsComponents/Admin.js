@@ -1,13 +1,15 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState, Fragment, useEffect, lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { AdminPanelService } from "../../Service/AdminPanelService";
-import TableCRUD from "../crudTable/TableCRUD";
-import EditForm from "../crudForm/AdminUserEdit";
-import AddForm from "../crudForm/AdminUserAdd";
 import ActionButtons from "../crudForm/ActionButtons";
 import { toast } from "react-toastify";
 import { Card } from "react-bootstrap";
+import { RotatingLines } from "react-loader-spinner";
+import EditForm from "../crudForm/AdminUserEdit";
+import AddForm from "../crudForm/AdminUserAdd";
+const TableCRUD = lazy(() => import("../crudTable/TableCRUD"));
+
 const Admin = ({
   headerTable,
   editing,
@@ -106,23 +108,51 @@ const Admin = ({
   let operatorsArray = [];
   let countryArray = [];
   // Redux
-  const productID = useSelector((state) => state.filtersData.productSet);
-  const serviceID = useSelector((state) => state.filtersData.serviceSet);
+  let productID = useSelector((state) => state.filtersData.productSet);
+  let serviceID = useSelector((state) => state.filtersData.serviceSet);
   // CRUD operations
   const addUser = (data, permissiondata, partners, operators, country) => {
+    let adminUserAccessArray = [];
+    let loopLength;
+    let productLength = productID.split(",").length;
+    let serviceLength = serviceID.split(",").length;
+    let operatorLength = operators.length;
+    let partnerLength = partners.length;
+    let countryLength = country.length;
+
+    if (
+      serviceLength >
+      Math.max(productLength, operatorLength, partnerLength, countryLength)
+    ) {
+      loopLength = serviceLength;
+    } else {
+      loopLength = Math.max(
+        productLength,
+        operatorLength,
+        partnerLength,
+        countryLength
+      );
+    }
+
+    for (let i = 0; i < loopLength; i++) {
+      adminUserAccessArray.push({
+        productId: parseInt(productID[i]) ? parseInt(productID[i]) : "",
+        serviceId: parseInt(serviceID[i]) ? parseInt(serviceID[i]) : "",
+        partnerId: partners[i] ? partners[i] : "",
+        operatorId: operators[i] ? operators[i] : "",
+        countryId: country[i] ? country[i] : "",
+      });
+    }
+
     const request = {
       name: data.name,
       email: data.email,
       password: data.password,
       isAdmin: checked ? 1 : 0,
       permission: permissiondata.toString(),
-      productId: productID,
-      serviceId: serviceID,
-      partnerId: partners.join(","),
-      operatorId: operators.join(","),
-      countryId: country.join(","),
+      userAccess: adminUserAccessArray,
     };
-    console.log(request);
+
     AdminPanelService.AddAdminUser(request)
       .then((resp) => {
         toast(resp.data);
@@ -148,6 +178,7 @@ const Admin = ({
       })
       .catch((err) => toast(err));
   };
+
   const OperatorsAll = () => {
     AdminPanelService.AllOperators()
       .then((resp) => {
@@ -162,6 +193,7 @@ const Admin = ({
       })
       .catch((err) => toast(err));
   };
+
   const CountriesAll = () => {
     AdminPanelService.AllCountries()
       .then((resp) => {
@@ -176,6 +208,7 @@ const Admin = ({
       })
       .catch((err) => toast(err));
   };
+
   const updateUser = (id, updatedUser, permissiondata) => {
     setEditing(false);
     const task = [updatedUser].find((t) => t.id === updatedUser.id);
@@ -189,7 +222,8 @@ const Admin = ({
         toast(resp.data);
       })
       .catch((err) => {
-        toast(err);
+        console.log("error", err);
+        toast("You have no permissions to Edit/Update");
       });
     setFormShow(false);
     setInitialTableData(
@@ -210,6 +244,7 @@ const Admin = ({
       permission: data.permission,
     });
   };
+
   useEffect(() => {
     if (checked) {
       PartnersAll();
@@ -224,7 +259,7 @@ const Admin = ({
       <div className="row">
         {formShow && (
           <div className="col-12 col-sm-6 mx-auto addUser">
-            <Card class="">
+            <Card>
               {editing && (
                 <Fragment>
                   <h5>Edit Admin Users</h5>
@@ -254,11 +289,19 @@ const Admin = ({
         </Fragment>
         <div className="col-12">
           <h5>{headerTable} CMS</h5>
-          <TableCRUD
-            initialTableData={initialTableData}
-            editRow={editRow}
-            column={columns}
-          />
+          <Suspense
+            fallback={
+              <div className="spinner">
+                <RotatingLines width="100" strokeColor="#536DFE" />
+              </div>
+            }
+          >
+            <TableCRUD
+              initialTableData={initialTableData}
+              editRow={editRow}
+              column={columns}
+            />
+          </Suspense>
         </div>
       </div>
     </div>

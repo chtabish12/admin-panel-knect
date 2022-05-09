@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import Select from "react-select";
 import AddModel from "../model/AddModel";
-import "../crudTable/styles.css";
+import "../../styles.css";
 
 const ProductAdd = ({ addUser, partnersArray, headerTable }) => {
   const [data, setUser] = useState(0);
   const [partner, setPartner] = useState(0);
+  
   const initialFormState = {
     id: null,
     name: "",

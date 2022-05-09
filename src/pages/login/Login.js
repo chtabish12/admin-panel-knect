@@ -66,7 +66,7 @@ const Login = (props) => {
         sessionStorage.setItem("user-id", resp.data.user.id);
         loginUser(userDispatch, props.history, setIsLoading, resp.status);
       })
-      .catch(() => toast(LOGIN_VALIDATION));
+      .catch((err) => toast(err));
   };
 
   return (

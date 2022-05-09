@@ -10,6 +10,7 @@ const CountryCMS = () => {
   const [initialTableData, setInitialTableData] = useState();
   const [editing, setEditing] = useState(false);
   const [formShow, setFormShow] = useState(false);
+
   const fetchData = () => {
     AdminPanelService.AllCountries()
       .then((resp) => {
@@ -27,6 +28,7 @@ const CountryCMS = () => {
     fetchData();
     // eslint-disable-next-line
   }, []);
+  
   return (
     <>
       <Grid container spacing={2}>

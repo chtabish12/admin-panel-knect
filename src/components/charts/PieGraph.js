@@ -19,7 +19,7 @@ const PieGraph = ({ operatorRevenue }) => {
           palette="Bright"
           resolveLabelOverlapping="shift"
         >
-          <Series argumentField="name" valueField="revenue">
+          <Series argumentField="friendlyName" valueField="revenue">
             <Label visible={true} customizeText={formatText} />
           </Series>
           <Margin bottom={20} />

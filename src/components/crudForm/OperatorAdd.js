@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import AddModel from "../model/AddModel";
 import Select from "react-select";
-import "../crudTable/styles.css";
+import "../../styles.css";
 
 const OperatorAdd = ({ addUser, headerTable, countryArray }) => {
   const [data, setUser] = useState(0);
@@ -10,9 +10,11 @@ const OperatorAdd = ({ addUser, headerTable, countryArray }) => {
   const initialFormState = {
     id: null,
     name: "",
+    friendlyName: "",
     countryId: "",
     code: "",
   };
+  
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUser({ ...data, [name]: value, country });
@@ -24,7 +26,7 @@ const OperatorAdd = ({ addUser, headerTable, countryArray }) => {
         <form
           onSubmit={(event) => {
             event.preventDefault();
-            if (!data.name || !country.value) return;
+            if (!data.name || !country.value ) return;
             addUser(data, country.value);
             setUser(initialFormState);
           }}
@@ -36,6 +38,16 @@ const OperatorAdd = ({ addUser, headerTable, countryArray }) => {
               placeholder={headerTable}
               name="name"
               value={data.name}
+              onChange={handleInputChange}
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>{headerTable} FriendlyName</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="FriendlyName"
+              name="friendlyName"
+              value={data.friendlyName}
               onChange={handleInputChange}
             />
           </Form.Group>
