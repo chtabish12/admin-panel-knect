@@ -81,6 +81,7 @@ const ChartBar = ({ region, label, y, z }) => {
       })
       .catch(() => toast(NO_DATA));
   };
+
   useEffect(() => {
     if (!loadingData) {
       fetchData();
@@ -134,6 +135,7 @@ const ChartBar = ({ region, label, y, z }) => {
           </Chart>
         )}
       </Paper>
+      {!seriesData.length && <div className="no-data">{NO_DATA}</div>}
     </>
   );
 };
