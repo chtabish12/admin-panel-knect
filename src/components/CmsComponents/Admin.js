@@ -52,42 +52,15 @@ const Admin = ({
       field: "isAdmin",
       headerName: "Admin",
       flex: 1,
-      // cellClassName: (params) => {
-      //   console.log(params);
-      //   if (params.value == null) {
-      //     return "";
-      //   }
-      //   let color =
-      //     params.value === 1
-      //       ? "#5cb85c"
-      //       : params.value === 0
-      //       ? "#d9534f"
-      //       : params.value === 2
-      //       ? "#337ab7"
-      //       : params.value == null
-      //       ? "#f0ad4e"
-      //       : "";
-      //   return (
-      //     <span
-      //       style={{ backgroundColor: color }}
-      //       className={"tableStatusCode"}
-      //     >
-      //       {params.value === 1
-      //         ? "Active"
-      //         : params.value === 0
-      //         ? "Inactive"
-      //         : params.value === 2
-      //         ? "Suspended Subscription"
-      //         : params.value === 3
-      //         ? "Suspended Billing"
-      //         : "N/A"}
-      //     </span>
-      //   );
-      //   // return clsx("super-app", {
-      //   //   negative: params.value < 0,
-      //   //   positive: params.value > 0,
-      //   // });
-      // },
+      renderCell: (rowData) => {
+        return rowData.value === 1 ? (
+          <span style={{ color: "#008240", fontWeight: "bold" }}>True</span>
+        ) : rowData.value === 0 ? (
+          <span style={{ color: "#E87722", fontWeight: "bold" }}>False</span>
+        ) : (
+          <span style={{ color: "#B0B700", fontWeight: "bold" }}>N/A</span>
+        );
+      },
     },
     {
       field: "actions",
@@ -331,7 +304,6 @@ const Admin = ({
           >
             <TableCRUD
               initialTableData={initialTableData}
-              editRow={editRow}
               column={columns}
             />
           </Suspense>

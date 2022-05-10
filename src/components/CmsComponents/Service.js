@@ -89,7 +89,20 @@ const Service = ({
       //   </Link>
       // ),
     },
-    { field: "status", headerName: "Status", flex: 1 },
+    {
+      field: "status",
+      headerName: "Status",
+      flex: 1,
+      renderCell: (rowData) => {
+        return rowData.value === 1 ? (
+          <span style={{ color: "#008240", fontWeight: "bold" }}>Active</span>
+        ) : rowData.value === 2 ? (
+          <span style={{ color: "#E87722", fontWeight: "bold" }}>Deactive</span>
+        ) : (
+          <span style={{ color: "#B0B700", fontWeight: "bold" }}>UnActive</span>
+        );
+      },
+    },
     {
       field: "actions",
       type: "number",
