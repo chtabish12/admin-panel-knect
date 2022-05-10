@@ -6,12 +6,12 @@ import { NO_DATA } from "../../helper/Helper";
 import { toast } from "react-toastify";
 
 const ServicesCMS = () => {
-
   const column = ["id", "name"];
   const serviceFlag = "true";
   // Setting state
   const [initialTableData, setInitialTableData] = useState();
   const [editing, setEditing] = useState(false);
+  const [view, setView] = useState(false);
   const [blocking, setBlocking] = useState(false);
   const [formShow, setFormShow] = useState(false);
 
@@ -32,7 +32,7 @@ const ServicesCMS = () => {
     fetchData();
     // eslint-disable-next-line
   }, []);
-  
+
   return (
     <>
       <Grid container spacing={2}>
@@ -50,6 +50,8 @@ const ServicesCMS = () => {
               setInitialTableData={setInitialTableData}
               column={column}
               serviceFlag={serviceFlag}
+              view={view}
+              setView={setView}
             />
           )}
         </Grid>

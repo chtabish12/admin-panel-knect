@@ -1,23 +1,96 @@
 import React, { useState } from "react";
 import { Grid } from "@material-ui/core";
 import { useEffect } from "react";
-import { Table } from "react-bootstrap";
 import { RotatingLines } from "react-loader-spinner";
 import "bootstrap/dist/css/bootstrap.min.css";
+import useStyles from "./styles";
 // components
 import PageTitle from "../../components/PageTitle/PageTitle.js";
-import Widget from "../../components/Widget/Widget.js";
-import useStyles from "./styles";
+import TableCRUD from "../../components/crudTable/TableCRUD";
 import { toast } from "react-toastify";
 import { AdminPanelService } from "../../Service/AdminPanelService.js";
 import { NO_DATA } from "../../helper/Helper.js";
 
 export default function ServicesPage() {
-
-  const classes = useStyles();
-  const [state, setState] = useState("");
+  const [state, setState] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   var _ = require("lodash");
+  const classes = useStyles();
+  // Define Columns
+  const column = [
+    { field: "id", headerName: "ID", flex: 1 },
+    { field: "name", headerName: "Name", flex: 1 },
+    { field: "operator", headerName: "Operator Name", flex: 1 },
+    { field: "productName", headerName: "Product", flex: 1 },
+    { field: "pricePoint", headerName: "Price", flex: 1 },
+    {
+      field: "taxRate",
+      headerName: "Tax Rate",
+      flex: 1,
+      renderCell: (rowData) => {
+        return !rowData.value ? <span>N/A</span> : rowData.value;
+      },
+    },
+    {
+      field: "keyword",
+      headerName: "Keyword",
+      flex: 1,
+      renderCell: (rowData) => {
+        return !rowData.value ? <span>0</span> : rowData.value;
+      },
+    },
+    {
+      field: "shortCode",
+      headerName: "Shortcode",
+      flex: 1,
+      renderCell: (rowData) => {
+        return !rowData.value ? <span>N/A</span> : rowData.value;
+      },
+    },
+    {
+      field: "status",
+      headerName: "Status",
+      flex: 1,
+      renderCell: (rowData) => {
+        return rowData.value === 1 ? (
+          <span
+            className={classes.tableStatusCode}
+            style={{ backgroundColor: "#5cb85c", fontWeight: "bold" }}
+          >
+            Active
+          </span>
+        ) : rowData.value === 2 ? (
+          <span
+            className={classes.tableStatusCode}
+            style={{ backgroundColor: "#d9534f", fontWeight: "bold" }}
+          >
+            Inactive
+          </span>
+        ) : rowData.value === 3 ? (
+          <span
+            className={classes.tableStatusCode}
+            style={{ backgroundColor: "#337ab7", fontWeight: "bold" }}
+          >
+            Suspended Subscription
+          </span>
+        ) : rowData.value === 4 ? (
+          <span
+            className={classes.tableStatusCode}
+            style={{ backgroundColor: "#f0ad4e", fontWeight: "bold" }}
+          >
+            Suspended Billing
+          </span>
+        ) : (
+          <span
+            className={classes.tableStatusCode}
+            style={{ backgroundColor: "#rgb(157 0 0)", fontWeight: "bold" }}
+          >
+            N/A
+          </span>
+        );
+      },
+    },
+  ];
 
   const fetchData = () => {
     setIsLoading(true);
@@ -38,82 +111,18 @@ export default function ServicesPage() {
     fetchData();
     // eslint-disable-next-line
   }, []);
-  
+
   return (
     <>
       <PageTitle title="My Services" />
       <Grid container spacing={1}>
         <Grid item xs={12} md={12}>
-          <Widget disableWidgetMenu>
-            <Table striped bordered hover size="sm">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Operator Name</th>
-                  <th>Product</th>
-                  <th>Price</th>
-                  <th>Tax Rate</th>
-                  <th>Keyword</th>
-                  <th>Shortcode</th>
-                  <th style={{ textAlign: "center" }}>Status</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {state
-                  ? state.map((state) => {
-                      let color =
-                        state.status === 1
-                          ? "#5cb85c"
-                          : state.status === 2
-                          ? "#d9534f"
-                          : state.status === 3
-                          ? "#337ab7"
-                          : state.status === 4
-                          ? "#f0ad4e"
-                          : "rgb(157 0 0)";
-                      return (
-                        <>
-                          <tr>
-                            <td>{state.id ? state.id : 0}</td>
-                            <td>{state.name ? state.name : "N/A"}</td>
-                            <td>{state.operator ? state.operator : "N/A"}</td>
-                            <td>{state.productName ? state.productName : 0}</td>
-                            <td>{state.pricePoint ? state.pricePoint : 0}</td>
-                            <td>{state.taxRate ? state.taxRate : 0}</td>
-                            <td>{state.keyword ? state.keyword : 0}</td>
-                            <td>{state.shortCode ? state.shortCode : "N/A"}</td>
-                            <td style={{ textAlign: "center" }}>
-                              {" "}
-                              <span
-                                style={{ backgroundColor: color }}
-                                className={classes.tableStatusCode}
-                              >
-                                {state.status === 1
-                                  ? "Active"
-                                  : state.status === 2
-                                  ? "Inactive"
-                                  : state.status === 3
-                                  ? "Suspended Subscription"
-                                  : state.status === 4
-                                  ? "Suspended Billing"
-                                  : "N/A"}
-                              </span>
-                            </td>
-                          </tr>
-                        </>
-                      );
-                    })
-                  : ""}
-              </tbody>
-            </Table>
-            {isLoading && (
-              <div className="spinner">
-                <RotatingLines width="100" strokeColor="#536DFE" />
-              </div>
-            )}
-          </Widget>
+          {state && <TableCRUD initialTableData={state} column={column} />}
+          {isLoading && (
+            <div className="spinner">
+              <RotatingLines width="100" strokeColor="#536DFE" />
+            </div>
+          )}
         </Grid>
       </Grid>
     </>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment, lazy, Suspense } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import ActionButtons from "../crudForm/ActionButtons";
 import { AdminPanelService } from "../../Service/AdminPanelService";
 import { toast } from "react-toastify";
@@ -8,6 +8,7 @@ import { RotatingLines } from "react-loader-spinner";
 import ServiceBlock from "../crudForm/ServiceBlock";
 import EditForm from "../crudForm/ServiceEdit";
 import AddForm from "../crudForm/ServiceAdd";
+import ServiceShow from "../crudForm/ServiceShow";
 const TableCRUD = lazy(() => import("../crudTable/TableCRUD"));
 
 const Service = ({
@@ -21,6 +22,8 @@ const Service = ({
   serviceFlag,
   blocking,
   setBlocking,
+  view,
+  setView,
 }) => {
   // Setting state
   const initialFormState = {
@@ -77,16 +80,29 @@ const Service = ({
       field: "name",
       headerName: "Name",
       flex: 1,
-      renderCell: (params) => (
-        <Link
-          to={{ pathname: "servicesDetailPage", state: params.id }}
-          className="table-name-href"
-        >
-          {params.value}
-        </Link>
-      ),
+      // renderCell: (params) => (
+      //   <Link
+      //     to={{ pathname: "servicesDetailPage", state: params.id }}
+      //     className="table-name-href"
+      //   >
+      //     {params.value}
+      //   </Link>
+      // ),
     },
-    { field: "status", headerName: "Status", flex: 1 },
+    {
+      field: "status",
+      headerName: "Status",
+      flex: 1,
+      renderCell: (rowData) => {
+        return rowData.value === 1 ? (
+          <span style={{ color: "#008240", fontWeight: "bold" }}>Active</span>
+        ) : rowData.value === 2 ? (
+          <span style={{ color: "#E87722", fontWeight: "bold" }}>Deactive</span>
+        ) : (
+          <span style={{ color: "#B0B700", fontWeight: "bold" }}>UnActive</span>
+        );
+      },
+    },
     {
       field: "actions",
       type: "number",
@@ -97,6 +113,7 @@ const Service = ({
           initialTableData={row}
           editRow={editRow}
           blockRow={blockRow}
+          showRow={showRow}
           serviceFlag="true"
         />
       ),
@@ -167,6 +184,7 @@ const Service = ({
 
   const updateUser = (id, updatedUser, operatorValue) => {
     setEditing(false);
+    setView(false);
     const task = [updatedUser].find((t) => t.id === updatedUser.id);
     task.name = updatedUser.name;
     task.status = updatedUser.status;
@@ -289,6 +307,56 @@ const Service = ({
     });
   };
 
+  const showRow = (data) => {
+    setFormShow(true);
+    setView(true);
+
+    setCurrentState({
+      id: data.id,
+      name: data.name,
+      status: data.status,
+      enablePurging: data.enablePurging,
+      welcomeSMSEnabled: data.welcomeSMSEnabled,
+      pricePoint: data.pricePoint,
+      currency: data.currency,
+      days: data.days,
+      taxRate: data.taxRate,
+      freeTrialDays: data.freeTrialDays,
+      timezone: data.timezone,
+      notificationUrl: data.notificationUrl,
+      command: data.command,
+      operatorId: data.operatorId,
+      unsubUrl: data.unsubUrl,
+      frequency: data.frequency,
+      serviceUrl: data.serviceUrl,
+      sdpid: data.sdpid,
+      servicePassword: data.servicePassword,
+      host: data.host,
+      onDemand: data.onDemand,
+      aggregatorId: data.aggregatorId,
+      companyId: data.companyId,
+      connectionType: data.connectionType,
+      serviceKey: data.serviceKey,
+      makOperatorId: data.makOperatorId,
+      chargeCycle: data.chargeCycle,
+      ssid: data.ssid,
+      cancelKeyword: data.cancelKeyword,
+      ChargeWith: data.ChargeWith,
+      allocatedTPS: data.allocatedTPS,
+      shortCode: data.shortCode,
+      channelId: data.channelId,
+      keyword: data.keyword,
+      aliasName: data.aliasName,
+      shortName: data.shortName,
+      onDemandSms: data.onDemandSms,
+      otpBypass: data.otpBypass,
+      initialPrice: data.initialPrice,
+      otpEnabled: data.otpEnabled,
+      installmentTPS: data.installmentTPS,
+      renChargingCommand: data.renChargingCommand,
+    });
+  };
+
   const blockRow = (data) => {
     setFormShow(true);
     setBlocking(true);
@@ -299,7 +367,7 @@ const Service = ({
       status: data.status,
     });
   };
-  
+
   useEffect(() => {
     AdminPanelService.AllOperators()
       .then((resp) => {
@@ -329,6 +397,18 @@ const Service = ({
                     setEditing={setEditing}
                     currentState={currentState}
                     updateUser={updateUser}
+                    setFormShow={setFormShow}
+                    headerTable={headerTable}
+                    operatorsArray={operatorsArray}
+                  />
+                </Fragment>
+              )}
+              {view && (
+                <Fragment>
+                  <h5>Show Service</h5>
+                  <ServiceShow
+                    setView={setView}
+                    currentState={currentState}
                     setFormShow={setFormShow}
                     headerTable={headerTable}
                     operatorsArray={operatorsArray}

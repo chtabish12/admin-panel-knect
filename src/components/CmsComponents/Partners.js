@@ -1,5 +1,5 @@
 import React, { useState, Fragment, lazy, Suspense } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { AdminPanelService } from "../../Service/AdminPanelService";
 import { RotatingLines } from "react-loader-spinner";
 import ActionButtons from "../crudForm/ActionButtons";
@@ -34,14 +34,14 @@ const Partners = ({
       field: "name",
       headerName: "Name",
       flex: 1,
-      renderCell: (params) => (
-        <Link
-          to={{ pathname: "partnersDetailPage", state: params.id }}
-          className="table-name-href"
-        >
-          {params.value}
-        </Link>
-      ),
+      // renderCell: (params) => (
+      //   <Link
+      //     to={{ pathname: "partnersDetailPage", state: params.id }}
+      //     className="table-name-href"
+      //   >
+      //     {params.value}
+      //   </Link>
+      // ),
     },
     { field: "email", headerName: "Email", flex: 1 },
     { field: "phone", headerName: "Phone", flex: 1 },

@@ -1,5 +1,5 @@
 import React, { useState, Fragment, useEffect, lazy, Suspense } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { AdminPanelService } from "../../Service/AdminPanelService";
 import ActionButtons from "../crudForm/ActionButtons";
@@ -8,11 +8,14 @@ import { Card } from "react-bootstrap";
 import { RotatingLines } from "react-loader-spinner";
 import EditForm from "../crudForm/AdminUserEdit";
 import AddForm from "../crudForm/AdminUserAdd";
+import AdminUserShow from "../crudForm/AdminUserShow";
 const TableCRUD = lazy(() => import("../crudTable/TableCRUD"));
 
 const Admin = ({
   headerTable,
   editing,
+  view,
+  setView,
   formShow,
   initialTableData,
   setInitialTableData,
@@ -35,56 +38,29 @@ const Admin = ({
       field: "name",
       headerName: "Name",
       flex: 1,
-      renderCell: (params) => (
-        <Link
-          to={{ pathname: "AdminUserDetailPage", state: params.id }}
-          className="table-name-href"
-        >
-          {params.value}
-        </Link>
-      ),
+      // renderCell: (params) => (
+      //   <Link
+      //     to={{ pathname: "AdminUserDetailPage", state: params.id }}
+      //     className="table-name-href"
+      //   >
+      //     {params.value}
+      //   </Link>
+      // ),
     },
     { field: "email", headerName: "Email", flex: 1 },
     {
       field: "isAdmin",
       headerName: "Admin",
       flex: 1,
-      // cellClassName: (params) => {
-      //   console.log(params);
-      //   if (params.value == null) {
-      //     return "";
-      //   }
-      //   let color =
-      //     params.value === 1
-      //       ? "#5cb85c"
-      //       : params.value === 0
-      //       ? "#d9534f"
-      //       : params.value === 2
-      //       ? "#337ab7"
-      //       : params.value == null
-      //       ? "#f0ad4e"
-      //       : "";
-      //   return (
-      //     <span
-      //       style={{ backgroundColor: color }}
-      //       className={"tableStatusCode"}
-      //     >
-      //       {params.value === 1
-      //         ? "Active"
-      //         : params.value === 0
-      //         ? "Inactive"
-      //         : params.value === 2
-      //         ? "Suspended Subscription"
-      //         : params.value === 3
-      //         ? "Suspended Billing"
-      //         : "N/A"}
-      //     </span>
-      //   );
-      //   // return clsx("super-app", {
-      //   //   negative: params.value < 0,
-      //   //   positive: params.value > 0,
-      //   // });
-      // },
+      renderCell: (rowData) => {
+        return rowData.value === 1 ? (
+          <span style={{ color: "#008240", fontWeight: "bold" }}>True</span>
+        ) : rowData.value === 0 ? (
+          <span style={{ color: "#E87722", fontWeight: "bold" }}>False</span>
+        ) : (
+          <span style={{ color: "#B0B700", fontWeight: "bold" }}>N/A</span>
+        );
+      },
     },
     {
       field: "actions",
@@ -92,7 +68,12 @@ const Admin = ({
       headerName: "Actions",
       sortable: false,
       renderCell: ({ row }) => (
-        <ActionButtons initialTableData={row} editRow={editRow} />
+        <ActionButtons
+          initialTableData={row}
+          editRow={editRow}
+          showRow={showRow}
+          AdminFlag="true"
+        />
       ),
       flex: 1,
     },
@@ -245,6 +226,20 @@ const Admin = ({
     });
   };
 
+  const showRow = (data) => {
+    setFormShow(true);
+    setView(true);
+
+    setCurrentState({
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      isAdmin: data.isAdmin,
+      permission: data.permission,
+    });
+  };
+
   useEffect(() => {
     if (checked) {
       PartnersAll();
@@ -268,6 +263,17 @@ const Admin = ({
                     setEditing={setEditing}
                     currentState={currentState}
                     updateUser={updateUser}
+                    setFormShow={setFormShow}
+                    headerTable={headerTable}
+                  />
+                </Fragment>
+              )}
+              {view && (
+                <Fragment>
+                  <h5>View Admin Users</h5>
+                  <AdminUserShow
+                    setView={setView}
+                    currentState={currentState}
                     setFormShow={setFormShow}
                     headerTable={headerTable}
                   />
@@ -298,7 +304,6 @@ const Admin = ({
           >
             <TableCRUD
               initialTableData={initialTableData}
-              editRow={editRow}
               column={columns}
             />
           </Suspense>

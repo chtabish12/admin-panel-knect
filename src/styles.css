@@ -89,6 +89,14 @@ padding: 10px !important;
   text-decoration: none;
   color: #000;
 }
+.no-data{
+  height: 20vh;
+  width: 60vw;
+  margin: auto;
+  margin-top: 100px;
+ text-align: center;
+ justify-content: center;
+}
 /* ////////////RESPONSIVE STYLING/////////////////// */
 @media only screen and (max-width: 942px) {
   .MuiTypography-body1 {
