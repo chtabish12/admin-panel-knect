@@ -103,7 +103,16 @@ padding: 10px !important;
 .formgroup-space{
   margin: 15px 0;
 }
+.rmsc .dropdown-heading {
+  padding: 0 !important;
+  margin-left: 3px !important;
+}
 /* ////////////RESPONSIVE STYLING/////////////////// */
+@media only screen and (max-width: 1200px) {
+  .makeStyles-dashedBorder-57 {
+    width: auto !important;
+}
+}
 @media only screen and (max-width: 942px) {
   .MuiTypography-body1 {
     font-size: 0.6rem !important;
