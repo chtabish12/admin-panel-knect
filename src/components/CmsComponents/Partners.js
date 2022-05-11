@@ -27,7 +27,7 @@ const Partners = ({
     phone: "",
     username: "",
   };
-  
+
   const columns = [
     { field: "id", headerName: "ID", flex: 1 },
     {
@@ -43,8 +43,22 @@ const Partners = ({
       //   </Link>
       // ),
     },
-    { field: "email", headerName: "Email", flex: 1 },
-    { field: "phone", headerName: "Phone", flex: 1 },
+    {
+      field: "email",
+      headerName: "Email",
+      flex: 1,
+      renderCell: (rowData) => {
+        return !rowData.value ? <span>-</span> : rowData.value;
+      },
+    },
+    {
+      field: "phone",
+      headerName: "Phone",
+      flex: 1,
+      renderCell: (rowData) => {
+        return !rowData.value ? <span>-</span> : rowData.value;
+      },
+    },
     { field: "username", headerName: "Username", flex: 1 },
     { field: "password", headerName: "Password", flex: 1 },
     {
@@ -73,7 +87,7 @@ const Partners = ({
       .then((resp) => {
         toast(resp.data);
       })
-      .catch((err) => toast(err));
+      .catch((err) => toast("Please Check your fields"));
 
     data.id = initialTableData.length + 1;
     setInitialTableData([...initialTableData, data]);
@@ -91,9 +105,7 @@ const Partners = ({
       .then((resp) => {
         toast(resp.data);
       })
-      .catch((err) => {
-        toast(err);
-      });
+      .catch((err) => toast("Please Check your fields"));
     setFormShow(false);
     setInitialTableData(
       initialTableData.map((data) => (data.id === id ? updatedUser : data))

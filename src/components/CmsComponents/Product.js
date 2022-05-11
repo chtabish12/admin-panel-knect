@@ -44,8 +44,16 @@ const Product = ({
       //   </Link>
       // ),
     },
+    { field: "partner", headerName: "Partner Name", flex: 1 },
     { field: "partnerId", headerName: "PartnerId", flex: 1 },
-    { field: "storeId", headerName: "StoreId", flex: 1 },
+    {
+      field: "storeId",
+      headerName: "StoreId",
+      flex: 1,
+      renderCell: (rowData) => {
+        return !rowData.value ? <span>-</span> : rowData.value;
+      },
+    },
     {
       field: "actions",
       type: "number",
@@ -69,7 +77,7 @@ const Product = ({
       .then((resp) => {
         toast(resp.data);
       })
-      .catch((err) => toast(err));
+      .catch((err) => toast("Please Check your fields"));
 
     data.id = initialTableData.length + 1;
     setInitialTableData([...initialTableData, data]);
@@ -90,9 +98,7 @@ const Product = ({
       .then((resp) => {
         toast(resp.data);
       })
-      .catch((err) => {
-        toast(err);
-      });
+      .catch((err) => toast("Please Check your fields"));
     setFormShow(false);
     setInitialTableData(
       initialTableData.map((data) => (data.id === id ? updatedUser : data))
@@ -124,7 +130,7 @@ const Product = ({
       })
       .catch((err) => toast(err));
   }, []);
-  
+
   return (
     <div className="container-fluid">
       <div className="row">

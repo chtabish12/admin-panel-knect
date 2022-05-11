@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Form } from "react-bootstrap";
 import EditModel from "../model/EditModel";
+import { toast } from "react-toastify";
 import Select from "react-select";
 import "../../styles.css";
 
@@ -15,7 +16,7 @@ const OperatorEdit = ({
 }) => {
   const [data, setUser] = useState(currentState);
   const [country, setCountry] = useState(0);
-  
+
   useEffect(() => {
     setUser(currentState);
   }, [editing, setEditing, currentState, updateUser, country, setCountry]);
@@ -38,48 +39,60 @@ const OperatorEdit = ({
         <form
           onSubmit={(event) => {
             event.preventDefault();
-
+            if (!country) return toast("please select Country");
             updateUser(data.id, data, country.value);
           }}
         >
-          <Form.Group>
-            <Form.Label>{headerTable} Name</Form.Label>
+                <Form.Group className="formgroup-space">
+            <Form.Label>
+              {headerTable} Name<span className="asteric">*</span>
+            </Form.Label>
             <Form.Control
               type="text"
-              placeholder={headerTable}
+              placeholder={"Xyz"}
               name="name"
               value={data.name}
               onChange={handleInputChange}
+              required
             />
           </Form.Group>
-          <Form.Group>
-            <Form.Label>{headerTable} FriendlyName</Form.Label>
+          <Form.Group className="formgroup-space">
+            <Form.Label>
+              {headerTable} FriendlyName<span className="asteric">*</span>
+            </Form.Label>
             <Form.Control
               type="text"
-              placeholder={headerTable}
+              placeholder="Abc"
               name="friendlyName"
               value={data.friendlyName}
               onChange={handleInputChange}
+              required
             />
           </Form.Group>
-          <Form.Group>
-            <Form.Label>Country Id</Form.Label>
+          <Form.Group className="formgroup-space">
+            <Form.Label>
+              Country<span className="asteric">*</span>
+            </Form.Label>
             <Select
               options={countryArray}
               value={country}
               onChange={setCountry}
               labelledBy="Country"
-              placeholder="Country Id"
+              placeholder="select country"
+              required
             />
           </Form.Group>
-          <Form.Group>
-            <Form.Label>{headerTable} Code</Form.Label>
+          <Form.Group className="formgroup-space">
+            <Form.Label>
+              {headerTable} Code<span className="asteric">*</span>
+            </Form.Label>
             <Form.Control
               type="text"
-              placeholder={headerTable}
+              placeholder={"XXXX"}
               name="code"
               value={data.code}
               onChange={handleInputChange}
+              required
             />
           </Form.Group>
           <button className="btn btn-primary model-footer">

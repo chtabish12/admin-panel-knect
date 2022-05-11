@@ -5,6 +5,7 @@ import { PERMISSIONS } from "../../Constants";
 import "../../styles.css";
 import { FormGroup } from "@material-ui/core";
 import ListMembers from "./AdminAddPermissions";
+import { toast } from "react-toastify";
 
 const AdminUserEdit = ({
   editing,
@@ -66,7 +67,7 @@ const AdminUserEdit = ({
     newPermissions[index] = updatedPermissions; // insert/overwrite apiPermissions object of the attendee in question with the new version
     setPermission(newPermissions);
   };
-  
+
   return (
     <div>
       <EditModel
@@ -82,40 +83,53 @@ const AdminUserEdit = ({
               (attendee) => attendee.status === true
             ); // find anyone who IS going
             permissiondata = permissionArray.map((going) => going.name);
-            updateUser(data.id, data, permissiondata);
+            if (!permissiondata.length) {
+              return toast("please add permissions");
+            } else {
+              updateUser(data.id, data, permissiondata);
+            }
           }}
         >
-          <Form.Group>
-            <Form.Label>{headerTable} Name</Form.Label>
+          <Form.Group className="formgroup-space">
+            <Form.Label>
+              {headerTable} Name<span className="asteric">*</span>
+            </Form.Label>
             <Form.Control
               type="text"
-              placeholder={headerTable}
+              placeholder={"Xyz"}
               name="name"
               value={data.name}
               onChange={handleInputChange}
+              required
             />
           </Form.Group>
-          <Form.Group>
-            <Form.Label>{headerTable} Email</Form.Label>
+          <Form.Group className="formgroup-space">
+            <Form.Label>
+              {headerTable} Email<span className="asteric">*</span>
+            </Form.Label>
             <Form.Control
               type="email"
-              placeholder={headerTable}
+              placeholder={"abc@xyz.com"}
               name="email"
               value={data.email}
               onChange={handleInputChange}
+              required
             />
           </Form.Group>
-          <Form.Group>
-            <Form.Label>{headerTable} Password</Form.Label>
+          <Form.Group className="formgroup-space">
+            <Form.Label>
+              {headerTable} Password<span className="asteric">*</span>
+            </Form.Label>
             <Form.Control
               type="password"
-              placeholder={headerTable}
+              placeholder={"****"}
               name="password"
               value={data.password}
               onChange={handleInputChange}
+              required
             />
           </Form.Group>
-          <Form.Group>
+          <Form.Group className="formgroup-space">
             <Form.Label>{headerTable} is Admin</Form.Label>
             <Form.Control
               type="number"
@@ -125,8 +139,10 @@ const AdminUserEdit = ({
               onChange={handleInputChange}
             />
           </Form.Group>
-          <Form.Group>
-            <Form.Label>{headerTable} Permission</Form.Label>
+          <Form.Group className="formgroup-space">
+            <Form.Label>
+              {headerTable} Permission<span className="asteric">*</span>
+            </Form.Label>
             <FormGroup>
               {permission.map((permission, i) => {
                 return (

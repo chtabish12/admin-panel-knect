@@ -80,7 +80,7 @@ const Admin = ({
   ];
   // Hooks initialization
   const [currentState, setCurrentState] = useState(initialFormState);
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(true);
   const [partners, setPartners] = useState([]);
   const [operators, setOperators] = useState([]);
   const [country, setCountry] = useState([]);
@@ -95,34 +95,37 @@ const Admin = ({
   const addUser = (data, permissiondata, partners, operators, country) => {
     let adminUserAccessArray = [];
     let loopLength;
-    let productLength = productID.split(",").length;
-    let serviceLength = serviceID.split(",").length;
-    let operatorLength = operators.length;
-    let partnerLength = partners.length;
-    let countryLength = country.length;
+    console.log(permissiondata);
+    if (permissiondata.length) {
+      let productLength = productID.split(",").length;
+      let serviceLength = serviceID.split(",").length;
+      let operatorLength = operators.length;
+      let partnerLength = partners.length;
+      let countryLength = country.length;
 
-    if (
-      serviceLength >
-      Math.max(productLength, operatorLength, partnerLength, countryLength)
-    ) {
-      loopLength = serviceLength;
-    } else {
-      loopLength = Math.max(
-        productLength,
-        operatorLength,
-        partnerLength,
-        countryLength
-      );
-    }
+      if (
+        serviceLength >
+        Math.max(productLength, operatorLength, partnerLength, countryLength)
+      ) {
+        loopLength = serviceLength;
+      } else {
+        loopLength = Math.max(
+          productLength,
+          operatorLength,
+          partnerLength,
+          countryLength
+        );
+      }
 
-    for (let i = 0; i < loopLength; i++) {
-      adminUserAccessArray.push({
-        productId: parseInt(productID[i]) ? parseInt(productID[i]) : "",
-        serviceId: parseInt(serviceID[i]) ? parseInt(serviceID[i]) : "",
-        partnerId: partners[i] ? partners[i] : "",
-        operatorId: operators[i] ? operators[i] : "",
-        countryId: country[i] ? country[i] : "",
-      });
+      for (let i = 0; i < loopLength; i++) {
+        adminUserAccessArray.push({
+          productId: parseInt(productID[i]) ? parseInt(productID[i]) : "",
+          serviceId: parseInt(serviceID[i]) ? parseInt(serviceID[i]) : "",
+          partnerId: partners[i] ? partners[i] : "",
+          operatorId: operators[i] ? operators[i] : "",
+          countryId: country[i] ? country[i] : "",
+        });
+      }
     }
 
     const request = {
@@ -138,7 +141,7 @@ const Admin = ({
       .then((resp) => {
         toast(resp.data);
       })
-      .catch((err) => toast(err));
+      .catch((err) => toast("Please Check your fields"));
 
     data.id = initialTableData.length + 1;
     setInitialTableData([...initialTableData, data]);
@@ -202,10 +205,7 @@ const Admin = ({
       .then((resp) => {
         toast(resp.data);
       })
-      .catch((err) => {
-        console.log("error", err);
-        toast("You have no permissions to Edit/Update");
-      });
+      .catch((err) => toast("Please Check your fields"));
     setFormShow(false);
     setInitialTableData(
       initialTableData.map((data) => (data.id === id ? updatedUser : data))
@@ -241,7 +241,7 @@ const Admin = ({
   };
 
   useEffect(() => {
-    if (checked) {
+    if (!checked) {
       PartnersAll();
       OperatorsAll();
       CountriesAll();
@@ -302,10 +302,7 @@ const Admin = ({
               </div>
             }
           >
-            <TableCRUD
-              initialTableData={initialTableData}
-              column={columns}
-            />
+            <TableCRUD initialTableData={initialTableData} column={columns} />
           </Suspense>
         </div>
       </div>

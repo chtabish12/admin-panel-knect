@@ -30,54 +30,68 @@ const PartnerAdd = ({ addUser, headerTable }) => {
             setUser(initialFormState);
           }}
         >
-          <Form.Group>
-            <Form.Label>{headerTable} Name</Form.Label>
+          <Form.Group className="formgroup-space">
+            <Form.Label>
+              {headerTable} Name<span className="asteric">*</span>
+            </Form.Label>
             <Form.Control
               type="text"
-              placeholder={headerTable}
+              placeholder={"Xyz"}
               name="name"
               value={data.name}
               onChange={handleInputChange}
+              required
             />
           </Form.Group>
-          <Form.Group>
-            <Form.Label>{headerTable} Email</Form.Label>
+          <Form.Group className="formgroup-space">
+            <Form.Label>
+              {headerTable} Email<span className="asteric">*</span>
+            </Form.Label>
             <Form.Control
               type="email"
-              placeholder={headerTable}
+              placeholder={"abc@xyz.com"}
               name="email"
               value={data.email}
               onChange={handleInputChange}
             />
           </Form.Group>
-          <Form.Group>
-            <Form.Label>{headerTable} Password</Form.Label>
+          <Form.Group className="formgroup-space">
+            <Form.Label>
+              {headerTable} Password<span className="asteric">*</span>
+            </Form.Label>
             <Form.Control
               type="password"
-              placeholder={headerTable}
+              placeholder={"****"}
               name="password"
               value={data.password}
               onChange={handleInputChange}
+              required
             />
           </Form.Group>
-          <Form.Group>
-            <Form.Label>{headerTable} Phone</Form.Label>
+          <Form.Group className="formgroup-space">
+            <Form.Label>
+              {headerTable} Phone<span className="asteric">*</span>
+            </Form.Label>
             <Form.Control
               type="phone"
               placeholder="0XXXXXXXXX"
               name="phone"
               value={data.phone}
               onChange={handleInputChange}
+              required
             />
           </Form.Group>
-          <Form.Group>
-            <Form.Label>{headerTable} Username</Form.Label>
+          <Form.Group className="formgroup-space">
+            <Form.Label>
+              {headerTable} Username<span className="asteric">*</span>
+            </Form.Label>
             <Form.Control
               type="name"
-              placeholder={headerTable}
+              placeholder={"abcXX"}
               name="username"
               value={data.username}
               onChange={handleInputChange}
+              required
             />
           </Form.Group>
           <button className="btn btn-primary model-footer">

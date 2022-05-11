@@ -19,7 +19,7 @@ const ServiceShow = ({
         setView={setView}
         headerTable="Edit Service"
       >
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} Name</Form.Label>
           <Form.Control
             type="text"
@@ -28,7 +28,7 @@ const ServiceShow = ({
             value={currentState.name}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} status</Form.Label>
           <Form.Control
             type="text"
@@ -37,7 +37,7 @@ const ServiceShow = ({
             value={currentState.status}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} enablePurging</Form.Label>
           <Form.Control
             type="text"
@@ -46,7 +46,7 @@ const ServiceShow = ({
             value={currentState.enablePurging}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} welcomeSMSEnabled</Form.Label>
           <Form.Control
             type="text"
@@ -55,7 +55,7 @@ const ServiceShow = ({
             value={currentState.welcomeSMSEnabled}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} pricePoint</Form.Label>
           <Form.Control
             type="text"
@@ -64,7 +64,7 @@ const ServiceShow = ({
             value={currentState.pricePoint}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} currency</Form.Label>
           <Form.Control
             type="text"
@@ -73,7 +73,7 @@ const ServiceShow = ({
             value={currentState.currency}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} days</Form.Label>
           <Form.Control
             type="text"
@@ -82,7 +82,7 @@ const ServiceShow = ({
             value={currentState.days}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} taxRate</Form.Label>
           <Form.Control
             type="text"
@@ -91,7 +91,7 @@ const ServiceShow = ({
             value={currentState.taxRate}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} freeTrialDays</Form.Label>
           <Form.Control
             type="text"
@@ -100,7 +100,7 @@ const ServiceShow = ({
             value={currentState.freeTrialDays}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} timezone</Form.Label>
           <Form.Control
             type="text"
@@ -109,7 +109,7 @@ const ServiceShow = ({
             value={currentState.timezone}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} notificationUrl</Form.Label>
           <Form.Control
             type="text"
@@ -118,7 +118,7 @@ const ServiceShow = ({
             value={currentState.notificationUrl}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} command</Form.Label>
           <Form.Control
             type="text"
@@ -127,7 +127,7 @@ const ServiceShow = ({
             value={currentState.command}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>operatorId</Form.Label>
           <Select
             options={operatorsArray}
@@ -137,7 +137,7 @@ const ServiceShow = ({
             placeholder="operator Id"
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} unsubUrl</Form.Label>
           <Form.Control
             type="text"
@@ -146,7 +146,7 @@ const ServiceShow = ({
             value={currentState.unsubUrl}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} frequency</Form.Label>
           <Form.Control
             type="text"
@@ -155,7 +155,7 @@ const ServiceShow = ({
             value={currentState.frequency}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} serviceUrl</Form.Label>
           <Form.Control
             type="text"
@@ -164,7 +164,7 @@ const ServiceShow = ({
             value={currentState.serviceUrl}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} sdpid</Form.Label>
           <Form.Control
             type="text"
@@ -173,7 +173,7 @@ const ServiceShow = ({
             value={currentState.sdpid}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} servicePassword</Form.Label>
           <Form.Control
             type="text"
@@ -182,7 +182,7 @@ const ServiceShow = ({
             value={currentState.servicePassword}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} host</Form.Label>
           <Form.Control
             type="text"
@@ -191,7 +191,7 @@ const ServiceShow = ({
             value={currentState.host}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} onDemand</Form.Label>
           <Form.Control
             type="text"
@@ -200,7 +200,7 @@ const ServiceShow = ({
             value={currentState.onDemand}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} aggregatorId</Form.Label>
           <Form.Control
             type="text"
@@ -209,7 +209,7 @@ const ServiceShow = ({
             value={currentState.aggregatorId}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} companyId</Form.Label>
           <Form.Control
             type="text"
@@ -218,7 +218,7 @@ const ServiceShow = ({
             value={currentState.companyId}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} connectionType</Form.Label>
           <Form.Control
             type="text"
@@ -227,7 +227,7 @@ const ServiceShow = ({
             value={currentState.connectionType}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} serviceKey</Form.Label>
           <Form.Control
             type="text"
@@ -236,7 +236,7 @@ const ServiceShow = ({
             value={currentState.serviceKey}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} makOperatorId</Form.Label>
           <Form.Control
             type="text"
@@ -245,7 +245,7 @@ const ServiceShow = ({
             value={currentState.makOperatorId}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} chargeCycle</Form.Label>
           <Form.Control
             type="text"
@@ -254,7 +254,7 @@ const ServiceShow = ({
             value={currentState.chargeCycle}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} ssid</Form.Label>
           <Form.Control
             type="text"
@@ -263,7 +263,7 @@ const ServiceShow = ({
             value={currentState.ssid}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} cancelKeyword</Form.Label>
           <Form.Control
             type="text"
@@ -272,7 +272,7 @@ const ServiceShow = ({
             value={currentState.cancelKeyword}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} ChargeWith</Form.Label>
           <Form.Control
             type="text"
@@ -281,7 +281,7 @@ const ServiceShow = ({
             value={currentState.ChargeWith}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} allocatedTPS</Form.Label>
           <Form.Control
             type="text"
@@ -290,7 +290,7 @@ const ServiceShow = ({
             value={currentState.allocatedTPS}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} shortCode</Form.Label>
           <Form.Control
             type="text"
@@ -299,7 +299,7 @@ const ServiceShow = ({
             value={currentState.shortCode}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} channelId</Form.Label>
           <Form.Control
             type="text"
@@ -308,7 +308,7 @@ const ServiceShow = ({
             value={currentState.channelId}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} keyword</Form.Label>
           <Form.Control
             type="text"
@@ -317,7 +317,7 @@ const ServiceShow = ({
             value={currentState.keyword}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} aliasName</Form.Label>
           <Form.Control
             type="text"
@@ -326,7 +326,7 @@ const ServiceShow = ({
             value={currentState.aliasName}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} shortName</Form.Label>
           <Form.Control
             type="text"
@@ -335,7 +335,7 @@ const ServiceShow = ({
             value={currentState.shortName}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} onDemandSms</Form.Label>
           <Form.Control
             type="number"
@@ -344,7 +344,7 @@ const ServiceShow = ({
             value={currentState.onDemandSms}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} otpBypass</Form.Label>
           <Form.Control
             type="text"
@@ -353,7 +353,7 @@ const ServiceShow = ({
             value={currentState.otpBypass}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} initialPrice</Form.Label>
           <Form.Control
             type="text"
@@ -362,7 +362,7 @@ const ServiceShow = ({
             value={currentState.initialPrice}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} otpEnabled</Form.Label>
           <Form.Control
             type="text"
@@ -371,7 +371,7 @@ const ServiceShow = ({
             value={currentState.otpEnabled}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} installmentTPS</Form.Label>
           <Form.Control
             type="number"
@@ -380,7 +380,7 @@ const ServiceShow = ({
             value={currentState.installmentTPS}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} renChargingCommand</Form.Label>
           <Form.Control
             type="text"

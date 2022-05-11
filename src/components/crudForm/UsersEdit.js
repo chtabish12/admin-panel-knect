@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form } from "react-bootstrap";
 import EditModel from "../model/EditModel";
 import Select from "react-select";
+import { toast } from "react-toastify";
 import "../../styles.css";
 
 const UsersEdit = ({
@@ -13,7 +14,6 @@ const UsersEdit = ({
   headerTable,
   operatorsArray,
 }) => {
-  
   const [data, setUser] = useState(currentState);
   const [operator, setOperator] = useState();
 
@@ -39,58 +39,73 @@ const UsersEdit = ({
         <form
           onSubmit={(event) => {
             event.preventDefault();
-
+            if (!operator) return toast("please select Operator");
             updateUser(data.id, data, operator.value);
           }}
         >
-          <Form.Group>
-            <Form.Label>{headerTable} uuid</Form.Label>
+          <Form.Group className="formgroup-space">
+            <Form.Label>
+              {headerTable} uuid<span className="asteric">*</span>
+            </Form.Label>
             <Form.Control
               type="text"
-              placeholder={headerTable}
+              placeholder={"XXXXX-XXXX-XX"}
               name="uuid"
               value={data.uuid}
               onChange={handleInputChange}
+              required
             />
           </Form.Group>
-          <Form.Group>
-            <Form.Label>{headerTable} msisdn</Form.Label>
+          <Form.Group className="formgroup-space">
+            <Form.Label>
+              {headerTable} msisdn<span className="asteric">*</span>
+            </Form.Label>
             <Form.Control
               type="text"
-              placeholder={headerTable}
+              placeholder={"03XXXXXXXX"}
               name="msisdn"
               value={data.msisdn}
               onChange={handleInputChange}
+              required
             />
           </Form.Group>
-          <Form.Group>
-            <Form.Label>operatorId</Form.Label>
+          <Form.Group className="formgroup-space">
+            <Form.Label>
+              operator<span className="asteric">*</span>
+            </Form.Label>
             <Select
               options={operatorsArray}
               value={operator}
               onChange={setOperator}
               labelledBy="operator"
-              placeholder="operator Id"
+              placeholder="select operator"
+              required
             />
           </Form.Group>
-          <Form.Group>
-            <Form.Label>{headerTable} EPTokenNumber</Form.Label>
+          <Form.Group className="formgroup-space">
+            <Form.Label>
+              {headerTable} EPTokenNumber<span className="asteric">*</span>
+            </Form.Label>
             <Form.Control
               type="text"
-              placeholder={headerTable}
+              placeholder={"XXXXX"}
               name="EPTokenNumber"
               value={data.EPTokenNumber}
               onChange={handleInputChange}
+              required
             />
           </Form.Group>
-          <Form.Group>
-            <Form.Label>{headerTable} Email</Form.Label>
+          <Form.Group className="formgroup-space">
+            <Form.Label>
+              {headerTable} Email<span className="asteric">*</span>
+            </Form.Label>
             <Form.Control
               type="email"
-              placeholder={headerTable}
+              placeholder={"abc@xyz.com"}
               name="Email"
               value={data.Email}
               onChange={handleInputChange}
+              required
             />
           </Form.Group>
           <button className="btn btn-primary model-footer">

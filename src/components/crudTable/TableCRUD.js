@@ -98,7 +98,7 @@ const TableCRUD = ({ initialTableData, column }) => {
   return (
     <>
       <Widget style={{ height: "80vh", width: "100%" }}>
-        <div style={{ height: "74vh", width: "100%" }}>
+        <div style={{ height: "76vh", width: "100%" }}>
           <DataGrid
             rows={rows}
             columns={column}

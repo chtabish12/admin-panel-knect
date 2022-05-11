@@ -40,12 +40,18 @@ const AdminUserAdd = ({
     let permissionArray = permission.filter(
       (attendee) => attendee.status === true
     );
-    permissiondata = permissionArray.map((going) => going.name);
+    if (!permissiondata) {
+      return toast("please verfify input fields");
+    } else permissiondata = permissionArray.map((going) => going.name);
     setUser({
       ...data,
       [name]: value,
       permissiondata,
     });
+    // setChecked(event.target.checked);
+  };
+
+  const handleCheckBoxChange = (event) => {
     setChecked(event.target.checked);
   };
 
@@ -63,7 +69,7 @@ const AdminUserAdd = ({
     newPermissions[index] = updatedPermissions; // insert/overwrite array object of the permission
     setPermission(newPermissions);
   };
-  
+
   return (
     <div>
       <AddModel headerTable={headerTable}>
@@ -77,53 +83,63 @@ const AdminUserAdd = ({
             MultiSelectIdCollect(partnersID, partners);
             MultiSelectIdCollect(operatorsID, operators);
             MultiSelectIdCollect(countryID, country);
-            if (!data.name) {
-              return toast("please verfify input fields");
+            if (!permissiondata.length) {
+              return toast("please add permissions");
+            } else {
+              addUser(data, permissiondata, partnersID, operatorsID, countryID);
+              setUser(initialFormState);
             }
-            addUser(data, permissiondata, partnersID, operatorsID, countryID);
-            setUser(initialFormState);
           }}
         >
-          <Form.Group>
-            <Form.Label>{headerTable} Name</Form.Label>
+          <Form.Group className="formgroup-space">
+            <Form.Label>
+              {headerTable} Name<span className="asteric">*</span>
+            </Form.Label>
             <Form.Control
               type="text"
-              placeholder={headerTable}
+              placeholder={"Xyz"}
               name="name"
               value={data.name}
               onChange={handleInputChange}
+              required
             />
           </Form.Group>
-          <Form.Group>
-            <Form.Label>{headerTable} Email</Form.Label>
+          <Form.Group className="formgroup-space">
+            <Form.Label>
+              {headerTable} Email<span className="asteric">*</span>
+            </Form.Label>
             <Form.Control
               type="email"
-              placeholder={headerTable}
+              placeholder={"abc@xyz.com"}
               name="email"
               value={data.email}
               onChange={handleInputChange}
+              required
             />
           </Form.Group>
-          <Form.Group>
-            <Form.Label>{headerTable} Password</Form.Label>
+          <Form.Group className="formgroup-space">
+            <Form.Label>
+              {headerTable} Password<span className="asteric">*</span>
+            </Form.Label>
             <Form.Control
               type="password"
-              placeholder={headerTable}
+              placeholder={"****"}
               name="password"
               value={data.password}
               onChange={handleInputChange}
+              required
             />
           </Form.Group>
-          <Form.Group>
+          <Form.Group className="formgroup-space">
             <Form.Label style={{ margin: "25px 5px", color: "red" }}>
               Is {headerTable}
             </Form.Label>
             <Checkbox
               checked={checked}
-              onChange={handleInputChange}
+              onChange={handleCheckBoxChange}
               inputProps={{ "aria-label": "controlled" }}
             />
-            {checked && (
+            {!checked && (
               <div className="multi-select-admin-block">
                 <Filters AdminUserFlag="true" />
                 <div className="multi-select-admin-block">
@@ -156,8 +172,10 @@ const AdminUserAdd = ({
               </div>
             )}
           </Form.Group>
-          <Form.Group>
-            <Form.Label>{headerTable} Permission</Form.Label>
+          <Form.Group className="formgroup-space">
+            <Form.Label>
+              {headerTable} Permission<span className="asteric">*</span>
+            </Form.Label>
             <FormGroup>
               {permission.map((permission, i) => {
                 return (
