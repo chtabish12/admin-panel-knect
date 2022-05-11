@@ -12,7 +12,7 @@ const CountryEdit = ({
   headerTable,
 }) => {
   const [data, setUser] = useState(currentState);
-  
+
   useEffect(() => {
     setUser(currentState);
   }, [editing, setEditing, currentState, updateUser]);
@@ -39,14 +39,17 @@ const CountryEdit = ({
             updateUser(data.id, data);
           }}
         >
-          <Form.Group>
-            <Form.Label>{headerTable} Name</Form.Label>
+          <Form.Group className="formgroup-space">
+            <Form.Label>
+              {headerTable} Name<span className="asteric">*</span>
+            </Form.Label>
             <Form.Control
               type="text"
-              placeholder={headerTable}
+              placeholder={"Xyz"}
               name="name"
               value={data.name}
               onChange={handleInputChange}
+              required
             />
           </Form.Group>
           <button className="btn btn-primary model-footer">

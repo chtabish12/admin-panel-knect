@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form } from "react-bootstrap";
 import Select from "react-select";
 import EditModel from "../model/EditModel";
+import { toast } from "react-toastify";
 import "../../styles.css";
 
 const ProductEdit = ({
@@ -11,9 +12,8 @@ const ProductEdit = ({
   updateUser,
   setFormShow,
   partnersArray,
-  headerTable
+  headerTable,
 }) => {
-  
   const [data, setUser] = useState(currentState);
   const [partner, setPartner] = useState();
 
@@ -30,35 +30,48 @@ const ProductEdit = ({
 
   return (
     <div>
-      <EditModel show="true" setFormShow={setFormShow} setEditing={setEditing} headerTable={headerTable}>
+      <EditModel
+        show="true"
+        setFormShow={setFormShow}
+        setEditing={setEditing}
+        headerTable={headerTable}
+      >
         <form
           onSubmit={(event) => {
             event.preventDefault();
-
+            if (!partner) return toast("please select Partner");
             updateUser(data.id, data, partner.value);
           }}
         >
-          <Form.Group>
-            <Form.Label>{headerTable} Name</Form.Label>
+          <Form.Group className="formgroup-space">
+            <Form.Label>
+              {headerTable} Name<span className="asteric">*</span>
+            </Form.Label>
             <Form.Control
               type="text"
-              placeholder={headerTable}
+              placeholder={"Xyz"}
               name="name"
               value={data.name}
               onChange={handleInputChange}
+              required
             />
           </Form.Group>
-          <Form.Group>
-            <Form.Label>Partner Id</Form.Label>
+          <Form.Group className="formgroup-space">
+            <Form.Label>
+              Partner<span className="asteric">*</span>
+            </Form.Label>
             <Select
               options={partnersArray}
               value={partner}
               onChange={setPartner}
               labelledBy="Partner"
-              placeholder="Partner Id"
+              placeholder="select partner"
+              required
             />
           </Form.Group>
-          <button className="btn btn-primary model-footer">Update {headerTable}</button>
+          <button className="btn btn-primary model-footer">
+            Update {headerTable}
+          </button>
           {/* <button
             onClick={() => {
               setEditing(false);

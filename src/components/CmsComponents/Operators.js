@@ -48,7 +48,14 @@ const Operators = ({
       flex: 1,
     },
     { field: "countryId", headerName: "CountryId", flex: 1 },
-    { field: "code", headerName: "Code", flex: 1 },
+    {
+      field: "code",
+      headerName: "Code",
+      flex: 1,
+      renderCell: (rowData) => {
+        return !rowData.value ? <span>-</span> : rowData.value;
+      },
+    },
     {
       field: "actions",
       type: "number",
@@ -77,7 +84,7 @@ const Operators = ({
       .then((resp) => {
         toast(resp.data);
       })
-      .catch((err) => toast(err));
+      .catch((err) => toast("Please Check your fields"));
 
     data.id = initialTableData.length + 1;
     setInitialTableData([...initialTableData, data]);
@@ -115,7 +122,7 @@ const Operators = ({
       countryId: data.countryId,
     });
   };
-  
+
   useEffect(() => {
     AdminPanelService.AllCountries()
       .then((resp) => {
@@ -128,7 +135,7 @@ const Operators = ({
           setCountryArray(Countries);
         }
       })
-      .catch((err) => toast(err));
+      .catch((err) => toast("Please Check your fields"));
   }, []);
 
   return (
@@ -140,26 +147,26 @@ const Operators = ({
               {editing && (
                 <Fragment>
                   <h5>Edit Operators</h5>
-                    <EditForm
-                      editing={editing}
-                      setEditing={setEditing}
-                      currentState={currentState}
-                      updateUser={updateUser}
-                      setFormShow={setFormShow}
-                      headerTable={headerTable}
-                      countryArray={countryArray}
-                    />
+                  <EditForm
+                    editing={editing}
+                    setEditing={setEditing}
+                    currentState={currentState}
+                    updateUser={updateUser}
+                    setFormShow={setFormShow}
+                    headerTable={headerTable}
+                    countryArray={countryArray}
+                  />
                 </Fragment>
               )}
             </Card>
           </div>
         )}
         <Fragment>
-            <AddForm
-              addUser={addUser}
-              headerTable={headerTable}
-              countryArray={countryArray}
-            />
+          <AddForm
+            addUser={addUser}
+            headerTable={headerTable}
+            countryArray={countryArray}
+          />
         </Fragment>
         <div className="col-12">
           <h5>{headerTable} CMS</h5>

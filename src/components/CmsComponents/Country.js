@@ -23,7 +23,7 @@ const Country = ({
     id: null,
     name: "",
   };
-  
+
   const columns = [
     { field: "id", headerName: "ID", flex: 1 },
     {
@@ -61,7 +61,7 @@ const Country = ({
       .then((resp) => {
         toast(resp.data);
       })
-      .catch((err) => toast(err));
+      .catch((err) => toast("Please Check your fields"));
 
     data.id = initialTableData.length + 1;
     setInitialTableData([...initialTableData, data]);
@@ -76,9 +76,7 @@ const Country = ({
       .then((resp) => {
         toast(resp.data);
       })
-      .catch((err) => {
-        toast(err);
-      });
+      .catch((err) => toast("Please Check your fields"));
     setFormShow(false);
     setInitialTableData(
       initialTableData.map((data) => (data.id === id ? updatedUser : data))

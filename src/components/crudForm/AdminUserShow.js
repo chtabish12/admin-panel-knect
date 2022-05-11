@@ -57,7 +57,7 @@ const AdminUserShow = ({
         setView={setView}
         headerTable={headerTable}
       >
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} Name</Form.Label>
           <Form.Control
             type="text"
@@ -66,7 +66,7 @@ const AdminUserShow = ({
             value={data.name}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} Email</Form.Label>
           <Form.Control
             type="email"
@@ -75,16 +75,16 @@ const AdminUserShow = ({
             value={data.email}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} Password</Form.Label>
           <Form.Control
-            type="password"
+            type="text"
             placeholder={headerTable}
             name="password"
             value={data.password}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} is Admin</Form.Label>
           <Form.Control
             type="number"
@@ -93,7 +93,7 @@ const AdminUserShow = ({
             value={data.isAdmin}
           />
         </Form.Group>
-        <Form.Group>
+        <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} Permission</Form.Label>
           <FormGroup>
             {permission.map((permission, i) => {

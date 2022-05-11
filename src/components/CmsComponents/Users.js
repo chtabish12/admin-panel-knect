@@ -44,8 +44,22 @@ const Users = ({
       // ),
     },
     { field: "msisdn", headerName: "Msisdn", flex: 1 },
-    { field: "Email", headerName: "Email", flex: 1 },
-    { field: "operatorId", headerName: "OperatorId", flex: 1 },
+    {
+      field: "Email",
+      headerName: "Email",
+      flex: 1,
+      renderCell: (rowData) => {
+        return !rowData.value ? <span>-</span> : rowData.value;
+      },
+    },
+    {
+      field: "operatorId",
+      headerName: "OperatorId",
+      flex: 1,
+      renderCell: (rowData) => {
+        return !rowData.value ? <span>-</span> : rowData.value;
+      },
+    },
     {
       field: "actions",
       type: "number",
@@ -75,7 +89,7 @@ const Users = ({
       .then((resp) => {
         toast(resp.data);
       })
-      .catch((err) => toast(err));
+      .catch((err) => toast("Please Check your fields"));
 
     data.id = initialTableData.length + 1;
     setInitialTableData([...initialTableData, data]);
@@ -94,9 +108,7 @@ const Users = ({
       .then((resp) => {
         toast(resp.data);
       })
-      .catch((err) => {
-        toast(err);
-      });
+      .catch((err) => toast("Please Check your fields"));
     setFormShow(false);
     setInitialTableData(
       initialTableData.map((data) => (data.id === id ? updatedUser : data))
@@ -116,7 +128,7 @@ const Users = ({
       Email: data.Email,
     });
   };
-  
+
   useEffect(() => {
     AdminPanelService.AllOperators()
       .then((resp) => {

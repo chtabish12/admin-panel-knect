@@ -170,7 +170,7 @@ const Service = ({
       .then((resp) => {
         toast(resp.data);
       })
-      .catch((err) => toast(err));
+      .catch((err) => toast("Please Check your fields"));
 
     data.id = initialTableData.length + 1;
     setInitialTableData([...initialTableData, data]);
@@ -232,9 +232,7 @@ const Service = ({
       .then((resp) => {
         toast(resp.data);
       })
-      .catch((err) => {
-        toast(err);
-      });
+      .catch((err) => toast("Please Check your fields"));
     setFormShow(false);
     setInitialTableData(
       initialTableData.map((data) => (data.id === id ? updatedUser : data))

@@ -39,14 +39,15 @@ const ServiceBlock = ({
             blockSerive(data.id, data);
           }}
         >
-          <Form.Group>
-            <Form.Label>{headerTable} Block</Form.Label>
+          <Form.Group className="formgroup-space">
+            <Form.Label>{headerTable} Block<span className="asteric">*</span></Form.Label>
             <Form.Control
               type="number"
               placeholder="status"
               name="status"
               value={data.status}
               onChange={handleInputChange}
+              required
             />
           </Form.Group>
           <button className="btn btn btn-danger model-footer">
