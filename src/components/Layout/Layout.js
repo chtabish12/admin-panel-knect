@@ -26,7 +26,7 @@ import AdminCMS from "../../pages/CMS/AdminCMS";
 import PartnersCMS from "../../pages/CMS/PartnersCMS";
 import ProductsCMS from "../../pages/CMS/ProductsCMS";
 import ServicesCMS from "../../pages/CMS/ServicesCMS";
-import UserCMS from "../../pages/CMS/UserCMS";
+// import UserCMS from "../../pages/CMS/UserCMS";
 import OperatorCMS from "../../pages/CMS/OperatorCMS";
 import CountryCMS from "../../pages/CMS/CountryCMS";
 
@@ -133,13 +133,13 @@ function Layout(props) {
         component: <AdminCMS />,
       });
     }
-    if (ele === "Users") {
-      administrationSubMenus.children.push({
-        label: "Users CMS",
-        link: "/app/administration/usersCMS",
-        component: <UserCMS />,
-      });
-    }
+    // if (ele === "Users") {
+    //   administrationSubMenus.children.push({
+    //     label: "Users CMS",
+    //     link: "/app/administration/usersCMS",
+    //     component: <UserCMS />,
+    //   });
+    // }
     if (ele === "Products") {
       administrationSubMenus.children.push({
         label: "Products CMS",
