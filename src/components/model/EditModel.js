@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 const EditModel = (props) => {
   const handleClose = () => {
@@ -20,17 +19,6 @@ const EditModel = (props) => {
           <Modal.Title>{props.headerTable}</Modal.Title>
         </Modal.Header>
         {props.children}
-        <Modal.Footer>
-          <Button
-            variant="secondary"
-            onClick={() => {
-              props.setFormShow(false);
-              props.setEditing(false);
-            }}
-          >
-            Close
-          </Button>
-        </Modal.Footer>
       </Modal>
     </div>
   );

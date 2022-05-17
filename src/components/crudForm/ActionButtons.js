@@ -3,6 +3,7 @@ import { IconButton } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import { Block } from "@material-ui/icons";
+import Tooltip from "@mui/material/Tooltip";
 
 const ActionButtons = ({
   initialTableData,
@@ -19,7 +20,9 @@ const ActionButtons = ({
           editRow(initialTableData);
         }}
       >
-        <EditIcon color="secondary" />
+        <Tooltip title="Edit">
+          <EditIcon color="secondary" />
+        </Tooltip>
       </IconButton>
       {serviceFlag && (
         <>
@@ -28,14 +31,18 @@ const ActionButtons = ({
               blockRow(initialTableData);
             }}
           >
-            <Block color="secondary" />
+            <Tooltip title="block">
+              <Block color="secondary" />
+            </Tooltip>
           </IconButton>
           <IconButton
             onClick={() => {
               showRow(initialTableData);
             }}
           >
-            <VisibilityIcon color="primary" />
+            <Tooltip title="view">
+              <VisibilityIcon color="primary" />
+            </Tooltip>
           </IconButton>
         </>
       )}
@@ -46,7 +53,9 @@ const ActionButtons = ({
               showRow(initialTableData);
             }}
           >
-            <VisibilityIcon color="primary" />
+            <Tooltip title="view">
+              <VisibilityIcon color="primary" />
+            </Tooltip>
           </IconButton>
         </>
       )}

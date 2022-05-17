@@ -27,7 +27,7 @@ const Product = ({
   };
   const [partnersArray, setPartnersArray] = useState([]);
   const [currentState, setCurrentState] = useState(initialFormState);
-
+  const [show, setShow] = useState(false);
   let partners = [];
   const columns = [
     { field: "id", headerName: "ID", flex: 1 },
@@ -76,6 +76,7 @@ const Product = ({
     AdminPanelService.AddProducts(request)
       .then((resp) => {
         toast(resp.data);
+        setShow(false);
       })
       .catch((err) => toast("Please Check your fields"));
 
@@ -159,6 +160,8 @@ const Product = ({
             addUser={addUser}
             partnersArray={partnersArray}
             headerTable={headerTable}
+            show={show}
+            setShow={setShow}
           />{" "}
         </Fragment>
         <div className="col-12">

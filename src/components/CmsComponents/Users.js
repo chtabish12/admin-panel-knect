@@ -74,6 +74,7 @@ const Users = ({
 
   const [operatorsArray, setOperatorsArray] = useState([]);
   const [currentState, setCurrentState] = useState(initialFormState);
+  const [show, setShow] = useState(false);
   let operators = [];
   // CRUD operations
   const addUser = (data, operatorID) => {
@@ -88,6 +89,7 @@ const Users = ({
     AdminPanelService.AddUser(request)
       .then((resp) => {
         toast(resp.data);
+        setShow(false);
       })
       .catch((err) => toast("Please Check your fields"));
 
@@ -172,6 +174,8 @@ const Users = ({
             addUser={addUser}
             headerTable={headerTable}
             operatorsArray={operatorsArray}
+            show={show}
+            setShow={setShow}
           />{" "}
         </Fragment>
         <div className="col-12">

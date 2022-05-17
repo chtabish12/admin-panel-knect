@@ -84,6 +84,7 @@ const Admin = ({
   const [partners, setPartners] = useState([]);
   const [operators, setOperators] = useState([]);
   const [country, setCountry] = useState([]);
+  const [show, setShow] = useState(false);
   // Arrays initialization
   let partnersArray = [];
   let operatorsArray = [];
@@ -95,7 +96,6 @@ const Admin = ({
   const addUser = (data, permissiondata, partners, operators, country) => {
     let adminUserAccessArray = [];
     let loopLength;
-    console.log(permissiondata);
     if (permissiondata.length) {
       let productLength = productID.split(",").length;
       let serviceLength = serviceID.split(",").length;
@@ -140,6 +140,7 @@ const Admin = ({
     AdminPanelService.AddAdminUser(request)
       .then((resp) => {
         toast(resp.data);
+        setShow(false);
       })
       .catch((err) => toast("Please Check your fields"));
 
@@ -291,6 +292,8 @@ const Admin = ({
             partnersArray={partners}
             operatorsArray={operators}
             countryArray={country}
+            show={show}
+            setShow={setShow}
           />
         </Fragment>
         <div className="col-12">

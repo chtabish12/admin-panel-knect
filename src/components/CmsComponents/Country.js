@@ -52,6 +52,7 @@ const Country = ({
   ];
 
   const [currentState, setCurrentState] = useState(initialFormState);
+  const [show, setShow] = useState(false);
   // CRUD operations
   const addUser = (data) => {
     const request = {
@@ -60,6 +61,7 @@ const Country = ({
     AdminPanelService.AddCountry(request)
       .then((resp) => {
         toast(resp.data);
+        setShow(false);
       })
       .catch((err) => toast("Please Check your fields"));
 
@@ -116,7 +118,12 @@ const Country = ({
           </div>
         )}
         <Fragment>
-          <AddForm addUser={addUser} headerTable={headerTable} />{" "}
+          <AddForm
+            addUser={addUser}
+            headerTable={headerTable}
+            show={show}
+            setShow={setShow}
+          />{" "}
         </Fragment>
         <div className="col-12">
           <h5>{headerTable} CMS</h5>

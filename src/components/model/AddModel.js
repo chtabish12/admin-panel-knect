@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 const AddModel = (props) => {
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = () => props.setShow(true);
+  const handleClose = () => props.setShow(false);
 
   return (
     <div>
@@ -15,7 +13,7 @@ const AddModel = (props) => {
         </Button>
       </div>
       <Modal
-        show={show}
+        show={props.show}
         onHide={handleClose}
         dialogClassName="model"
         aria-labelledby="example-custom-modal-styling-title"
@@ -24,11 +22,6 @@ const AddModel = (props) => {
           <Modal.Title>Add new {props.headerTable}</Modal.Title>
         </Modal.Header>
         {props.children}
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-        </Modal.Footer>
       </Modal>
     </div>
   );

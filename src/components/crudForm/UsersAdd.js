@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import AddModel from "../model/AddModel";
+import { Button } from "react-bootstrap";
 import Select from "react-select";
 import { toast } from "react-toastify";
 import "../../styles.css";
 
-const UsersAdd = ({ addUser, headerTable, operatorsArray }) => {
+const UsersAdd = ({ addUser, headerTable, operatorsArray, show, setShow }) => {
   const [data, setUser] = useState(0);
   const [operator, setOperator] = useState(0);
 
@@ -22,9 +23,11 @@ const UsersAdd = ({ addUser, headerTable, operatorsArray }) => {
     setUser({ ...data, [name]: value, operator });
   };
 
+  const handleClose = () => setShow(false);
+
   return (
     <div>
-      <AddModel headerTable={headerTable}>
+      <AddModel headerTable={headerTable} show={show} setShow={setShow}>
         <form
           onSubmit={(event) => {
             event.preventDefault();
@@ -98,9 +101,12 @@ const UsersAdd = ({ addUser, headerTable, operatorsArray }) => {
               required
             />
           </Form.Group>
-          <button className="btn btn-primary model-footer">
-            Add new {headerTable}
-          </button>
+          <div className="button-footer">
+            <Button variant="danger" onClick={handleClose}>
+              Close
+            </Button>
+            <Button type="submit" className="btn btn-primary model-footer"  style={{width:"70px"}}>Add</Button>
+          </div>
         </form>
       </AddModel>
     </div>

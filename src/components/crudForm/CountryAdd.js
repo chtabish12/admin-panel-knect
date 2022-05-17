@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import AddModel from "../model/AddModel";
+import { Button } from "react-bootstrap";
 import "../../styles.css";
 
-const CountryAdd = ({ addUser, headerTable }) => {
+const CountryAdd = ({ addUser, headerTable, show, setShow }) => {
   const [data, setUser] = useState(0);
   const initialFormState = {
     id: null,
@@ -14,9 +15,11 @@ const CountryAdd = ({ addUser, headerTable }) => {
     setUser({ ...data, [name]: value });
   };
 
+  const handleClose = () => setShow(false);
+
   return (
     <div>
-      <AddModel headerTable={headerTable}>
+      <AddModel headerTable={headerTable} show={show} setShow={setShow}>
         <form
           onSubmit={(event) => {
             event.preventDefault();
@@ -26,7 +29,9 @@ const CountryAdd = ({ addUser, headerTable }) => {
           }}
         >
           <Form.Group className="formgroup-space">
-            <Form.Label>{headerTable} Name<span className="asteric">*</span></Form.Label>
+            <Form.Label>
+              {headerTable} Name<span className="asteric">*</span>
+            </Form.Label>
             <Form.Control
               type="text"
               placeholder={"Xyz"}
@@ -36,9 +41,12 @@ const CountryAdd = ({ addUser, headerTable }) => {
               required
             />
           </Form.Group>
-          <button className="btn btn-primary model-footer">
-            Add new {headerTable}
-          </button>
+          <div className="button-footer">
+            <Button variant="danger" onClick={handleClose}>
+              Close
+            </Button>
+            <Button type="submit" className="btn btn-primary model-footer"  style={{width:"70px"}}>Add</Button>
+          </div>
         </form>
       </AddModel>
     </div>
