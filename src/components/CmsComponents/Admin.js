@@ -100,7 +100,7 @@ const Admin = ({
   const addUser = (data, permissiondata, partners, operators, country) => {
     let adminUserAccessArray = [];
     let loopLength;
-    if (permissiondata.length) {
+    if (!checked) {
       let productLength = productID.split(",").length;
       let serviceLength = serviceID.split(",").length;
       let operatorLength = operators.length;
