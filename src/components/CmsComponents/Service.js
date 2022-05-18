@@ -24,6 +24,9 @@ const Service = ({
   setBlocking,
   view,
   setView,
+  page,
+  setPage,
+  rowCounts,
 }) => {
   // Setting state
   const initialFormState = {
@@ -457,6 +460,9 @@ const Service = ({
               blockSerive={blockSerive}
               column={columns}
               serviceFlag={serviceFlag}
+              page={page}
+              setPage={setPage}
+              rowCounts={rowCounts}
               // deleteUser={deleteUser}
             />{" "}
           </Suspense>

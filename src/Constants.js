@@ -41,7 +41,6 @@ export const BLOCK_SERVICE = `service/block/`;
 export const ADD_SERVICE = `service/add`;
 export const UPDATE_SERVICE = `service/edit/`;
 export const GET_SERVICE_BY_ID = `service/`;
-export const PARTNER_ALL = `partner/all`;
 export const GET_PARTNER_BY_ID = `partner/`;
 export const ADD_PARTNER = `partner/add`;
 export const EDIT_PARTNER = `partner/edit/`;

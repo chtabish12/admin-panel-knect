@@ -12,13 +12,16 @@ const PartnersCMS = () => {
   const [initialTableData, setInitialTableData] = useState();
   const [editing, setEditing] = useState(false);
   const [formShow, setFormShow] = useState(false);
+  const [page, setPage] = useState(0);
+  const [rowCounts, setRowCount] = useState(0);
 
   const fetchData = () => {
-    AdminPanelService.AllPartnersData()
+    AdminPanelService.AllPartners(page)
       .then((resp) => {
+        setRowCount(resp.data.count);
         // eslint-disable-next-line
-        if (resp.statusText == "OK" && resp.data.length) {
-          setInitialTableData(resp.data);
+        if (resp.statusText == "OK" && resp.data.partners.length) {
+          setInitialTableData(resp.data.partners);
         } else {
           toast(NO_DATA);
         }
@@ -29,8 +32,8 @@ const PartnersCMS = () => {
   useEffect(() => {
     fetchData();
     // eslint-disable-next-line
-  }, []);
-  
+  }, [setPage, page]);
+
   return (
     <>
       <Grid container spacing={2}>
@@ -44,8 +47,10 @@ const PartnersCMS = () => {
               setFormShow={setFormShow}
               initialTableData={initialTableData}
               setInitialTableData={setInitialTableData}
-              // column={column}
               productFlag={productFlag}
+              page={page}
+              setPage={setPage}
+              rowCounts={rowCounts}
             />
           )}
         </Grid>

@@ -68,7 +68,7 @@ QuickSearchToolbar.propTypes = {
   value: PropTypes.string.isRequired,
 };
 
-const TableCRUD = ({ initialTableData, column }) => {
+const TableCRUD = ({ initialTableData, column, page, setPage, rowCounts }) => {
   const [searchText, setSearchText] = React.useState("");
   const [rows, setRows] = useState(initialTableData);
 
@@ -100,10 +100,15 @@ const TableCRUD = ({ initialTableData, column }) => {
       <Widget style={{ height: "80vh", width: "100%" }}>
         <div style={{ height: "76vh", width: "100%" }}>
           <DataGrid
+            page={page}
+            onPageChange={(newPage) => setPage(newPage)}
             rows={rows}
             columns={column}
-            pageSize={11}
-            rowsPerPageOptions={[11]}
+            rowCount={rowCounts}
+            pageSize={10}
+            paginationMode="server"
+            rowsPerPageOptions={[10]}
+            pagination
             components={{
               Toolbar: QuickSearchToolbar,
               // Toolbar: CustomToolbar,

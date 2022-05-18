@@ -17,6 +17,9 @@ const Users = ({
   setInitialTableData,
   setEditing,
   setFormShow,
+  page,
+  setPage,
+  rowCounts,
 }) => {
   // Setting state
   const initialFormState = {
@@ -191,6 +194,9 @@ const Users = ({
               initialTableData={initialTableData}
               editRow={editRow}
               column={columns}
+              page={page}
+              setPage={setPage}
+              rowCounts={rowCounts}
             />{" "}
           </Suspense>
         </div>

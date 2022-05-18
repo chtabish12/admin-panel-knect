@@ -21,6 +21,9 @@ const Admin = ({
   setInitialTableData,
   setEditing,
   setFormShow,
+  page,
+  setPage,
+  rowCounts,
 }) => {
   // Setting state
   const initialFormState = {
@@ -305,7 +308,13 @@ const Admin = ({
               </div>
             }
           >
-            <TableCRUD initialTableData={initialTableData} column={columns} />
+            <TableCRUD
+              initialTableData={initialTableData}
+              column={columns}
+              page={page}
+              setPage={setPage}
+              rowCounts={rowCounts}
+            />
           </Suspense>
         </div>
       </div>

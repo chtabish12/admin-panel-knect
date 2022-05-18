@@ -17,6 +17,9 @@ const Partners = ({
   setInitialTableData,
   setEditing,
   setFormShow,
+  page,
+  setPage,
+  rowCounts,
 }) => {
   // Setting state
   const initialFormState = {
@@ -171,6 +174,9 @@ const Partners = ({
               initialTableData={initialTableData}
               editRow={editRow}
               column={columns}
+              page={page}
+              setPage={setPage}
+              rowCounts={rowCounts}
             />{" "}
           </Suspense>
         </div>

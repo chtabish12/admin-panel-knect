@@ -16,7 +16,6 @@ import {
   ADD_SERVICE,
   UPDATE_SERVICE,
   GET_SERVICE_BY_ID,
-  PARTNER_ALL,
   GET_PARTNER_BY_ID,
   ADD_PARTNER,
   OPERATOR_ALL,
@@ -36,7 +35,7 @@ import {
   GET_ADMIN_USER_BY_ID,
   ADD_USER,
   EDIT_USER,
-  GET_PRODUCT_BY_ID
+  GET_PRODUCT_BY_ID,
 } from "../Constants";
 
 import axios from "axios";
@@ -45,7 +44,6 @@ export const AdminPanelService = {
   Login: async (request) => {
     const url = `${BASE_URL}${LOGIN_URL}`;
     return axios.post(url, request);
-    
   },
   MainDashBoard: async (productIds, startDate, endDate, interval, region) => {
     const url = `${BASE_URL}${MAIN_DASHBOARD_URL}`;
@@ -79,11 +77,14 @@ export const AdminPanelService = {
       },
     });
   },
-  Service: async () => {
+  Service: async (page) => {
     const url = `${BASE_URL}${SERVICES_URL}`;
     return axios.get(url, {
       headers: {
         token: sessionStorage.getItem("token-user"),
+      },
+      params: {
+        pageNo: page,
       },
     });
   },
@@ -123,11 +124,14 @@ export const AdminPanelService = {
       },
     });
   },
-  AllProducts: async () => {
+  AllProducts: async (page) => {
     const url = `${BASE_URL}${ALL_PRODUCTS}`;
     return axios.get(url, {
       headers: {
         token: sessionStorage.getItem("token-user"),
+      },
+      params: {
+        pageNo: page,
       },
     });
   },
@@ -156,19 +160,25 @@ export const AdminPanelService = {
     });
   },
 
-  AllPartners: async () => {
+  AllPartners: async (page) => {
     const url = `${BASE_URL}${ALL_PARTNERS}`;
     return axios.get(url, {
       headers: {
         token: sessionStorage.getItem("token-user"),
       },
+      params: {
+        pageNo: page,
+      },
     });
   },
-  AllServices: async () => {
+  AllServices: async (page) => {
     const url = `${BASE_URL}${ALL_SERVICES}`;
     return axios.get(url, {
       headers: {
         token: sessionStorage.getItem("token-user"),
+      },
+      params: {
+        pageNo: page,
       },
     });
   },
@@ -204,14 +214,6 @@ export const AdminPanelService = {
       },
     });
   },
-  AllPartnersData: async () => {
-    const url = `${BASE_URL}${PARTNER_ALL}`;
-    return axios.get(url, {
-      headers: {
-        token: sessionStorage.getItem("token-user"),
-      },
-    });
-  },
   GetPartnerById: async (id) => {
     const url = `${BASE_URL}${GET_PARTNER_BY_ID}${id}`;
     return axios.get(url, {
@@ -236,11 +238,14 @@ export const AdminPanelService = {
       },
     });
   },
-  AllOperators: async () => {
+  AllOperators: async (page) => {
     const url = `${BASE_URL}${OPERATOR_ALL}`;
     return axios.get(url, {
       headers: {
         token: sessionStorage.getItem("token-user"),
+      },
+      params: {
+        pageNo: page,
       },
     });
   },
@@ -268,11 +273,14 @@ export const AdminPanelService = {
       },
     });
   },
-  AllCountries: async () => {
+  AllCountries: async (page) => {
     const url = `${BASE_URL}${ALL_COUNTRIES}`;
     return axios.get(url, {
       headers: {
         token: sessionStorage.getItem("token-user"),
+      },
+      params: {
+        pageNo: page,
       },
     });
   },
@@ -300,11 +308,14 @@ export const AdminPanelService = {
       },
     });
   },
-  AllAdminUsers: async () => {
+  AllAdminUsers: async (page) => {
     const url = `${BASE_URL}${ALL_ADMIN_USERS}`;
     return axios.get(url, {
       headers: {
         token: sessionStorage.getItem("token-user"),
+      },
+      params: {
+        pageNo: page,
       },
     });
   },
@@ -332,11 +343,14 @@ export const AdminPanelService = {
       },
     });
   },
-  AllUsers: async () => {
+  AllUsers: async (page) => {
     const url = `${BASE_URL}${ALL_USERS}`;
     return axios.get(url, {
       headers: {
         token: sessionStorage.getItem("token-user"),
+      },
+      params: {
+        pageNo: page,
       },
     });
   },

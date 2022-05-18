@@ -17,6 +17,9 @@ const Product = ({
   setInitialTableData,
   setEditing,
   setFormShow,
+  page,
+  setPage,
+  rowCounts,
 }) => {
   // Setting state
   const initialFormState = {
@@ -177,6 +180,9 @@ const Product = ({
               initialTableData={initialTableData}
               editRow={editRow}
               column={columns}
+              page={page}
+              setPage={setPage}
+              rowCounts={rowCounts}
             />{" "}
           </Suspense>
         </div>

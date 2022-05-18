@@ -6,7 +6,6 @@ import { NO_DATA } from "../../helper/Helper";
 import { toast } from "react-toastify";
 
 const ServicesCMS = () => {
-  const column = ["id", "name"];
   const serviceFlag = "true";
   // Setting state
   const [initialTableData, setInitialTableData] = useState();
@@ -14,13 +13,16 @@ const ServicesCMS = () => {
   const [view, setView] = useState(false);
   const [blocking, setBlocking] = useState(false);
   const [formShow, setFormShow] = useState(false);
+  const [page, setPage] = useState(0);
+  const [rowCounts, setRowCount] = useState(0);
 
   const fetchData = () => {
-    AdminPanelService.AllServices()
+    AdminPanelService.AllServices(page)
       .then((resp) => {
+        setRowCount(resp.data.count);
         // eslint-disable-next-line
-        if (resp.statusText == "OK" && resp.data.length) {
-          setInitialTableData(resp.data);
+        if (resp.statusText == "OK" && resp.data.services.length) {
+          setInitialTableData(resp.data.services);
         } else {
           toast(NO_DATA);
         }
@@ -31,7 +33,7 @@ const ServicesCMS = () => {
   useEffect(() => {
     fetchData();
     // eslint-disable-next-line
-  }, []);
+  }, [setPage, page]);
 
   return (
     <>
@@ -48,10 +50,12 @@ const ServicesCMS = () => {
               setFormShow={setFormShow}
               initialTableData={initialTableData}
               setInitialTableData={setInitialTableData}
-              column={column}
               serviceFlag={serviceFlag}
               view={view}
               setView={setView}
+              page={page}
+              setPage={setPage}
+              rowCounts={rowCounts}
             />
           )}
         </Grid>

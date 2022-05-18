@@ -10,13 +10,16 @@ const CountryCMS = () => {
   const [initialTableData, setInitialTableData] = useState();
   const [editing, setEditing] = useState(false);
   const [formShow, setFormShow] = useState(false);
+  const [page, setPage] = useState(0);
+  const [rowCounts, setRowCount] = useState(0);
 
   const fetchData = () => {
-    AdminPanelService.AllCountries()
+    AdminPanelService.AllCountries(page)
       .then((resp) => {
+        setRowCount(resp.data.count);
         // eslint-disable-next-line
-        if (resp.statusText == "OK" && resp.data.length) {
-          setInitialTableData(resp.data);
+        if (resp.statusText == "OK" && resp.data.countries.length) {
+          setInitialTableData(resp.data.countries);
         } else {
           toast(NO_DATA);
         }
@@ -27,8 +30,8 @@ const CountryCMS = () => {
   useEffect(() => {
     fetchData();
     // eslint-disable-next-line
-  }, []);
-  
+  }, [setPage, page]);
+
   return (
     <>
       <Grid container spacing={2}>
@@ -42,6 +45,9 @@ const CountryCMS = () => {
               setFormShow={setFormShow}
               initialTableData={initialTableData}
               setInitialTableData={setInitialTableData}
+              page={page}
+              setPage={setPage}
+              rowCounts={rowCounts}
             />
           )}
         </Grid>
