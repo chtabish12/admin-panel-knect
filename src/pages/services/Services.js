@@ -100,10 +100,10 @@ export default function ServicesPage() {
     AdminPanelService.Service(page)
       .then((resp) => {
         setRowCount(resp.data.totalCount);
-        setIsLoading(false);
         if (resp.data.services.length) {
           const test = _.orderBy(resp.data.services, "id", ["asc"]);
           setState(test);
+          setIsLoading(false);
         } else {
           return toast(NO_DATA);
         }
@@ -128,6 +128,7 @@ export default function ServicesPage() {
               page={page}
               setPage={setPage}
               rowCounts={rowCounts}
+              isLoading={isLoading}
             />
           )}
           {isLoading && (

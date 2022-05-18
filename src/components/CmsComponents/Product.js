@@ -20,6 +20,7 @@ const Product = ({
   page,
   setPage,
   rowCounts,
+  isLoading,
 }) => {
   // Setting state
   const initialFormState = {
@@ -121,7 +122,7 @@ const Product = ({
   };
 
   useEffect(() => {
-    AdminPanelService.AllPartners()
+    AdminPanelService.Partners()
       .then((resp) => {
         // eslint-disable-next-line
         if (resp.statusText == "OK" && resp.data.length) {
@@ -183,6 +184,7 @@ const Product = ({
               page={page}
               setPage={setPage}
               rowCounts={rowCounts}
+              isLoading={isLoading}
             />{" "}
           </Suspense>
         </div>

@@ -68,7 +68,14 @@ QuickSearchToolbar.propTypes = {
   value: PropTypes.string.isRequired,
 };
 
-const TableCRUD = ({ initialTableData, column, page, setPage, rowCounts }) => {
+const TableCRUD = ({
+  initialTableData,
+  column,
+  page,
+  setPage,
+  rowCounts,
+  isLoading,
+}) => {
   const [searchText, setSearchText] = React.useState("");
   const [rows, setRows] = useState(initialTableData);
 
@@ -109,6 +116,7 @@ const TableCRUD = ({ initialTableData, column, page, setPage, rowCounts }) => {
             paginationMode="server"
             rowsPerPageOptions={[10]}
             pagination
+            loading={isLoading}
             components={{
               Toolbar: QuickSearchToolbar,
               // Toolbar: CustomToolbar,

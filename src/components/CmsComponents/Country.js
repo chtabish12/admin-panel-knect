@@ -20,6 +20,7 @@ const Country = ({
   page,
   setPage,
   rowCounts,
+  isLoading,
 }) => {
   // Setting state
   const initialFormState = {
@@ -144,6 +145,7 @@ const Country = ({
               page={page}
               setPage={setPage}
               rowCounts={rowCounts}
+              isLoading={isLoading}
             />{" "}
           </Suspense>
         </div>

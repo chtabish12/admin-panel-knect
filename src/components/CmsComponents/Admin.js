@@ -24,6 +24,7 @@ const Admin = ({
   page,
   setPage,
   rowCounts,
+  isLoading,
 }) => {
   // Setting state
   const initialFormState = {
@@ -314,6 +315,7 @@ const Admin = ({
               page={page}
               setPage={setPage}
               rowCounts={rowCounts}
+              isLoading={isLoading}
             />
           </Suspense>
         </div>

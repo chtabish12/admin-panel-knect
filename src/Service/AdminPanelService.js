@@ -11,6 +11,7 @@ import {
   ADD_PRODUCTS,
   UPDATE_PRODUCTS,
   ALL_PARTNERS,
+  PARTNERS,
   ALL_SERVICES,
   BLOCK_SERVICE,
   ADD_SERVICE,
@@ -19,11 +20,13 @@ import {
   GET_PARTNER_BY_ID,
   ADD_PARTNER,
   OPERATOR_ALL,
+  OPERATOR,
   GET_OPERATOR_BY_ID,
   ADD_OPERATOR,
   EDIT_PARTNER,
   EDIT_Operator,
   ALL_COUNTRIES,
+  COUNTRIES,
   ADD_COUNTRY,
   EDIT_COUNTRY,
   GET_COUNTRY_BY_ID,
@@ -171,6 +174,15 @@ export const AdminPanelService = {
       },
     });
   },
+
+  Partners: async () => {
+    const url = `${BASE_URL}${PARTNERS}`;
+    return axios.get(url, {
+      headers: {
+        token: sessionStorage.getItem("token-user"),
+      },
+    });
+  },
   AllServices: async (page) => {
     const url = `${BASE_URL}${ALL_SERVICES}`;
     return axios.get(url, {
@@ -249,6 +261,14 @@ export const AdminPanelService = {
       },
     });
   },
+  Operators: async () => {
+    const url = `${BASE_URL}${OPERATOR}`;
+    return axios.get(url, {
+      headers: {
+        token: sessionStorage.getItem("token-user"),
+      },
+    });
+  },
   GetOperatorById: async (id) => {
     const url = `${BASE_URL}${GET_OPERATOR_BY_ID}${id}`;
     return axios.get(url, {
@@ -281,6 +301,14 @@ export const AdminPanelService = {
       },
       params: {
         pageNo: page,
+      },
+    });
+  },
+  Countries: async () => {
+    const url = `${BASE_URL}${COUNTRIES}`;
+    return axios.get(url, {
+      headers: {
+        token: sessionStorage.getItem("token-user"),
       },
     });
   },

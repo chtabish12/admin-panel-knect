@@ -20,6 +20,7 @@ const Partners = ({
   page,
   setPage,
   rowCounts,
+  isLoading,
 }) => {
   // Setting state
   const initialFormState = {
@@ -177,6 +178,7 @@ const Partners = ({
               page={page}
               setPage={setPage}
               rowCounts={rowCounts}
+              isLoading={isLoading}
             />{" "}
           </Suspense>
         </div>

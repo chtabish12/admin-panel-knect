@@ -20,6 +20,7 @@ const Operators = ({
   page,
   setPage,
   rowCounts,
+  isLoading,
 }) => {
   // Setting state
   const initialFormState = {
@@ -129,7 +130,7 @@ const Operators = ({
   };
 
   useEffect(() => {
-    AdminPanelService.AllCountries()
+    AdminPanelService.Countries()
       .then((resp) => {
         // eslint-disable-next-line
         if (resp.statusText == "OK" && resp.data.length) {
@@ -191,6 +192,7 @@ const Operators = ({
               page={page}
               setPage={setPage}
               rowCounts={rowCounts}
+              isLoading={isLoading}
             />{" "}
           </Suspense>
         </div>
