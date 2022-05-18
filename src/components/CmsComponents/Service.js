@@ -24,6 +24,10 @@ const Service = ({
   setBlocking,
   view,
   setView,
+  page,
+  setPage,
+  rowCounts,
+  isLoading
 }) => {
   // Setting state
   const initialFormState = {
@@ -369,7 +373,7 @@ const Service = ({
   };
 
   useEffect(() => {
-    AdminPanelService.AllOperators()
+    AdminPanelService.Operators()
       .then((resp) => {
         // eslint-disable-next-line
         if (resp.statusText == "OK" && resp.data.length) {
@@ -457,6 +461,10 @@ const Service = ({
               blockSerive={blockSerive}
               column={columns}
               serviceFlag={serviceFlag}
+              page={page}
+              setPage={setPage}
+              rowCounts={rowCounts}
+              isLoading={isLoading}
               // deleteUser={deleteUser}
             />{" "}
           </Suspense>

@@ -14,6 +14,9 @@ import { NO_DATA } from "../../helper/Helper.js";
 export default function ServicesPage() {
   const [state, setState] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(0);
+  const [rowCounts, setRowCount] = useState(0);
+
   var _ = require("lodash");
   const classes = useStyles();
   // Define Columns
@@ -94,12 +97,13 @@ export default function ServicesPage() {
 
   const fetchData = () => {
     setIsLoading(true);
-    AdminPanelService.Service()
+    AdminPanelService.Service(page)
       .then((resp) => {
-        setIsLoading(false);
-        if (resp.data.length) {
-          const test = _.orderBy(resp.data, "id", ["asc"]);
+        setRowCount(resp.data.totalCount);
+        if (resp.data.services.length) {
+          const test = _.orderBy(resp.data.services, "id", ["asc"]);
           setState(test);
+          setIsLoading(false);
         } else {
           return toast(NO_DATA);
         }
@@ -110,14 +114,23 @@ export default function ServicesPage() {
   useEffect(() => {
     fetchData();
     // eslint-disable-next-line
-  }, []);
+  }, [setPage, page]);
 
   return (
     <>
       <PageTitle title="My Services" />
       <Grid container spacing={1}>
         <Grid item xs={12} md={12}>
-          {state && <TableCRUD initialTableData={state} column={column} />}
+          {state && (
+            <TableCRUD
+              initialTableData={state}
+              column={column}
+              page={page}
+              setPage={setPage}
+              rowCounts={rowCounts}
+              isLoading={isLoading}
+            />
+          )}
           {isLoading && (
             <div className="spinner">
               <RotatingLines width="100" strokeColor="#536DFE" />
