@@ -6,6 +6,7 @@ import Checkbox from "@mui/material/Checkbox";
 import { MultiSelect } from "react-multi-select-component";
 import { PERMISSIONS } from "../../Constants";
 import Filters from "../filters/Filters";
+import { Button } from "react-bootstrap";
 import "../../styles.css";
 import ListMembers from "./AdminAddPermissions";
 import { toast } from "react-toastify";
@@ -18,6 +19,8 @@ const AdminUserAdd = ({
   partnersArray,
   operatorsArray,
   countryArray,
+  show,
+  setShow,
 }) => {
   const [data, setUser] = useState(0);
 
@@ -70,9 +73,11 @@ const AdminUserAdd = ({
     setPermission(newPermissions);
   };
 
+  const handleClose = () => setShow(false);
+
   return (
     <div>
-      <AddModel headerTable={headerTable}>
+      <AddModel headerTable={headerTable} show={show} setShow={setShow}>
         <form
           onSubmit={(event) => {
             let permissionArray = permission.filter(
@@ -189,9 +194,12 @@ const AdminUserAdd = ({
               })}
             </FormGroup>
           </Form.Group>
-          <button className="btn btn-primary model-footer">
-            Add new {headerTable}
-          </button>
+          <div className="button-footer">
+            <Button variant="danger" onClick={handleClose}>
+              Close
+            </Button>
+            <Button type="submit" className="btn btn-primary model-footer"  style={{width:"70px"}}>Add</Button>
+          </div>
         </form>
       </AddModel>
     </div>

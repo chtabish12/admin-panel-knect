@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form } from "react-bootstrap";
 import Select from "react-select";
 import EditModel from "../model/EditModel";
+import { Button } from "react-bootstrap";
 import { toast } from "react-toastify";
 import "../../styles.css";
 
@@ -69,18 +70,18 @@ const ProductEdit = ({
               required
             />
           </Form.Group>
-          <button className="btn btn-primary model-footer">
-            Update {headerTable}
-          </button>
-          {/* <button
-            onClick={() => {
-              setEditing(false);
-              setFormShow(false);
-            }}
-            className="btn btn-danger"
-          >
-            Cancel
-          </button> */}
+          <div className="button-footer">
+            <Button
+              variant="danger"
+              onClick={() => {
+                setFormShow(false);
+                setEditing(false);
+              }}
+            >
+              Close
+            </Button>
+            <button className="btn btn-primary model-footer">Update</button>
+          </div>
         </form>
       </EditModel>{" "}
     </div>

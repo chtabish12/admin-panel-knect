@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Form } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import EditModel from "../model/EditModel";
 import "../../styles.css";
 
@@ -52,9 +53,18 @@ const CountryEdit = ({
               required
             />
           </Form.Group>
-          <button className="btn btn-primary model-footer">
-            Update {headerTable}
-          </button>
+          <div className="button-footer">
+            <Button
+              variant="danger"
+              onClick={() => {
+                setFormShow(false);
+                setEditing(false);
+              }}
+            >
+              Close
+            </Button>
+            <button className="btn btn-primary model-footer">Update</button>
+          </div>
         </form>
       </EditModel>
     </div>

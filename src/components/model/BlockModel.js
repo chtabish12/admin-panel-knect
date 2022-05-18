@@ -22,7 +22,7 @@ const BlockModel = (props) => {
         {props.children}
         <Modal.Footer>
           <Button
-            variant="secondary"
+            variant="danger"
             onClick={() => {
               props.setFormShow(false);
               props.setBlocking(false);

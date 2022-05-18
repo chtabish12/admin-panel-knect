@@ -3,9 +3,10 @@ import { Form } from "react-bootstrap";
 import AddModel from "../model/AddModel";
 import Select from "react-select";
 import { toast } from "react-toastify";
+import { Button } from "react-bootstrap";
 import "../../styles.css";
 
-const OperatorAdd = ({ addUser, headerTable, countryArray }) => {
+const OperatorAdd = ({ addUser, headerTable, countryArray, show, setShow }) => {
   const [data, setUser] = useState(0);
   const [country, setCountry] = useState(0);
   const initialFormState = {
@@ -21,9 +22,11 @@ const OperatorAdd = ({ addUser, headerTable, countryArray }) => {
     setUser({ ...data, [name]: value, country });
   };
 
+  const handleClose = () => setShow(false);
+
   return (
     <div>
-      <AddModel headerTable={headerTable}>
+      <AddModel headerTable={headerTable} show={show} setShow={setShow}>
         <form
           onSubmit={(event) => {
             event.preventDefault();
@@ -84,9 +87,12 @@ const OperatorAdd = ({ addUser, headerTable, countryArray }) => {
               required
             />
           </Form.Group>
-          <button className="btn btn-primary model-footer">
-            Add new {headerTable}
-          </button>
+          <div className="button-footer">
+            <Button variant="danger" onClick={handleClose}>
+              Close
+            </Button>
+            <Button type="submit" className="btn btn-primary model-footer"  style={{width:"70px"}}>Add</Button>
+          </div>
         </form>
       </AddModel>
     </div>

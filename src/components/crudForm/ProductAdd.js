@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import Select from "react-select";
+import { Button } from "react-bootstrap";
 import AddModel from "../model/AddModel";
 import { toast } from "react-toastify";
 import "../../styles.css";
 
-const ProductAdd = ({ addUser, partnersArray, headerTable }) => {
+const ProductAdd = ({ addUser, partnersArray, headerTable, show, setShow }) => {
   const [data, setUser] = useState(0);
   const [partner, setPartner] = useState(0);
 
@@ -21,9 +22,11 @@ const ProductAdd = ({ addUser, partnersArray, headerTable }) => {
     setUser({ ...data, [name]: value }, partner);
   };
 
+  const handleClose = () => setShow(false);
+
   return (
     <div>
-      <AddModel headerTable={headerTable}>
+      <AddModel headerTable={headerTable} show={show} setShow={setShow}>
         <form
           onSubmit={(event) => {
             event.preventDefault();
@@ -69,9 +72,12 @@ const ProductAdd = ({ addUser, partnersArray, headerTable }) => {
               required
             />
           </Form.Group>
-          <button className="btn btn-primary model-footer">
-            Add new {headerTable}
-          </button>
+          <div className="button-footer">
+            <Button variant="danger" onClick={handleClose}>
+              Close
+            </Button>
+            <Button type="submit" className="btn btn-primary model-footer"  style={{width:"70px"}}>Add</Button>
+          </div>
         </form>
       </AddModel>
     </div>

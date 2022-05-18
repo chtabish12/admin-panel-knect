@@ -72,6 +72,7 @@ const Service = ({
 
   const [operatorsArray, setOperatorsArray] = useState([]);
   const [currentState, setCurrentState] = useState(initialFormState);
+  const [show, setShow] = useState(false);
   let operators = [];
 
   const columns = [
@@ -169,6 +170,7 @@ const Service = ({
     AdminPanelService.AddService(request)
       .then((resp) => {
         toast(resp.data);
+        setShow(false);
       })
       .catch((err) => toast("Please Check your fields"));
 
@@ -435,6 +437,8 @@ const Service = ({
             addUser={addUser}
             headerTable={headerTable}
             operatorsArray={operatorsArray}
+            show={show}
+            setShow={setShow}
           />
         </Fragment>
         <div className="col-12">

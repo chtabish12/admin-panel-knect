@@ -70,6 +70,7 @@ const Operators = ({
 
   const [countryArray, setCountryArray] = useState([]);
   const [currentState, setCurrentState] = useState(initialFormState);
+  const [show, setShow] = useState(false);
   let Countries = [];
   // CRUD operations
   const addUser = (data, countryID) => {
@@ -83,6 +84,7 @@ const Operators = ({
     AdminPanelService.AddOperator(request)
       .then((resp) => {
         toast(resp.data);
+        setShow(false);
       })
       .catch((err) => toast("Please Check your fields"));
 
@@ -166,6 +168,8 @@ const Operators = ({
             addUser={addUser}
             headerTable={headerTable}
             countryArray={countryArray}
+            show={show}
+            setShow={setShow}
           />
         </Fragment>
         <div className="col-12">

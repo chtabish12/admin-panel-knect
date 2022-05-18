@@ -38,11 +38,14 @@ import {
   EDIT_USER,
   GET_PRODUCT_BY_ID
 } from "../Constants";
+
 import axios from "axios";
+
 export const AdminPanelService = {
   Login: async (request) => {
     const url = `${BASE_URL}${LOGIN_URL}`;
     return axios.post(url, request);
+    
   },
   MainDashBoard: async (productIds, startDate, endDate, interval, region) => {
     const url = `${BASE_URL}${MAIN_DASHBOARD_URL}`;
