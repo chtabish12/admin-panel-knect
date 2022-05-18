@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Switch, Redirect, withRouter } from "react-router-dom";
+import Widget from "../Widget/Widget";
+import offlineGif from "../crudForm/assets/offline.gif";
 import classnames from "classnames";
 import {
   Home as HomeIcon,
@@ -42,7 +44,7 @@ import { useLayoutState } from "../../context/LayoutContext";
 
 function Layout(props) {
   const classes = useStyles();
-
+  const [isOnline, setOnline] = useState(true);
   const permissions = sessionStorage.getItem("user-permissions").split(",");
   let structure = [];
   let componentShow = [];
@@ -54,7 +56,7 @@ function Layout(props) {
     icon: <UIElementsIcon />,
     children: [],
   };
-  
+
   let administrationSubMenus = {
     id: 4,
   };
@@ -180,9 +182,23 @@ function Layout(props) {
   structure.push(reportingSubMenus);
   structure.push(administrationSubMenus);
 
+  // On initization set the isOnline state.
+  useEffect(() => {
+    setOnline(navigator.onLine);
+  }, []);
+
+  // event listeners to update the state
+  window.addEventListener("online", () => {
+    setOnline(true);
+  });
+
+  window.addEventListener("offline", () => {
+    setOnline(false);
+  });
+
   // global
   const layoutState = useLayoutState();
-  
+
   return (
     <div className={classes.root}>
       <>
@@ -194,36 +210,37 @@ function Layout(props) {
           })}
         >
           <div className={classes.fakeToolbar} />
-          <Switch>
-            <>
-              {componentShow.map((state, id) => (
-                <Route key={id} path={state.link}>
-                  {state.component}
-                </Route>
-              ))}
-              <Route
-                exact
-                path="/app/reports"
-                render={() => <Redirect to="/app/reports/service" />}
-              />
-              {reportingSubMenus.children.map((reports, id) => (
-                <Route key={id} path={reports.link}>
-                  {reports.component}
-                </Route>
-              ))}
-              {permissions.includes("Administration") && (
-                <>
-                  <Route
-                    exact
-                    path="/app/administration"
-                    render={() => <Redirect to="/app/administration" />}
-                  />
-                  {administrationSubMenus.children.map((cms, id) => (
-                    <Route key={id} path={cms.link}>
-                      {cms.component}
-                    </Route>
-                  ))}
-                  {/* <Route path="/app/administration/AdminUserDetailPage">
+          {isOnline && (
+            <Switch>
+              <>
+                {componentShow.map((state, id) => (
+                  <Route key={id} path={state.link}>
+                    {state.component}
+                  </Route>
+                ))}
+                <Route
+                  exact
+                  path="/app/reports"
+                  render={() => <Redirect to="/app/reports/service" />}
+                />
+                {reportingSubMenus.children.map((reports, id) => (
+                  <Route key={id} path={reports.link}>
+                    {reports.component}
+                  </Route>
+                ))}
+                {permissions.includes("Administration") && (
+                  <>
+                    <Route
+                      exact
+                      path="/app/administration"
+                      render={() => <Redirect to="/app/administration" />}
+                    />
+                    {administrationSubMenus.children.map((cms, id) => (
+                      <Route key={id} path={cms.link}>
+                        {cms.component}
+                      </Route>
+                    ))}
+                    {/* <Route path="/app/administration/AdminUserDetailPage">
                     <AdminUserDetailPage />
                   </Route>
                   <Route path="/app/administration/userDetailPage">
@@ -244,10 +261,18 @@ function Layout(props) {
                   <Route path="/app/administration/servicesDetailPage">
                     <ServicesDetailsPage />
                   </Route> */}
-                </>
-              )}
-            </>
-          </Switch>
+                  </>
+                )}
+              </>
+            </Switch>
+          )}
+          {!isOnline && (
+            <Widget>
+              <div className="offline-gif">
+                <img src={offlineGif} alt="wait until the page loads" />
+              </div>
+            </Widget>
+          )}
         </div>
       </>
     </div>

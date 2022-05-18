@@ -1,6 +1,7 @@
 .App {
   font-family: sans-serif;
 }
+
 .header {
   padding: 20px;
   position: relative;
@@ -9,50 +10,62 @@
   background-color: #159957;
   background-image: linear-gradient(120deg, #155799, #159957);
 }
+
 .sourceLink {
   left: 20px;
   bottom: 25px;
   position: absolute;
   color: #fff;
 }
+
 .header small {
   text-align: right;
   display: block;
   margin-bottom: 5px;
 }
+
 .header a {
   color: white;
   text-decoration: underline;
 }
+
 #multiselectContainerReact {
   margin-bottom: 20px;
   float: none;
 }
+
 code {
   padding: 10px;
   background: #f1f1f1;
 }
+
 .mt10 {
   margin-top: 10px;
 }
+
 .mt20 {
   margin-top: 20px;
 }
+
 .mb20 {
   margin-bottom: 20px;
 }
+
 .mt40 {
   margin-top: 40px;
 }
+
 .displayBlock {
   display: block;
 }
+
 .contents a {
   display: block;
   margin-bottom: 10px;
   color: #45576b;
   text-decoration: underline;
 }
+
 .otheroptions {
   font-size: 14px;
 }
@@ -63,40 +76,49 @@ code {
   background: red;
   color: #fff;
 }
+
 /* Ends overriding */
 
 /* Placehoolder Color Change */
 .searchBox#css_custom_input::placeholder {
   color: red;
 }
+
 .td-width {
   width: 150px !important;
 }
+
 .form {
   position: relative;
   display: flex;
   margin: auto;
   align-items: center;
 }
+
 .chartPage {
   position: sticky;
 }
+
 .chartLabel {
   font-size: 0.7rem;
 }
+
 .multiSelect {
   width: 220px;
   margin: 10px;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
+
 .header-right-reporting {
   display: flex;
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   margin-left: 18px;
 }
+
 .button-reporting {
   margin-top: 20px;
 }
+
 .date-input {
   margin: 0;
   font-family: inherit;
@@ -107,43 +129,57 @@ code {
   border-radius: 3px;
   /* margin-right: 15px; */
 }
+
 .csv-button {
   color: #fff;
   background-color: #1f9c00;
   border: 1px solid #1f9c00;
   margin: 2px;
 }
+
 .csv-button:hover {
   background-color: #1d8f00;
   border: 1px solid #1d8f00;
   color: white;
 }
+
 .csv-button-pdf {
   color: #fff;
   background-color: #ff3c00;
   border: 1px solid #ff0000;
   margin: 2px;
 }
+
 .csv-button-pdf:hover {
   background-color: #eb3700;
   border: 1px solid #eb3700;
   color: white;
 }
+
 .CSV-button-div {
   display: flex;
   margin-bottom: 12px;
   position: right !important;
   float: right !important;
 }
-.spinner{
+
+.spinner {
   margin: 150px auto;
   width: 10vw;
   padding: 10px;
 }
+
+.offline-gif {
+  margin: 40px auto;
+  width: 50%;
+  padding: 10px;
+}
+
 .a-button {
   outline: none !important;
   text-decoration: none !important;
 }
+
 .makeStyles-dashedBorder-60 {
   width: auto !important;
   display: flex;
