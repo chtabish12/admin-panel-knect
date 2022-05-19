@@ -105,6 +105,7 @@ export default function ServicesPage() {
           setState(test);
           setIsLoading(false);
         } else {
+          setIsLoading(false);
           return toast(NO_DATA);
         }
       })
