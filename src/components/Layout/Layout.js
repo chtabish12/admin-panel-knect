@@ -269,7 +269,7 @@ function Layout(props) {
           {!isOnline && (
             <Widget>
               <div className="offline-gif">
-                <img src={offlineGif} alt="wait until the page loads" />
+                <img src={offlineGif} alt="wait until connection appears" />
               </div>
             </Widget>
           )}
