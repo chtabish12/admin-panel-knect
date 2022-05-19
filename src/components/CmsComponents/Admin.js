@@ -154,7 +154,7 @@ const Admin = ({
   };
 
   const PartnersAll = () => {
-    AdminPanelService.AllPartners()
+    AdminPanelService.Partners()
       .then((resp) => {
         // eslint-disable-next-line
         if (resp.statusText == "OK" && resp.data.length) {
@@ -169,7 +169,7 @@ const Admin = ({
   };
 
   const OperatorsAll = () => {
-    AdminPanelService.AllOperators()
+    AdminPanelService.Operators()
       .then((resp) => {
         // eslint-disable-next-line
         if (resp.statusText == "OK" && resp.data.length) {
@@ -184,7 +184,7 @@ const Admin = ({
   };
 
   const CountriesAll = () => {
-    AdminPanelService.AllCountries()
+    AdminPanelService.Countries()
       .then((resp) => {
         // eslint-disable-next-line
         if (resp.statusText == "OK" && resp.data.length) {
