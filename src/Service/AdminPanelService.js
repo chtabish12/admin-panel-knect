@@ -8,11 +8,13 @@ import {
   AFFILIATES_URL,
   HEATMAP_URL,
   ALL_PRODUCTS,
+  PRODUCTS,
   ADD_PRODUCTS,
   UPDATE_PRODUCTS,
   ALL_PARTNERS,
   PARTNERS,
   ALL_SERVICES,
+  SERVICES,
   BLOCK_SERVICE,
   ADD_SERVICE,
   UPDATE_SERVICE,
@@ -138,6 +140,14 @@ export const AdminPanelService = {
       },
     });
   },
+  Products: async () => {
+    const url = `${BASE_URL}${PRODUCTS}`;
+    return axios.get(url, {
+      headers: {
+        token: sessionStorage.getItem("token-user"),
+      },
+    });
+  },
   AddProducts: async (request) => {
     const url = `${BASE_URL}${ADD_PRODUCTS}`;
     return axios.post(url, request, {
@@ -191,6 +201,14 @@ export const AdminPanelService = {
       },
       params: {
         pageNo: page,
+      },
+    });
+  },
+  Services: async () => {
+    const url = `${BASE_URL}${SERVICES}`;
+    return axios.get(url, {
+      headers: {
+        token: sessionStorage.getItem("token-user"),
       },
     });
   },
