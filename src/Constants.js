@@ -7,13 +7,13 @@ export const PERMISSIONS = [
   { name: "Service wise", id: 4 },
   { name: "Services HeatMap", id: 5 },
   { name: "Administration", id: 6 },
-  { name: "Users", id: 7 },
-  { name: "Admin Users", id: 8 },
-  { name: "Products", id: 9 },
-  { name: "Services", id: 10 },
-  { name: "Partners", id: 11 },
-  { name: "Operator", id: 12 },
-  { name: "Country", id: 13 },
+  // { name: "Users", id: 7 },
+  { name: "Admin Users", id: 7 },
+  { name: "Products", id: 8 },
+  { name: "Services", id: 9 },
+  { name: "Partners", id: 10 },
+  { name: "Operator", id: 11 },
+  { name: "Country", id: 12 },
 ];
 export const LOGIN_URL = `user/login`;
 export const MAIN_DASHBOARD_URL = `dashboard/mainDashboard`;
@@ -32,12 +32,14 @@ export const YOY_GROWTH = `YoY Growth`;
 export const REGIONAL_REVENUE = `Regional Revenue`;
 export const OVERALL_OPERATOR_REVENUE = `Overall Operators Revenue`;
 export const ALL_PRODUCTS = `product/all`;
+export const PRODUCTS = `product`;
 export const ADD_PRODUCTS = `product/add`;
 export const GET_PRODUCT_BY_ID = `product/`;
 export const UPDATE_PRODUCTS = `product/edit/`;
 export const ALL_PARTNERS = `partner/all`;
 export const PARTNERS = `partner`;
 export const ALL_SERVICES = `service/all`;
+export const SERVICES = `service`;
 export const BLOCK_SERVICE = `service/block/`;
 export const ADD_SERVICE = `service/add`;
 export const UPDATE_SERVICE = `service/edit/`;

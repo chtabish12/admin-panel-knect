@@ -5,7 +5,6 @@ import { FormGroup } from "@material-ui/core";
 import Checkbox from "@mui/material/Checkbox";
 import { MultiSelect } from "react-multi-select-component";
 import { PERMISSIONS } from "../../Constants";
-import Filters from "../filters/Filters";
 import { Button } from "react-bootstrap";
 import "../../styles.css";
 import ListMembers from "./AdminAddPermissions";
@@ -21,14 +20,19 @@ const AdminUserAdd = ({
   countryArray,
   show,
   setShow,
+  productsArray,
+  servicesArray,
 }) => {
-  const [data, setUser] = useState(0);
-
   let permissiondata = [];
+  let productID = [];
+  let serviceID = [];
   let partnersID = [];
   let operatorsID = [];
   let countryID = [];
+  const [data, setUser] = useState(0);
   const [permission, setPermission] = useState(PERMISSIONS);
+  const [products, setProducts] = useState([]);
+  const [services, setServices] = useState([]);
   const [partners, setPartners] = useState([]);
   const [operators, setOperators] = useState([]);
   const [country, setCountry] = useState([]);
@@ -36,6 +40,8 @@ const AdminUserAdd = ({
   const initialFormState = {
     id: null,
     name: "",
+    email: "",
+    password: "",
   };
 
   const handleInputChange = (event) => {
@@ -64,6 +70,12 @@ const AdminUserAdd = ({
     }
   };
 
+  const MultiSelectProductId = (array, multiSelect) => {
+    for (let x = 0; x < multiSelect.length; x++) {
+      array.push(multiSelect[x].productID);
+    }
+  };
+
   const handleAttendingChange = (index, state) => {
     const updatedPermissions = permission[index]; // from the state 'permission' array, get the correct object for permission
     updatedPermissions.status = state; // update the boolean of the permission to indicate going/true || not/false
@@ -73,26 +85,99 @@ const AdminUserAdd = ({
     setPermission(newPermissions);
   };
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setUser(initialFormState);
+    // setPermission(PERMISSIONS)
+    setProducts([]);
+    setServices([]);
+    setPartners([]);
+    setOperators([]);
+    setCountry([]);
+    setChecked(true);
+  };
+
+  const GetSameObjs = (obj1, obj2, key1, key2) => {
+    return obj1.filter(function (o1) {
+      return obj2.some(function (o2) {
+        return o1[key1] === o2[key2]; // return the ones with equal id
+      });
+    });
+  };
+
+  servicesArray = GetSameObjs(
+    servicesArray,
+    products,
+    "productId",
+    "value"
+  ).map((ele) => {
+    return { label: ele.name, value: ele.id, productID: ele.productId };
+  });
+
+  partnersArray = GetSameObjs(partnersArray, products, "partnerId", "id").map(
+    (ele) => {
+      return { label: ele.name, value: ele.id };
+    }
+  );
+
+  operatorsArray = GetSameObjs(
+    operatorsArray,
+    services,
+    "operatorId",
+    "id"
+  ).map((ele) => {
+    return { label: ele.name, value: ele.id };
+  });
+
+  countryArray = GetSameObjs(countryArray, operators, "countryId", "id").map(
+    (ele) => {
+      return { label: ele.name, value: ele.id };
+    }
+  );
 
   return (
     <div>
       <AddModel headerTable={headerTable} show={show} setShow={setShow}>
         <form
           onSubmit={(event) => {
+            event.preventDefault();
             let permissionArray = permission.filter(
               (attendee) => attendee.status === true
             );
             permissiondata = permissionArray.map((going) => going.name);
-            event.preventDefault();
+            MultiSelectProductId(productID, services);
+            MultiSelectIdCollect(serviceID, services);
             MultiSelectIdCollect(partnersID, partners);
             MultiSelectIdCollect(operatorsID, operators);
             MultiSelectIdCollect(countryID, country);
             if (!permissiondata.length) {
               return toast("please add permissions");
+            }
+            if (!checked) {
+              if (!services.length) {
+                return toast("please select Services");
+              }
+              if (!products.length) {
+                return toast("please select Products");
+              }
             } else {
-              addUser(data, permissiondata, partnersID, operatorsID, countryID);
+              addUser(
+                data,
+                permissiondata,
+                productID,
+                serviceID,
+                partnersID,
+                operatorsID,
+                countryID
+              );
               setUser(initialFormState);
+              // setPermission(PERMISSIONS)
+              setProducts([]);
+              setServices([]);
+              setPartners([]);
+              setOperators([]);
+              setCountry([]);
+              setChecked(true);
             }
           }}
         >
@@ -146,7 +231,24 @@ const AdminUserAdd = ({
             />
             {!checked && (
               <div className="multi-select-admin-block">
-                <Filters AdminUserFlag="true" />
+                <div className="multi-select-admin-block">
+                  Products<span className="asteric">*</span>
+                  <MultiSelect
+                    options={productsArray}
+                    value={products}
+                    onChange={setProducts}
+                    labelledBy="Partners"
+                  />
+                </div>
+                <div className="multi-select-admin-block">
+                  Services<span className="asteric">*</span>
+                  <MultiSelect
+                    options={servicesArray}
+                    value={services}
+                    onChange={setServices}
+                    labelledBy="Partners"
+                  />
+                </div>
                 <div className="multi-select-admin-block">
                   Partners
                   <MultiSelect
@@ -198,7 +300,13 @@ const AdminUserAdd = ({
             <Button variant="danger" onClick={handleClose}>
               Close
             </Button>
-            <Button type="submit" className="btn btn-primary model-footer"  style={{width:"70px"}}>Add</Button>
+            <Button
+              type="submit"
+              className="btn btn-primary model-footer"
+              style={{ width: "70px" }}
+            >
+              Add
+            </Button>
           </div>
         </form>
       </AddModel>
