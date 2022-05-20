@@ -13,7 +13,6 @@ import "react-datepicker/dist/react-datepicker.css";
 const Filters = ({
   HeatmapFilterShow,
   ReportFlag,
-  AdminUserFlag,
   ChartBarShow,
   prodIndex,
   servIndex,
@@ -53,7 +52,6 @@ const Filters = ({
       serviceArray,
       serviceSelectValue,
       HeatmapFilterShow,
-      AdminUserFlag,
       ReportFlag,
       ChartBarShow,
       prodIndex,
@@ -97,9 +95,9 @@ const Filters = ({
         </>
       )}
       <>
-        {(ReportFlag || ChartBarShow || AdminUserFlag) && (
+        {(ReportFlag || ChartBarShow) && (
           <>
-            <div className={ReportFlag || ChartBarShow ?"multiSelect":"multi-select-admin-block"}>
+            <div className="multiSelect">
               Products
               <MultiSelect
                 options={productArray}
@@ -108,7 +106,7 @@ const Filters = ({
                 labelledBy="Products"
               />
             </div>
-            <div className={ReportFlag || ChartBarShow ?"multiSelect":"multi-select-admin-block"}>
+            <div className="multiSelect">
               Services
               <MultiSelect
                 options={serviceArray}

@@ -105,7 +105,6 @@ const FilterFunction = (
   serviceArray,
   serviceSelectValue,
   HeatmapFilterShow,
-  AdminUserFlag,
   ReportFlag,
   ChartBarShow,
   prodIndex,
@@ -157,10 +156,7 @@ const FilterFunction = (
               value: LoginApiResp[x].products[y].services[z].id,
               label: LoginApiResp[x].products[y].services[z].name,
             });
-          } else if (
-            (productSelect.length && ReportFlag) ||
-            (productSelect.length && AdminUserFlag)
-          )
+          } else if (productSelect.length && ReportFlag)
             for (let j = 0; j < productSelect.length; j++)
               if (
                 LoginApiResp[x].products[y].services[z].productId ===
@@ -179,7 +175,7 @@ const FilterFunction = (
   const serviceArrayValue = [];
   if (HeatmapFilterShow) {
     dispatch(filtersAction.serviceSet(serviceSelectValue.value));
-  } else if (ReportFlag || ChartBarShow || AdminUserFlag) {
+  } else if (ReportFlag || ChartBarShow) {
     for (let x = 0; x < productSelect.length; x++) {
       productArrayValue.push(productSelect[x].value);
     }
