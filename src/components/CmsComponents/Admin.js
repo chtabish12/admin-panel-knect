@@ -1,6 +1,4 @@
 import React, { useState, Fragment, useEffect, lazy, Suspense } from "react";
-// import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { AdminPanelService } from "../../Service/AdminPanelService";
 import ActionButtons from "../crudForm/ActionButtons";
 import { toast } from "react-toastify";
@@ -85,53 +83,49 @@ const Admin = ({
   // Hooks initialization
   const [currentState, setCurrentState] = useState(initialFormState);
   const [checked, setChecked] = useState(true);
+  const [products, setProducts] = useState([]);
+  const [services, setServices] = useState([]);
   const [partners, setPartners] = useState([]);
   const [operators, setOperators] = useState([]);
   const [country, setCountry] = useState([]);
   const [show, setShow] = useState(false);
   // Arrays initialization
-  let partnersArray = [];
-  let operatorsArray = [];
-  let countryArray = [];
-  // Redux
-  let productID = useSelector((state) => state.filtersData.productSet);
-  let serviceID = useSelector((state) => state.filtersData.serviceSet);
+  let productsArray = [];
+
   // CRUD operations
-  const addUser = (data, permissiondata, partners, operators, country) => {
+  const addUser = (
+    data,
+    permissiondata,
+    productID,
+    serviceID,
+    partnersID,
+    operatorsID,
+    countryID
+  ) => {
     let adminUserAccessArray = [];
     let loopLength;
     if (!checked) {
-      let productLength = productID.split(",").length;
-      let serviceLength = serviceID.split(",").length;
-      let operatorLength = operators.length;
-      let partnerLength = partners.length;
-      let countryLength = country.length;
-
-      if (
-        serviceLength >
-        Math.max(productLength, operatorLength, partnerLength, countryLength)
-      ) {
-        loopLength = serviceLength;
-      } else {
-        loopLength = Math.max(
-          productLength,
-          operatorLength,
-          partnerLength,
-          countryLength
-        );
-      }
+      let serviceLength = serviceID.length;
+      let operatorLength = partnersID.length;
+      let partnerLength = operatorsID.length;
+      let countryLength = countryID.length;
+      loopLength = Math.max(
+        serviceLength,
+        operatorLength,
+        partnerLength,
+        countryLength
+      );
 
       for (let i = 0; i < loopLength; i++) {
         adminUserAccessArray.push({
-          productId: parseInt(productID[i]) ? parseInt(productID[i]) : "",
-          serviceId: parseInt(serviceID[i]) ? parseInt(serviceID[i]) : "",
-          partnerId: partners[i] ? partners[i] : "",
-          operatorId: operators[i] ? operators[i] : "",
-          countryId: country[i] ? country[i] : "",
+          productId: productID[i] ? productID[i] : "",
+          serviceId: serviceID[i] ? serviceID[i] : "",
+          partnerId: partnersID[i] ? partnersID[i] : "",
+          operatorId: operatorsID[i] ? operatorsID[i] : "",
+          countryId: countryID[i] ? countryID[i] : "",
         });
       }
     }
-
     const request = {
       name: data.name,
       email: data.email,
@@ -147,10 +141,35 @@ const Admin = ({
         setShow(false);
       })
       .catch((err) => toast("Please Check your fields"));
-
     data.id = initialTableData.length + 1;
     setInitialTableData([...initialTableData, data]);
     setFormShow(false);
+  };
+
+  const ProductAll = () => {
+    AdminPanelService.Products()
+      .then((resp) => {
+        // eslint-disable-next-line
+        if (resp.statusText == "OK" && resp.data.length) {
+          // eslint-disable-next-line
+          productsArray = resp.data.map((ele) => {
+            return { label: ele.name, value: ele.id };
+          });
+          setProducts(productsArray);
+        }
+      })
+      .catch((err) => toast(err));
+  };
+
+  const ServicesAll = () => {
+    AdminPanelService.Services()
+      .then((resp) => {
+        // eslint-disable-next-line
+        if (resp.statusText == "OK" && resp.data.length) {
+          setServices(resp.data);
+        }
+      })
+      .catch((err) => toast(err));
   };
 
   const PartnersAll = () => {
@@ -158,11 +177,7 @@ const Admin = ({
       .then((resp) => {
         // eslint-disable-next-line
         if (resp.statusText == "OK" && resp.data.length) {
-          // eslint-disable-next-line
-          partnersArray = resp.data.map((ele) => {
-            return { label: ele.name, value: ele.id };
-          });
-          setPartners(partnersArray);
+          setPartners(resp.data);
         }
       })
       .catch((err) => toast(err));
@@ -173,11 +188,7 @@ const Admin = ({
       .then((resp) => {
         // eslint-disable-next-line
         if (resp.statusText == "OK" && resp.data.length) {
-          // eslint-disable-next-line
-          operatorsArray = resp.data.map((ele) => {
-            return { label: ele.name, value: ele.id };
-          });
-          setOperators(operatorsArray);
+          setOperators(resp.data);
         }
       })
       .catch((err) => toast(err));
@@ -188,11 +199,7 @@ const Admin = ({
       .then((resp) => {
         // eslint-disable-next-line
         if (resp.statusText == "OK" && resp.data.length) {
-          // eslint-disable-next-line
-          countryArray = resp.data.map((ele) => {
-            return { label: ele.name, value: ele.id };
-          });
-          setCountry(countryArray);
+          setCountry(resp.data);
         }
       })
       .catch((err) => toast(err));
@@ -247,6 +254,8 @@ const Admin = ({
 
   useEffect(() => {
     if (!checked) {
+      ProductAll();
+      ServicesAll();
       PartnersAll();
       OperatorsAll();
       CountriesAll();
@@ -293,6 +302,8 @@ const Admin = ({
             headerTable={headerTable}
             checked={checked}
             setChecked={setChecked}
+            productsArray={products}
+            servicesArray={services}
             partnersArray={partners}
             operatorsArray={operators}
             countryArray={country}
