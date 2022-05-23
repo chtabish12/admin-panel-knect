@@ -137,7 +137,13 @@ const AdminUserAdd = ({
 
   return (
     <div>
-      <AddModel headerTable={headerTable} show={show} setShow={setShow}>
+      <AddModel
+        headerTable={headerTable}
+        show={show}
+        setShow={setShow}
+        setUser={setUser}
+        initialFormState={initialFormState}
+      >
         <form
           onSubmit={(event) => {
             event.preventDefault();

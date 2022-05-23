@@ -20,11 +20,20 @@ const PartnerAdd = ({ addUser, headerTable, show, setShow }) => {
     setUser({ ...data, [name]: value });
   };
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setUser(initialFormState);
+  };
 
   return (
     <div>
-      <AddModel headerTable={headerTable} show={show} setShow={setShow}>
+      <AddModel
+        headerTable={headerTable}
+        show={show}
+        setShow={setShow}
+        setUser={setUser}
+        initialFormState={initialFormState}
+      >
         <form
           onSubmit={(event) => {
             event.preventDefault();
@@ -101,7 +110,13 @@ const PartnerAdd = ({ addUser, headerTable, show, setShow }) => {
             <Button variant="danger" onClick={handleClose}>
               Close
             </Button>
-            <Button type="submit" className="btn btn-primary model-footer"  style={{width:"70px"}}>Add</Button>
+            <Button
+              type="submit"
+              className="btn btn-primary model-footer"
+              style={{ width: "70px" }}
+            >
+              Add
+            </Button>
           </div>
         </form>
       </AddModel>

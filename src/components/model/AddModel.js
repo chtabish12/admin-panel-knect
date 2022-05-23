@@ -3,7 +3,10 @@ import { Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 const AddModel = (props) => {
   const handleShow = () => props.setShow(true);
-  const handleClose = () => props.setShow(false);
+  const handleClose = () => {
+    props.setShow(false);
+    props.setUser(props.initialFormState);
+  };
 
   return (
     <div>

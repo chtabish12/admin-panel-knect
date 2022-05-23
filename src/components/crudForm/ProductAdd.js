@@ -13,7 +13,7 @@ const ProductAdd = ({ addUser, partnersArray, headerTable, show, setShow }) => {
   const initialFormState = {
     id: null,
     name: "",
-    partnerId: partner.value,
+    partnerId: null,
     storeId: "",
   };
 
@@ -22,17 +22,28 @@ const ProductAdd = ({ addUser, partnersArray, headerTable, show, setShow }) => {
     setUser({ ...data, [name]: value }, partner);
   };
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setUser(initialFormState);
+    setPartner(0);
+  };
 
   return (
     <div>
-      <AddModel headerTable={headerTable} show={show} setShow={setShow}>
+      <AddModel
+        headerTable={headerTable}
+        show={show}
+        setShow={setShow}
+        setUser={setUser}
+        initialFormState={initialFormState}
+      >
         <form
           onSubmit={(event) => {
             event.preventDefault();
             if (!partner) return toast("please select Partner");
             addUser(data, partner.value);
             setUser(initialFormState);
+            setPartner(0);
           }}
         >
           <Form.Group className="formgroup-space">
@@ -76,7 +87,13 @@ const ProductAdd = ({ addUser, partnersArray, headerTable, show, setShow }) => {
             <Button variant="danger" onClick={handleClose}>
               Close
             </Button>
-            <Button type="submit" className="btn btn-primary model-footer"  style={{width:"70px"}}>Add</Button>
+            <Button
+              type="submit"
+              className="btn btn-primary model-footer"
+              style={{ width: "70px" }}
+            >
+              Add
+            </Button>
           </div>
         </form>
       </AddModel>
