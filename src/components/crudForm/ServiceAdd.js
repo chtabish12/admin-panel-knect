@@ -65,17 +65,28 @@ const ServiceAdd = ({
     setUser({ ...data, [name]: value, operator });
   };
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setUser(initialFormState);
+    setOperator(0);
+  };
 
   return (
     <div>
-      <AddModel headerTable={headerTable} show={show} setShow={setShow}>
+      <AddModel
+        headerTable={headerTable}
+        show={show}
+        setShow={setShow}
+        setUser={setUser}
+        initialFormState={initialFormState}
+      >
         <form
           onSubmit={(event) => {
             event.preventDefault();
             if (!operator) return toast("please select Operator");
             addUser(data, operator.value);
             setUser(initialFormState);
+            setOperator(0);
           }}
         >
           <Form.Group className="formgroup-space">
@@ -506,7 +517,13 @@ const ServiceAdd = ({
             <Button variant="danger" onClick={handleClose}>
               Close
             </Button>
-            <Button type="submit" className="btn btn-primary model-footer"  style={{width:"70px"}}>Add</Button>
+            <Button
+              type="submit"
+              className="btn btn-primary model-footer"
+              style={{ width: "70px" }}
+            >
+              Add
+            </Button>
           </div>
         </form>
       </AddModel>

@@ -13,7 +13,7 @@ const OperatorAdd = ({ addUser, headerTable, countryArray, show, setShow }) => {
     id: null,
     name: "",
     friendlyName: "",
-    countryId: "",
+    countryId: null,
     code: "",
   };
 
@@ -22,17 +22,28 @@ const OperatorAdd = ({ addUser, headerTable, countryArray, show, setShow }) => {
     setUser({ ...data, [name]: value, country });
   };
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setUser(initialFormState);
+    setCountry(0);
+  };
 
   return (
     <div>
-      <AddModel headerTable={headerTable} show={show} setShow={setShow}>
+      <AddModel
+        headerTable={headerTable}
+        show={show}
+        setShow={setShow}
+        setUser={setUser}
+        initialFormState={initialFormState}
+      >
         <form
           onSubmit={(event) => {
             event.preventDefault();
             if (!country) return toast("please select Country");
             addUser(data, country.value);
             setUser(initialFormState);
+            setCountry(0);
           }}
         >
           <Form.Group className="formgroup-space">
@@ -91,7 +102,13 @@ const OperatorAdd = ({ addUser, headerTable, countryArray, show, setShow }) => {
             <Button variant="danger" onClick={handleClose}>
               Close
             </Button>
-            <Button type="submit" className="btn btn-primary model-footer"  style={{width:"70px"}}>Add</Button>
+            <Button
+              type="submit"
+              className="btn btn-primary model-footer"
+              style={{ width: "70px" }}
+            >
+              Add
+            </Button>
           </div>
         </form>
       </AddModel>
