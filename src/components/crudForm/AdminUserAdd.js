@@ -160,25 +160,24 @@ const AdminUserAdd = ({
               if (!products.length) {
                 return toast("please select Products");
               }
-            } else {
-              addUser(
-                data,
-                permissiondata,
-                productID,
-                serviceID,
-                partnersID,
-                operatorsID,
-                countryID
-              );
-              setUser(initialFormState);
-              // setPermission(PERMISSIONS)
-              setProducts([]);
-              setServices([]);
-              setPartners([]);
-              setOperators([]);
-              setCountry([]);
-              setChecked(true);
             }
+            addUser(
+              data,
+              permissiondata,
+              productID,
+              serviceID,
+              partnersID,
+              operatorsID,
+              countryID
+            );
+            setUser(initialFormState);
+            // setPermission(PERMISSIONS)
+            setProducts([]);
+            setServices([]);
+            setPartners([]);
+            setOperators([]);
+            setCountry([]);
+            setChecked(true);
           }}
         >
           <Form.Group className="formgroup-space">
