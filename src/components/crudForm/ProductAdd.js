@@ -41,7 +41,7 @@ const ProductAdd = ({ addUser, partnersArray, headerTable, show, setShow }) => {
           onSubmit={(event) => {
             event.preventDefault();
             if (!partner) return toast("please select Partner");
-            addUser(data, partner.value);
+            addUser(data, partner.value, partner.name);
             setUser(initialFormState);
             setPartner(0);
           }}
