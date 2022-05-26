@@ -93,6 +93,7 @@ const Admin = ({
   const [userAccess, setUserAccess] = useState();
   // Arrays initialization
   let productsArray = [];
+  let comparedPermissions = [];
 
   // CRUD operations
   const addUser = (
@@ -243,7 +244,6 @@ const Admin = ({
       }
     }
 
-    console.log("final testing....", adminUserAccessArray);
     const task = [updatedUser].find((t) => t.id === updatedUser.id);
     task.name = updatedUser.name;
     task.email = updatedUser.email;
@@ -254,7 +254,7 @@ const Admin = ({
 
     AdminPanelService.UpdateAdminUser(id, task)
       .then((resp) => {
-        toast(resp.data);
+        toast("Admin User Successfully Updated!");
       })
       .catch((err) => toast("Please Check your fields"));
     setFormShow(false);
@@ -307,6 +307,24 @@ const Admin = ({
     });
   };
 
+  const objectsEqual = (o1, o2) => {
+    for (let permission of o1) {
+      const permisionFound = o2.find((perm) => permission.name === perm.name);
+      const permissionObject = {};
+
+      if (permisionFound) {
+        permissionObject.name = permisionFound.name;
+        permissionObject.id = permisionFound.id;
+        permissionObject.status = true;
+      } else {
+        permissionObject.name = permission.name;
+        permissionObject.id = permission.id;
+        permissionObject.status = false;
+      }
+      comparedPermissions.push(permissionObject);
+    }
+  };
+
   useEffect(() => {
     if (!checked) {
       ProductAll();
@@ -343,6 +361,8 @@ const Admin = ({
                     countryArray={country}
                     userAccess={userAccess}
                     GetSameObjs={GetSameObjs}
+                    objectsEqual={objectsEqual}
+                    comparedPermissions={comparedPermissions}
                   />
                 </Fragment>
               )}
@@ -362,6 +382,8 @@ const Admin = ({
                     countryArray={country}
                     userAccess={userAccess}
                     GetSameObjs={GetSameObjs}
+                    objectsEqual={objectsEqual}
+                    comparedPermissions={comparedPermissions}
                   />
                 </Fragment>
               )}
