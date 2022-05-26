@@ -71,7 +71,7 @@ const PartnerEdit = ({
               {headerTable} Password<span className="asteric">*</span>
             </Form.Label>
             <Form.Control
-              type="password"
+              type="text"
               placeholder={"****"}
               name="password"
               value={data.password}

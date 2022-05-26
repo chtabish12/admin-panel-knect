@@ -16,7 +16,11 @@ const OperatorEdit = ({
   countryArray,
 }) => {
   const [data, setUser] = useState(currentState);
-  const [country, setCountry] = useState(0);
+  const [country, setCountry] = useState(
+    countryArray.find((obj) => {
+      return obj.value === currentState.countryId;
+    })
+  );
 
   useEffect(() => {
     setUser(currentState);
@@ -44,7 +48,7 @@ const OperatorEdit = ({
             updateUser(data.id, data, country.value);
           }}
         >
-                <Form.Group className="formgroup-space">
+          <Form.Group className="formgroup-space">
             <Form.Label>
               {headerTable} Name<span className="asteric">*</span>
             </Form.Label>
