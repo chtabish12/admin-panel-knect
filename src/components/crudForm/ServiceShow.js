@@ -17,7 +17,7 @@ const ServiceShow = ({
         show="true"
         setFormShow={setFormShow}
         setView={setView}
-        headerTable="Edit Service"
+        headerTable="Service"
       >
         <Form.Group className="formgroup-space">
           <Form.Label>{headerTable} Name</Form.Label>

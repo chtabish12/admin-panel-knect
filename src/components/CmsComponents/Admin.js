@@ -1,5 +1,6 @@
 import React, { useState, Fragment, useEffect, lazy, Suspense } from "react";
 import { AdminPanelService } from "../../Service/AdminPanelService";
+// import { Link } from "react-router-dom";
 import ActionButtons from "../crudForm/ActionButtons";
 import { toast } from "react-toastify";
 import { Card } from "react-bootstrap";
@@ -89,6 +90,7 @@ const Admin = ({
   const [operators, setOperators] = useState([]);
   const [country, setCountry] = useState([]);
   const [show, setShow] = useState(false);
+  const [userAccess, setUserAccess] = useState();
   // Arrays initialization
   let productsArray = [];
 
@@ -205,14 +207,51 @@ const Admin = ({
       .catch((err) => toast(err));
   };
 
-  const updateUser = (id, updatedUser, permissiondata) => {
+  const updateUser = (
+    id,
+    updatedUser,
+    permissiondata,
+    productID,
+    serviceID,
+    partnersID,
+    operatorsID,
+    countryID
+  ) => {
     setEditing(false);
+    let adminUserAccessArray = [];
+    let loopLength;
+    if (!checked) {
+      let serviceLength = serviceID.length;
+      let operatorLength = partnersID.length;
+      let partnerLength = operatorsID.length;
+      let countryLength = countryID.length;
+      loopLength = Math.max(
+        serviceLength,
+        operatorLength,
+        partnerLength,
+        countryLength
+      );
+
+      for (let i = 0; i < loopLength; i++) {
+        adminUserAccessArray.push({
+          productId: productID[i] ? productID[i] : "",
+          serviceId: serviceID[i] ? serviceID[i] : "",
+          partnerId: partnersID[i] ? partnersID[i] : "",
+          operatorId: operatorsID[i] ? operatorsID[i] : "",
+          countryId: countryID[i] ? countryID[i] : "",
+        });
+      }
+    }
+
+    console.log("final testing....", adminUserAccessArray);
     const task = [updatedUser].find((t) => t.id === updatedUser.id);
     task.name = updatedUser.name;
     task.email = updatedUser.email;
     task.password = updatedUser.password;
-    task.isAdmin = updatedUser.isAdmin;
+    task.isAdmin = checked ? 1 : 0;
     task.permission = permissiondata.toString();
+    task.userAccess = adminUserAccessArray;
+
     AdminPanelService.UpdateAdminUser(id, task)
       .then((resp) => {
         toast(resp.data);
@@ -224,31 +263,47 @@ const Admin = ({
     );
   };
 
+  const getAdminById = (data) => {
+    AdminPanelService.GetAdminUserById(data.id)
+      .then((resp) => {
+        if (resp.statusText === "OK") {
+          setCurrentState({
+            id: resp.data.id,
+            name: resp.data.name,
+            email: resp.data.email,
+            password: resp.data.password,
+            isAdmin: resp.data.isAdmin,
+            permission: resp.data.permission,
+          });
+          setUserAccess(resp.data.userAccess);
+          if (data.isAdmin === 1) {
+            setChecked(true);
+          } else setChecked(false);
+        } else {
+          toast("no initail data found.");
+        }
+      })
+      .catch((err) => toast(err));
+  };
+
   const editRow = (data) => {
+    getAdminById(data);
     setFormShow(true);
     setEditing(true);
-
-    setCurrentState({
-      id: data.id,
-      name: data.name,
-      email: data.email,
-      password: data.password,
-      isAdmin: data.isAdmin,
-      permission: data.permission,
-    });
   };
 
   const showRow = (data) => {
+    getAdminById(data);
     setFormShow(true);
     setView(true);
+  };
 
-    setCurrentState({
-      id: data.id,
-      name: data.name,
-      email: data.email,
-      password: data.password,
-      isAdmin: data.isAdmin,
-      permission: data.permission,
+  // Admin user permission array methods
+  const GetSameObjs = (obj1, obj2, key1, key2) => {
+    return obj1.filter(function (o1) {
+      return obj2.some(function (o2) {
+        return o1[key1] === o2[key2]; // return the ones with equal id
+      });
     });
   };
 
@@ -279,6 +334,15 @@ const Admin = ({
                     updateUser={updateUser}
                     setFormShow={setFormShow}
                     headerTable={headerTable}
+                    checked={checked}
+                    setChecked={setChecked}
+                    productsArray={products}
+                    servicesArray={services}
+                    partnersArray={partners}
+                    operatorsArray={operators}
+                    countryArray={country}
+                    userAccess={userAccess}
+                    GetSameObjs={GetSameObjs}
                   />
                 </Fragment>
               )}
@@ -290,6 +354,14 @@ const Admin = ({
                     currentState={currentState}
                     setFormShow={setFormShow}
                     headerTable={headerTable}
+                    checked={checked}
+                    productsArray={products}
+                    servicesArray={services}
+                    partnersArray={partners}
+                    operatorsArray={operators}
+                    countryArray={country}
+                    userAccess={userAccess}
+                    GetSameObjs={GetSameObjs}
                   />
                 </Fragment>
               )}
@@ -309,6 +381,7 @@ const Admin = ({
             countryArray={country}
             show={show}
             setShow={setShow}
+            GetSameObjs={GetSameObjs}
           />
         </Fragment>
         <div className="col-12">

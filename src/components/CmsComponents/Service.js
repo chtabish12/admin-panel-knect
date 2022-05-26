@@ -27,7 +27,7 @@ const Service = ({
   page,
   setPage,
   rowCounts,
-  isLoading
+  isLoading,
 }) => {
   // Setting state
   const initialFormState = {
@@ -246,8 +246,9 @@ const Service = ({
   };
 
   const blockSerive = (id, state) => {
+    const request = { status: state };
     setBlocking(false);
-    AdminPanelService.BlockService(id, state)
+    AdminPanelService.BlockService(id, request)
       .then((resp) => {
         toast(resp.data);
       })
@@ -256,9 +257,9 @@ const Service = ({
       });
 
     setFormShow(false);
-    setInitialTableData(
-      initialTableData.map((data) => (data.id === id ? state : data))
-    );
+    // setInitialTableData(
+    //   initialTableData.map((data) => (data.id === id ? state : data))
+    // );
   };
 
   const editRow = (data) => {

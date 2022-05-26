@@ -63,6 +63,7 @@ const PartnerEdit = ({
               name="email"
               value={data.email}
               onChange={handleInputChange}
+              required
             />
           </Form.Group>
           <Form.Group className="formgroup-space">

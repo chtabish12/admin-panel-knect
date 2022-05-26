@@ -22,6 +22,7 @@ const AdminUserAdd = ({
   setShow,
   productsArray,
   servicesArray,
+  GetSameObjs,
 }) => {
   let permissiondata = [];
   let productID = [];
@@ -95,14 +96,6 @@ const AdminUserAdd = ({
     setOperators([]);
     setCountry([]);
     setChecked(true);
-  };
-
-  const GetSameObjs = (obj1, obj2, key1, key2) => {
-    return obj1.filter(function (o1) {
-      return obj2.some(function (o2) {
-        return o1[key1] === o2[key2]; // return the ones with equal id
-      });
-    });
   };
 
   servicesArray = GetSameObjs(
@@ -242,7 +235,7 @@ const AdminUserAdd = ({
                     options={productsArray}
                     value={products}
                     onChange={setProducts}
-                    labelledBy="Partners"
+                    labelledBy="Products"
                   />
                 </div>
                 <div className="multi-select-admin-block">
@@ -251,7 +244,7 @@ const AdminUserAdd = ({
                     options={servicesArray}
                     value={services}
                     onChange={setServices}
-                    labelledBy="Partners"
+                    labelledBy="Services"
                   />
                 </div>
                 <div className="multi-select-admin-block">
