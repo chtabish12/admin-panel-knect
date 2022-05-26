@@ -16,7 +16,11 @@ const ServiceEdit = ({
   operatorsArray,
 }) => {
   const [data, setUser] = useState(currentState);
-  const [operator, setOperator] = useState();
+  const [operator, setOperator] = useState(
+    operatorsArray.find((obj) => {
+      return obj.value === currentState.operatorId;
+    })
+  );
 
   useEffect(() => {
     setUser(currentState);

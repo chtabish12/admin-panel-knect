@@ -16,16 +16,19 @@ const ProductEdit = ({
   headerTable,
 }) => {
   const [data, setUser] = useState(currentState);
-  const [partner, setPartner] = useState();
+  const [partner, setPartner] = useState(
+    partnersArray.find((obj) => {
+      return obj.value === currentState.partnerId;
+    })
+  );
 
   useEffect(() => {
     setUser(currentState);
   }, [editing, setEditing, currentState, updateUser]);
-  // You can tell React to skip applying an effect if certain values havenÃ¢ÂÂt changed between re-renders. [ props ]
+  // You can tell React to skip applying an effect if certain values havent changed between re-renders. [ props ]
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-
     setUser({ ...data, [name]: value, partner });
   };
 
@@ -41,7 +44,7 @@ const ProductEdit = ({
           onSubmit={(event) => {
             event.preventDefault();
             if (!partner) return toast("please select Partner");
-            updateUser(data.id, data, partner.value);
+            updateUser(data.id, data, partner.value, partner.label);
           }}
         >
           <Form.Group className="formgroup-space">

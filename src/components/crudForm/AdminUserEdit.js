@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Form } from "react-bootstrap";
 import EditModel from "../model/EditModel";
 import { PERMISSIONS } from "../../Constants";
+import Checkbox from "@mui/material/Checkbox";
+import { MultiSelect } from "react-multi-select-component";
 import { Button } from "react-bootstrap";
 import "../../styles.css";
 import { FormGroup } from "@material-ui/core";
@@ -15,30 +17,44 @@ const AdminUserEdit = ({
   updateUser,
   setFormShow,
   headerTable,
+  checked,
+  setChecked,
+  productsArray,
+  servicesArray,
+  partnersArray,
+  operatorsArray,
+  countryArray,
+  userAccess,
+  GetSameObjs,
+  objectsEqual,
+  comparedPermissions,
 }) => {
   const [data, setUser] = useState(currentState);
   const [permission, setPermission] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [services, setServices] = useState([]);
+  const [partners, setPartners] = useState([]);
+  const [operators, setOperators] = useState([]);
+  const [country, setCountry] = useState([]);
   let permissiondata = [];
   let apiPermissions = [];
-  let comparedPermissions = [];
+  let productUserAccessArray = [];
+  let serviceUserAccessArray = [];
+  let partnersUserAccessArray = [];
+  let countriesUserAccessArray = [];
+  let operatorsUserAccessArray = [];
+  let productUserAccessSelect = [];
+  let serviceUserAccessSelect = [];
+  let partnersUserAccessSelect = [];
+  let countriesUserAccessSelect = [];
+  let operatorsUserAccessSelect = [];
+  let productID = [];
+  let serviceID = [];
+  let partnersID = [];
+  let operatorsID = [];
+  let countryID = [];
 
-  const objectsEqual = (o1, o2) => {
-    for (let permission of o1) {
-      const permisionFound = o2.find((perm) => permission.name === perm.name);
-      const permissionObject = {};
-
-      if (permisionFound) {
-        permissionObject.name = permisionFound.name;
-        permissionObject.id = permisionFound.id;
-        permissionObject.status = true;
-      } else {
-        permissionObject.name = permission.name;
-        permissionObject.id = permission.id;
-        permissionObject.status = false;
-      }
-      comparedPermissions.push(permissionObject);
-    }
-  };
+  const _ = require("lodash");
 
   useEffect(() => {
     currentState.permission.split(",").map((ele, index) => {
@@ -48,6 +64,13 @@ const AdminUserEdit = ({
     objectsEqual(PERMISSIONS, apiPermissions);
     setPermission(comparedPermissions);
     setUser(currentState);
+    if (!checked) {
+      setCountry(countriesUserAccessSelect);
+      setProducts(productUserAccessSelect);
+      setServices(serviceUserAccessSelect);
+      setPartners(partnersUserAccessSelect);
+      setOperators(operatorsUserAccessSelect);
+    }
     // eslint-disable-next-line
   }, [editing, setEditing, currentState, updateUser]);
 
@@ -60,6 +83,10 @@ const AdminUserEdit = ({
     setUser({ ...data, [name]: value, permissiondata });
   };
 
+  const handleCheckBoxChange = (event) => {
+    setChecked(event.target.checked);
+  };
+
   const handleAttendingChange = (index, state) => {
     const updatedPermissions = permission[index]; // from the state 'permission' apiPermissions, get the correct object for updatedPermissions
     updatedPermissions.status = state; // update the boolean of the attendee to indicate going/true || not/false
@@ -67,6 +94,115 @@ const AdminUserEdit = ({
     const newPermissions = [...permission]; // make a copy of previous state of permission
     newPermissions[index] = updatedPermissions; // insert/overwrite apiPermissions object of the attendee in question with the new version
     setPermission(newPermissions);
+  };
+
+  // /////////////////////////////////////////////
+  let productIdGroupBy = _.groupBy(userAccess, "productId");
+  // eslint-disable-next-line
+  for (const [key, value] of Object.entries(productIdGroupBy)) {
+    productUserAccessArray.push({ id: parseInt(key) });
+  }
+  productUserAccessSelect = GetSameObjs(
+    productsArray,
+    productUserAccessArray,
+    "value",
+    "id"
+  ).map((ele) => {
+    return { label: ele.label, value: ele.value };
+  });
+
+  let serviceIdGroupBy = _.groupBy(userAccess, "serviceId");
+  // eslint-disable-next-line
+  for (const [key, value] of Object.entries(serviceIdGroupBy)) {
+    if (key >= 1) serviceUserAccessArray.push({ id: parseInt(key) });
+  }
+  serviceUserAccessSelect = GetSameObjs(
+    servicesArray,
+    serviceUserAccessArray,
+    "id",
+    "id"
+  ).map((ele) => {
+    return { label: ele.name, value: ele.id, productID: ele.productId };
+  });
+  servicesArray = GetSameObjs(
+    servicesArray,
+    products,
+    "productId",
+    "value"
+  ).map((ele) => {
+    return { label: ele.name, value: ele.id, productID: ele.productId };
+  });
+
+  let partnerIdGroupBy = _.groupBy(userAccess, "partnerId");
+  // eslint-disable-next-line
+  for (const [key, value] of Object.entries(partnerIdGroupBy)) {
+    if (key >= 1) partnersUserAccessArray.push({ id: parseInt(key) });
+  }
+  partnersUserAccessSelect = GetSameObjs(
+    partnersArray,
+    partnersUserAccessArray,
+    "id",
+    "id"
+  ).map((ele) => {
+    return { label: ele.name, value: ele.id };
+  });
+  partnersArray = GetSameObjs(partnersArray, products, "partnerId", "id").map(
+    (ele) => {
+      return { label: ele.name, value: ele.id };
+    }
+  );
+
+  let operatorsIdGroupBy = _.groupBy(userAccess, "operatorId");
+  // eslint-disable-next-line
+  for (const [key, value] of Object.entries(operatorsIdGroupBy)) {
+    if (key >= 1) operatorsUserAccessArray.push({ id: parseInt(key) });
+  }
+  operatorsUserAccessSelect = GetSameObjs(
+    operatorsArray,
+    operatorsUserAccessArray,
+    "id",
+    "id"
+  ).map((ele) => {
+    return { label: ele.name, value: ele.id };
+  });
+  operatorsArray = GetSameObjs(
+    operatorsArray,
+    services,
+    "operatorId",
+    "id"
+  ).map((ele) => {
+    return { label: ele.name, value: ele.id };
+  });
+
+  let countryIdGroupBy = _.groupBy(userAccess, "countryId");
+  // eslint-disable-next-line
+  for (const [key, value] of Object.entries(countryIdGroupBy)) {
+    if (key >= 1) countriesUserAccessArray.push({ id: parseInt(key) });
+  }
+  countriesUserAccessSelect = GetSameObjs(
+    countryArray,
+    countriesUserAccessArray,
+    "id",
+    "id"
+  ).map((ele) => {
+    return { label: ele.name, value: ele.id };
+  });
+  countryArray = GetSameObjs(countryArray, operators, "id", "value").map(
+    (ele) => {
+      return { label: ele.name, value: ele.id };
+    }
+  );
+
+  const MultiSelectIdCollect = (array, multiSelect) => {
+    for (let x = 0; x < multiSelect.length; x++) {
+      array.push(multiSelect[x].value);
+    }
+  };
+
+  const MultiSelectProductId = (array, multiSelect) => {
+    for (let x = 0; x < multiSelect.length; x++) {
+      array.push(multiSelect[x].productID);
+    }
   };
 
   return (
@@ -87,7 +223,21 @@ const AdminUserEdit = ({
             if (!permissiondata.length) {
               return toast("please add permissions");
             } else {
-              updateUser(data.id, data, permissiondata);
+              MultiSelectProductId(productID, services);
+              MultiSelectIdCollect(serviceID, services);
+              MultiSelectIdCollect(partnersID, partners);
+              MultiSelectIdCollect(operatorsID, operators);
+              MultiSelectIdCollect(countryID, country);
+              updateUser(
+                data.id,
+                data,
+                permissiondata,
+                productID,
+                serviceID,
+                partnersID,
+                operatorsID,
+                countryID
+              );
             }
           }}
         >
@@ -131,14 +281,63 @@ const AdminUserEdit = ({
             />
           </Form.Group>
           <Form.Group className="formgroup-space">
-            <Form.Label>{headerTable} is Admin</Form.Label>
-            <Form.Control
-              type="number"
-              placeholder={headerTable}
-              name="isAdmin"
-              value={data.isAdmin}
-              onChange={handleInputChange}
+            <Form.Label style={{ margin: "25px 5px", color: "red" }}>
+              Is {headerTable}
+            </Form.Label>
+            <Checkbox
+              checked={checked}
+              onChange={handleCheckBoxChange}
+              inputProps={{ "aria-label": "controlled" }}
             />
+            {!checked && (
+              <div className="multi-select-admin-block">
+                <div className="multi-select-admin-block">
+                  Products<span className="asteric">*</span>
+                  <MultiSelect
+                    options={productsArray}
+                    value={products}
+                    onChange={setProducts}
+                    labelledBy="Products"
+                  />
+                </div>
+                <div className="multi-select-admin-block">
+                  Services<span className="asteric">*</span>
+                  <MultiSelect
+                    options={servicesArray}
+                    value={services}
+                    onChange={setServices}
+                    labelledBy="Services"
+                  />
+                </div>
+                <div className="multi-select-admin-block">
+                  Partners
+                  <MultiSelect
+                    options={partnersArray}
+                    value={partners}
+                    onChange={setPartners}
+                    labelledBy="Partners"
+                  />
+                </div>
+                <div className="multi-select-admin-block">
+                  Operators
+                  <MultiSelect
+                    options={operatorsArray}
+                    value={operators}
+                    onChange={setOperators}
+                    labelledBy="Operators"
+                  />
+                </div>
+                <div className="multi-select-admin-block">
+                  Countries
+                  <MultiSelect
+                    options={countryArray}
+                    value={country}
+                    onChange={setCountry}
+                    labelledBy="Countries"
+                  />
+                </div>
+              </div>
+            )}
           </Form.Group>
           <Form.Group className="formgroup-space">
             <Form.Label>
@@ -163,6 +362,7 @@ const AdminUserEdit = ({
               onClick={() => {
                 setFormShow(false);
                 setEditing(false);
+                setChecked(true);
               }}
             >
               Close

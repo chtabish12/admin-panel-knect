@@ -36,7 +36,7 @@ const PartnersCMS = () => {
   useEffect(() => {
     fetchData();
     // eslint-disable-next-line
-  }, [setPage, page]);
+  }, [setPage, page, setFormShow]);
 
   return (
     <>

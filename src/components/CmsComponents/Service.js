@@ -27,7 +27,7 @@ const Service = ({
   page,
   setPage,
   rowCounts,
-  isLoading
+  isLoading,
 }) => {
   // Setting state
   const initialFormState = {
@@ -100,11 +100,21 @@ const Service = ({
       flex: 1,
       renderCell: (rowData) => {
         return rowData.value === 1 ? (
-          <span style={{ color: "#008240", fontWeight: "bold" }}>Active</span>
+          <span style={{ color: "#5cb85c", fontWeight: "bold" }}>Active</span>
         ) : rowData.value === 2 ? (
-          <span style={{ color: "#E87722", fontWeight: "bold" }}>Deactive</span>
+          <span style={{ color: "#d9534f", fontWeight: "bold" }}>Inactive</span>
+        ) : rowData.value === 3 ? (
+          <span style={{ color: "#337ab7", fontWeight: "bold" }}>
+            Suspended Subscription
+          </span>
+        ) : rowData.value === 4 ? (
+          <span style={{ color: "#f0ad4e", fontWeight: "bold" }}>
+            Suspended Billing
+          </span>
         ) : (
-          <span style={{ color: "#B0B700", fontWeight: "bold" }}>UnActive</span>
+          <span style={{ color: "#rgb(157 0 0)", fontWeight: "bold" }}>
+            N/A
+          </span>
         );
       },
     },
@@ -246,8 +256,9 @@ const Service = ({
   };
 
   const blockSerive = (id, state) => {
+    const request = { status: state };
     setBlocking(false);
-    AdminPanelService.BlockService(id, state)
+    AdminPanelService.BlockService(id, request)
       .then((resp) => {
         toast(resp.data);
       })
@@ -256,9 +267,9 @@ const Service = ({
       });
 
     setFormShow(false);
-    setInitialTableData(
-      initialTableData.map((data) => (data.id === id ? state : data))
-    );
+    // setInitialTableData(
+    //   initialTableData.map((data) => (data.id === id ? state : data))
+    // );
   };
 
   const editRow = (data) => {

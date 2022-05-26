@@ -63,6 +63,7 @@ const PartnerEdit = ({
               name="email"
               value={data.email}
               onChange={handleInputChange}
+              required
             />
           </Form.Group>
           <Form.Group className="formgroup-space">
@@ -70,7 +71,7 @@ const PartnerEdit = ({
               {headerTable} Password<span className="asteric">*</span>
             </Form.Label>
             <Form.Control
-              type="password"
+              type="text"
               placeholder={"****"}
               name="password"
               value={data.password}

@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 const BlockModel = (props) => {
   const handleClose = () => {
@@ -20,17 +19,6 @@ const BlockModel = (props) => {
           <Modal.Title>{props.headerTable}</Modal.Title>
         </Modal.Header>
         {props.children}
-        <Modal.Footer>
-          <Button
-            variant="danger"
-            onClick={() => {
-              props.setFormShow(false);
-              props.setBlocking(false);
-            }}
-          >
-            Close
-          </Button>
-        </Modal.Footer>
       </Modal>
     </div>
   );

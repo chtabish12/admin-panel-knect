@@ -110,10 +110,10 @@ const Operators = ({
       .catch((err) => {
         toast(err);
       });
-    setFormShow(false);
-    setInitialTableData(
-      initialTableData.map((data) => (data.id === id ? updatedUser : data))
-    );
+      setInitialTableData(
+        initialTableData.map((data) => (data.id === id ? updatedUser : data))
+        );
+        setFormShow(false);
   };
 
   const editRow = (data) => {
