@@ -95,7 +95,7 @@ const Product = ({
   //   setInitialTableData(initialTableData.filter(data => data.id !== id));
   // };
 
-  const updateUser = (id, updatedUser, partnerValue) => {
+  const updateUser = (id, updatedUser, partnerValue, partnerName) => {
     setEditing(false);
     const task = [updatedUser].find((t) => t.id === updatedUser.id);
     task.name = updatedUser.name;
@@ -105,10 +105,10 @@ const Product = ({
         toast(resp.data);
       })
       .catch((err) => toast("Please Check your fields"));
-    setFormShow(false);
     setInitialTableData(
       initialTableData.map((data) => (data.id === id ? updatedUser : data))
     );
+    setFormShow(false);
   };
 
   const editRow = (data) => {

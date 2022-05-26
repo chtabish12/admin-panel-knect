@@ -44,7 +44,7 @@ const ProductEdit = ({
           onSubmit={(event) => {
             event.preventDefault();
             if (!partner) return toast("please select Partner");
-            updateUser(data.id, data, partner.value);
+            updateUser(data.id, data, partner.value, partner.label);
           }}
         >
           <Form.Group className="formgroup-space">
