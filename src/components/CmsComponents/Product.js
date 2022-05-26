@@ -28,6 +28,7 @@ const Product = ({
     name: "",
     partnerId: "",
     storeId: "",
+    partnerName: "",
   };
   const [partnersArray, setPartnersArray] = useState([]);
   const [currentState, setCurrentState] = useState(initialFormState);
@@ -113,11 +114,11 @@ const Product = ({
   const editRow = (data) => {
     setFormShow(true);
     setEditing(true);
-
     setCurrentState({
       id: data.id,
       name: data.name,
       partnerId: data.partnerId,
+      partnerName: data.partner,
     });
   };
 
