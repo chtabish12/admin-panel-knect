@@ -23,7 +23,9 @@ const ServiceBlock = ({
 
   const serviceStatusArray = [
     { value: 1, label: "Active" },
-    { value: 0, label: "Deactivate" },
+    { value: 2, label: "Inactive" },
+    { value: 3, label: "Suspended Subscription" },
+    { value: 4, label: "Suspended Billing" },
   ];
 
   return (
@@ -50,7 +52,17 @@ const ServiceBlock = ({
               options={serviceStatusArray}
               value={serviceStatus}
               onChange={setServiceStatus}
-              placeholder={data.status === 1 ? "Active" : "Deactive"}
+              placeholder={
+                data.status === 1
+                  ? "Active"
+                  : data.status === 2
+                  ? "Inactive"
+                  : data.status === 3
+                  ? "Suspended Subscription"
+                  : data.status === 4
+                  ? "Suspended Billing"
+                  : "N/A"
+              }
               required
             />
           </Form.Group>
