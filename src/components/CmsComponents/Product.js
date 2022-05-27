@@ -82,11 +82,10 @@ const Product = ({
       .then((resp) => {
         toast(resp.data);
         setShow(false);
+        data.id = initialTableData.length + 1;
+        setInitialTableData([...initialTableData, data]);
       })
       .catch((err) => toast("Please Check your fields"));
-
-    data.id = initialTableData.length + 1;
-    setInitialTableData([...initialTableData, data]);
   };
 
   // const deleteUser = id => {
@@ -103,11 +102,11 @@ const Product = ({
     AdminPanelService.UpdateProducts(id, task)
       .then((resp) => {
         toast(resp.data);
+        setInitialTableData(
+          initialTableData.map((data) => (data.id === id ? updatedUser : data))
+        );
       })
       .catch((err) => toast("Please Check your fields"));
-    setInitialTableData(
-      initialTableData.map((data) => (data.id === id ? updatedUser : data))
-    );
     setFormShow(false);
   };
 

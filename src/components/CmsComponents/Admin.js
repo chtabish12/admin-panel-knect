@@ -142,10 +142,10 @@ const Admin = ({
       .then((resp) => {
         toast(resp.data);
         setShow(false);
+        data.id = initialTableData.length + 1;
+        setInitialTableData([...initialTableData, data]);
       })
       .catch((err) => toast("Please Check your fields"));
-    data.id = initialTableData.length + 1;
-    setInitialTableData([...initialTableData, data]);
     setFormShow(false);
   };
 
@@ -255,12 +255,12 @@ const Admin = ({
     AdminPanelService.UpdateAdminUser(id, task)
       .then((resp) => {
         toast("Admin User Successfully Updated!");
+        setInitialTableData(
+          initialTableData.map((data) => (data.id === id ? updatedUser : data))
+        );
       })
       .catch((err) => toast("Please Check your fields"));
     setFormShow(false);
-    setInitialTableData(
-      initialTableData.map((data) => (data.id === id ? updatedUser : data))
-    );
   };
 
   const getAdminById = (data) => {
