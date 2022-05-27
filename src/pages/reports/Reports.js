@@ -195,7 +195,7 @@ const Reports = () => {
                           <th>Same Day UnSubs #</th>
                           <th>Same Day UnSubs %</th>
                           <th>Total UnSubs</th>
-                          <th>New User Base</th>
+                          <th>User Base</th>
                           <th>Net Charging</th>
                         </tr>
                       </thead>
