@@ -89,11 +89,11 @@ const Operators = ({
       .then((resp) => {
         toast(resp.data);
         setShow(false);
+        data.id = initialTableData.length + 1;
+        setInitialTableData([...initialTableData, data]);
       })
       .catch((err) => toast("Please Check your fields"));
-
-    data.id = initialTableData.length + 1;
-    setInitialTableData([...initialTableData, data]);
+    setFormShow(false);
   };
 
   const updateUser = (id, updatedUser, countryValue) => {
@@ -106,14 +106,14 @@ const Operators = ({
     AdminPanelService.UpdateOperator(id, task)
       .then((resp) => {
         toast(resp.data);
+        setInitialTableData(
+          initialTableData.map((data) => (data.id === id ? updatedUser : data))
+        );
       })
       .catch((err) => {
         toast(err);
       });
-      setInitialTableData(
-        initialTableData.map((data) => (data.id === id ? updatedUser : data))
-        );
-        setFormShow(false);
+    setFormShow(false);
   };
 
   const editRow = (data) => {
